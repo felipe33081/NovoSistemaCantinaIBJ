@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -18,6 +18,11 @@ import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../../internals/componen
 import AppTheme from '../../theme/AppTheme';
 import ColorModeSelect from '../../theme/ColorModeSelect';
 import createThemeWithVars from '@mui/material/styles/createThemeWithVars';
+import { useNavigate } from 'react-router-dom';
+import { signIn, signOut } from 'aws-amplify/auth';
+import { FormEvent } from "react";
+import { useAuth } from '../../contexts/AuthContext';
+
 const theme = createThemeWithVars();
 
 const Card = styled(MuiCard)(() => ({
@@ -64,23 +69,45 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth(); 
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+
+    await signOut();
+
+    try {
+      const username = data.get('email')?.toString() ?? '';
+      const password = data.get('password')?.toString() ?? '';
+
+      await signIn({
+        username: username,
+        password: password,
+      })
+      
+      console.log('Login realizado com sucesso');
+
+      setIsAuthenticated(true);
+      navigate('/dashboard');
+    } catch (error: any) {
+      console.error('Sign-in error:', error);
+      setIsAuthenticated(false);
+      if (error.code === 'UserNotFoundException') {
+        setEmailError(true);
+        setEmailErrorMessage('Usuário não encontrado.');
+      } else if (error.code === 'NotAuthorizedException') {
+        setPasswordError(true);
+        setPasswordErrorMessage('Senha incorreta.');
+      } else {
+        setEmailErrorMessage('Email ou Senha está incorreto. Tente novamente.');
+      }
+    }
+  }
 
   const validateInputs = () => {
     const email = document.getElementById('email') as HTMLInputElement;
@@ -90,16 +117,16 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
 
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
       setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
+      setEmailErrorMessage('Porfavor, insira um e-mail válido.');
       isValid = false;
     } else {
       setEmailError(false);
       setEmailErrorMessage('');
     }
 
-    if (!password.value || password.value.length < 6) {
+    if (!password.value || password.value.length < 8) {
       setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
+      setPasswordErrorMessage('Senha não deve ter menos que 8 dígitos.');
       isValid = false;
     } else {
       setPasswordError(false);
@@ -121,7 +148,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
             variant="h4"
             sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
           >
-            Sign in
+            Entrar
           </Typography>
           <Box
             component="form"
@@ -142,7 +169,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                 id="email"
                 type="email"
                 name="email"
-                placeholder="your@email.com"
+                placeholder="seu-email@email.com"
                 autoComplete="email"
                 autoFocus
                 required
@@ -154,14 +181,14 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
             </FormControl>
             <FormControl>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <FormLabel htmlFor="password">Password</FormLabel>
+                <FormLabel htmlFor="password">Senha</FormLabel>
                 <Link
                   component="button"
                   onClick={handleClickOpen}
                   variant="body2"
                   sx={{ alignSelf: 'baseline' }}
                 >
-                  Forgot your password?
+                  Esqueceu sua Senha?
                 </Link>
               </Box>
               <TextField
@@ -181,7 +208,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
             </FormControl>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label="Lembrar-me"
             />
             <ForgotPassword open={open} handleClose={handleClose} />
             <Button
@@ -190,40 +217,40 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               variant="contained"
               onClick={validateInputs}
             >
-              Sign in
+              Entrar
             </Button>
             <Typography sx={{ textAlign: 'center' }}>
-              Don&apos;t have an account?{' '}
+              Ainda não tem uma conta?{' '}
               <span>
                 <Link
                   href="/material-ui/getting-started/templates/sign-in/"
                   variant="body2"
                   sx={{ alignSelf: 'center' }}
                 >
-                  Sign up
+                  Crie sua Conta
                 </Link>
               </span>
             </Typography>
           </Box>
-          <Divider>or</Divider>
+          <Divider>ou</Divider>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Button
               type="submit"
               fullWidth
               variant="outlined"
-              onClick={() => alert('Sign in with Google')}
+              onClick={() => alert('Entre com o Google')}
               startIcon={<GoogleIcon />}
             >
-              Sign in with Google
+              Entre com o Google
             </Button>
             <Button
               type="submit"
               fullWidth
               variant="outlined"
-              onClick={() => alert('Sign in with Facebook')}
+              onClick={() => alert('Entre com o Facebook')}
               startIcon={<FacebookIcon />}
             >
-              Sign in with Facebook
+              Entre com o Facebook
             </Button>
           </Box>
         </Card>

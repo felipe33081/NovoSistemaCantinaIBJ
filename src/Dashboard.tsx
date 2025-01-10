@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import type {} from '@mui/x-date-pickers/themeAugmentation';
 import type {} from '@mui/x-charts/themeAugmentation';
 import type {} from '@mui/x-data-grid/themeAugmentation';
@@ -19,7 +19,6 @@ import {
   treeViewCustomizations,
 } from './theme/customizations';
 import createThemeWithVars from '@mui/material/styles/createThemeWithVars';
-import SignIn from './pages/Auth/SignIn';
 
 const theme = createThemeWithVars();
 
@@ -31,6 +30,7 @@ const xThemeComponents = {
 };
 
 export default function Dashboard(props: { disableCustomTheme?: boolean }) {
+  
   return (
     <AppTheme {...props} themeComponents={xThemeComponents}>
       <CssBaseline enableColorScheme />
