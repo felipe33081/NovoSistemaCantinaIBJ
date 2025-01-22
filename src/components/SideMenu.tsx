@@ -46,7 +46,6 @@ export default function SideMenu() {
       </Box>
       <Divider />
       <MenuContent />
-      <CardAlert />
       <Stack
         direction="row"
         sx={{

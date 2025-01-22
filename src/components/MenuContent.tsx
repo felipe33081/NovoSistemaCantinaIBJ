@@ -14,10 +14,11 @@ import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
 
 const mainListItems = [
-  { text: 'Home', icon: <HomeRoundedIcon /> },
-  { text: 'Analytics', icon: <AnalyticsRoundedIcon /> },
-  { text: 'Clients', icon: <PeopleRoundedIcon /> },
-  { text: 'Tasks', icon: <AssignmentRoundedIcon /> },
+  { text: 'Painel', icon: <HomeRoundedIcon /> },
+  { text: 'Pedidos', icon: <AnalyticsRoundedIcon /> },
+  { text: 'Clientes', icon: <PeopleRoundedIcon /> },
+  { text: 'Produtos', icon: <AssignmentRoundedIcon /> },
+  { text: 'Usuários', icon: <AssignmentRoundedIcon /> },
 ];
 
 const secondaryListItems = [
