@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridRowsProp } from '@mui/x-data-grid';
 import { columns, rows } from '../internals/data/gridData';
 
 export default function CustomizedDataGrid() {
@@ -13,7 +13,7 @@ export default function CustomizedDataGrid() {
         params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
       }
       initialState={{
-        pagination: { paginationModel: { pageSize: 20 } },
+        pagination: { paginationModel: { pageSize: 10 } },
       }}
       pageSizeOptions={[10, 20, 50]}
       disableColumnResize
