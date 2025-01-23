@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Divider, { dividerClasses } from '@mui/material/Divider';
 import Menu from '@mui/material/Menu';
@@ -10,15 +10,14 @@ import ListItemIcon, { listItemIconClasses } from '@mui/material/ListItemIcon';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
 import MenuButton from './MenuButton';
-import { signOut } from 'aws-amplify/auth';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const MenuItem = styled(MuiMenuItem)({
   margin: '2px 0',
 });
 
 export default function OptionsMenu() {
-  const navigate = useNavigate();
+  const { signOutUser } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -29,17 +28,6 @@ export default function OptionsMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      
-      console.log('Logout realizado com sucesso');
-      navigate('/signIn');
-    } catch (error) {
-      console.error('Sign-Out error:', error);
-    }
-  }
 
   return (
     <React.Fragment>
@@ -77,7 +65,7 @@ export default function OptionsMenu() {
         <MenuItem onClick={handleClose}>Configurações</MenuItem>
         <Divider />
         <MenuItem
-          onClick={handleSignOut}
+          onClick={signOutUser}
           sx={{
             [`& .${listItemIconClasses.root}`]: {
               ml: 'auto',

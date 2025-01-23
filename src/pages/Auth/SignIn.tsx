@@ -70,7 +70,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useAuth(); 
+  const { setIsAuthenticated } = useAuth();
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -89,7 +89,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
         username: username,
         password: password,
       })
-      
+
       console.log('Login realizado com sucesso');
 
       setIsAuthenticated(true);
@@ -139,7 +139,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   return (
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
-      <SignInContainer direction="column" justifyContent="space-between">
+      <SignInContainer direction="column" justifyContent="space-between" alignItems='start'>
         <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
         <Card variant="outlined">
           <SitemarkIcon />
@@ -180,17 +180,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               />
             </FormControl>
             <FormControl>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <FormLabel htmlFor="password">Senha</FormLabel>
-                <Link
-                  component="button"
-                  onClick={handleClickOpen}
-                  variant="body2"
-                  sx={{ alignSelf: 'baseline' }}
-                >
-                  Esqueceu sua Senha?
-                </Link>
-              </Box>
+              <FormLabel htmlFor="password">Senha</FormLabel>
               <TextField
                 error={passwordError}
                 helperText={passwordErrorMessage}
@@ -219,39 +209,16 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
             >
               Entrar
             </Button>
-            <Typography sx={{ textAlign: 'center' }}>
-              Ainda não tem uma conta?{' '}
-              <span>
-                <Link
-                  href="/material-ui/getting-started/templates/sign-in/"
-                  variant="body2"
-                  sx={{ alignSelf: 'center' }}
-                >
-                  Crie sua Conta
-                </Link>
-              </span>
-            </Typography>
           </Box>
-          <Divider>ou</Divider>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Button
-              type="submit"
-              fullWidth
-              variant="outlined"
-              onClick={() => alert('Entre com o Google')}
-              startIcon={<GoogleIcon />}
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Link
+              component="button"
+              onClick={handleClickOpen}
+              variant="body2"
+              sx={{ alignSelf: 'baseline' }}
             >
-              Entre com o Google
-            </Button>
-            <Button
-              type="submit"
-              fullWidth
-              variant="outlined"
-              onClick={() => alert('Entre com o Facebook')}
-              startIcon={<FacebookIcon />}
-            >
-              Entre com o Facebook
-            </Button>
+              Esqueceu sua Senha?
+            </Link>
           </Box>
         </Card>
       </SignInContainer>

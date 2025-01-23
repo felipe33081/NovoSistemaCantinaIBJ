@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
@@ -7,11 +7,9 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
-import { signOut } from 'aws-amplify/auth';
-import { useNavigate } from 'react-router-dom';
 import MenuButton from './MenuButton';
 import MenuContent from './MenuContent';
-import CardAlert from './CardAlert';
+import { useAuth } from '../contexts/AuthContext';
 
 interface SideMenuMobileProps {
   open: boolean | undefined;
@@ -19,18 +17,7 @@ interface SideMenuMobileProps {
 }
 
 export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobileProps) {
-  const navigate = useNavigate();
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      
-      console.log('Logout realizado com sucesso');
-      navigate('/signIn');
-    } catch (error) {
-      console.error('Sign-Out error:', error);
-    }
-  }
+  const { nameUser, signOutUser } = useAuth();
 
   return (
     <Drawer
@@ -57,12 +44,12 @@ export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobilePro
           >
             <Avatar
               sizes="small"
-              alt="Riley Carter"
+              alt={nameUser ?? ""}
               src="/static/images/avatar/7.jpg"
               sx={{ width: 24, height: 24 }}
             />
             <Typography component="p" variant="h6">
-              Felipe
+              {nameUser}
             </Typography>
           </Stack>
           <MenuButton showBadge>
@@ -74,9 +61,8 @@ export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobilePro
           <MenuContent />
           <Divider />
         </Stack>
-        <CardAlert />
-        <Stack sx={{ p: 2 }}>
-          <Button onClick={handleSignOut} variant="outlined" fullWidth startIcon={<LogoutRoundedIcon />}>
+        <Stack sx={{ p: 3 }}>
+          <Button onClick={signOutUser} variant="outlined" fullWidth startIcon={<LogoutRoundedIcon />}>
             Sair
           </Button>
         </Stack>
