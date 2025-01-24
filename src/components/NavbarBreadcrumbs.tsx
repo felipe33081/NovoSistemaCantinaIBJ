@@ -17,16 +17,24 @@ const StyledBreadcrumbs = styled(Breadcrumbs)(() => ({
   },
 }));
 
-export default function NavbarBreadcrumbs() {
+export default function NavbarBreadcrumbs({ page, subPage }: { page: string; subPage?: string }) {
   return (
     <StyledBreadcrumbs
       aria-label="breadcrumb"
       separator={<NavigateNextRoundedIcon fontSize="small" />}
     >
       <Typography variant="body1">Início</Typography>
-      <Typography variant="body1" sx={{ color: 'text.primary', fontWeight: 600 }}>
-        Painel
-      </Typography>
+      
+      {!subPage &&<Typography variant="body1" sx={{ color: 'text.primary', fontWeight: 600 }}>
+        {page}
+      </Typography>}
+      {subPage &&<Typography variant="body1">
+        {page}
+      </Typography>}
+
+      {subPage && <Typography variant="body1" sx={{ color: 'text.primary', fontWeight: 600 }}>
+        {subPage}
+      </Typography>}
     </StyledBreadcrumbs>
   );
 }

@@ -95,6 +95,10 @@ export default function ForceNewPassword() {
     }
   };
 
+  const handleBackSignIn = () => {
+    navigate('/signIn');
+  }
+
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
@@ -137,13 +141,19 @@ export default function ForceNewPassword() {
           )}
           <Button
             variant="contained"
-            color="primary"
             onClick={handleSubmit}
             fullWidth
             style={{ marginTop: "16px" }}
             disabled={!newPassword || !confirmPassword || !!errorMessage}
           >
             Alterar Senha
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleBackSignIn}
+            style={{ marginTop: "16px" }}
+          >
+            Voltar
           </Button>
         </Card>
       </SignInContainer>

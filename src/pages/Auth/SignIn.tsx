@@ -103,7 +103,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
         console.log('Login realizado com sucesso');
 
         setIsAuthenticated(true);
-        navigate('/dashboard');
+        navigate('/painel');
       }
     } catch (error: any) {
       console.error('Sign-in error:', error);

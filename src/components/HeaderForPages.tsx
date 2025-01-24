@@ -1,15 +1,13 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
-import CustomDatePicker from './CustomDatePicker';
 import NavbarBreadcrumbs from './NavbarBreadcrumbs';
 import MenuButton from './MenuButton';
 import ColorModeIconDropdown from '.././theme/ColorModeIconDropdown';
 
-import Search from './Search';
 import { useLocation } from 'react-router-dom';
 
-export default function Header() {
+export default function HeaderForPages() {
   const location = useLocation();
 
   const getPageInfo = () => {
@@ -37,8 +35,6 @@ export default function Header() {
     >
       <NavbarBreadcrumbs page={page} subPage={subPage} />
       <Stack direction="row" sx={{ gap: 1 }}>
-        <Search />
-        <CustomDatePicker />
         <MenuButton showBadge aria-label="Open notifications">
           <NotificationsRoundedIcon />
         </MenuButton>
