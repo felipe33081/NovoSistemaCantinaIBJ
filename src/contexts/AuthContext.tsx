@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { getCurrentUser, signOut } from 'aws-amplify/auth';
 import { Amplify } from 'aws-amplify';
 import awsconfig from '../aws-exports';
-import { getUserById } from '../Services/User/user';
+import { getUserByIdWithouPermission } from '../Services/User/user';
 
 Amplify.configure(awsconfig);
 
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const getInfosUser = async () => {
     try {
-      const result = await getUserById(userId ?? "");
+      const result = await getUserByIdWithouPermission(userId ?? "");
       setNameUser(result?.name);
       setEmailUser(result?.email);
     } catch (err) {

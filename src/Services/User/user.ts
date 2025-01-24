@@ -69,6 +69,29 @@ export const getUserById = async (id: string) => {
     }
 }
 
+export const getUserByIdWithouPermission = async (id: string) => {
+
+    const token = await getToken();
+    const url = Environment.BASE_URL + `/Users/${id}/WithoutPermission`;
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    }
+
+    try {
+        const result = await axios.get<IUserGetResponseModel>(url, config);
+        return result.data;
+    }
+    catch (err: any) {
+        if (err?.response?.data?.errors) {
+            // Toast.showErrorMessage(err.response.data.errors);
+        } else {
+            //Toast.showErrorMessage("Não foi possível obter os dados do usuário");
+        }
+        throw err;
+    }
+}
+
 export const postUserCreate = async (data: IUserPostRequestModel) => {
 
     const token = await getToken();
