@@ -4,8 +4,9 @@ import SignIn from './pages/Auth/SignIn';
 import Dashboard from './Dashboard';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Box from '@mui/material/Box';
-import CircularProgress, { CircularProgressProps } from '@mui/material/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import UserList from './pages/User/UserList';
+import ForceNewPassword from './pages/Auth/ForceNewPassword';
 
 export default function App() {
     // Função para proteger rotas
@@ -36,7 +37,6 @@ export default function App() {
                 <Routes>
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/usuario" element={<UserList />} />
-                    {/* <Route path="/settings" element={<Settings />} /> */}
                 </Routes>
             </PrivateRoute>
         );
@@ -47,6 +47,7 @@ export default function App() {
             <Router>
                 <Routes>
                     <Route path="/signIn" element={<SignIn />} />
+                    <Route path="/changepassword" element={<ForceNewPassword />} />
                     <Route path="/*" element={<ProtectedRoutes />} />
                     <Route path="/" element={<Navigate to="/signIn" />} />
                 </Routes>
