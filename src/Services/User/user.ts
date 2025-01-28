@@ -12,7 +12,7 @@ import {
 export const getUserList = async (props: IGetUserListFilter) => {
     const { size, page, email, name, paginationToken } = props;
     const token = await getToken();
-    var url = Environment.BASE_URL + `/Users?size=${size}&page=${page}`;
+    var url = Environment.BASE_URL + `/User?size=${size}&page=${page}`;
 
     url = name ? url + `&filter=name^="${name}"` : url;
     url = email ? url + `&filter=email^="${email}"` : url;
@@ -32,7 +32,7 @@ export const getUserList = async (props: IGetUserListFilter) => {
 
 export const getUserGroupsList = async (id: string) => {
     const token = await getToken();
-    var url = Environment.BASE_URL + `/Users/${id}/Groups?page=0&size=10`;
+    var url = Environment.BASE_URL + `/User/${id}/Groups?page=0&size=10`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -49,7 +49,30 @@ export const getUserGroupsList = async (id: string) => {
 export const getUserById = async (id: string) => {
 
     const token = await getToken();
-    const url = Environment.BASE_URL + `/Users/${id}`;
+    const url = Environment.BASE_URL + `/User/${id}`;
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    }
+
+    try {
+        const result = await axios.get<IUserGetResponseModel>(url, config);
+        return result.data;
+    }
+    catch (err: any) {
+        if (err?.response?.data?.errors) {
+            // Toast.showErrorMessage(err.response.data.errors);
+        } else {
+            //Toast.showErrorMessage("Não foi possível obter os dados do usuário");
+        }
+        throw err;
+    }
+}
+
+export const getUserByIdWithouPermission = async (id: string) => {
+
+    const token = await getToken();
+    const url = Environment.BASE_URL + `/User/${id}/WithoutPermission`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -72,7 +95,7 @@ export const getUserById = async (id: string) => {
 export const postUserCreate = async (data: IUserPostRequestModel) => {
 
     const token = await getToken();
-    const url = Environment.BASE_URL + "/Users";
+    const url = Environment.BASE_URL + "/User";
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -96,7 +119,7 @@ export const postUserCreate = async (data: IUserPostRequestModel) => {
 export const putUserEdit = async (id: string, data: IUserPutRequestModel) => {
 
     const token = await getToken();
-    const url = Environment.BASE_URL + `/Users/${id}`;
+    const url = Environment.BASE_URL + `/User/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -119,7 +142,7 @@ export const putUserEdit = async (id: string, data: IUserPutRequestModel) => {
 export const addUserGroupEdit = async (id: string, data: IGroupRequestModel) => {
 
     const token = await getToken();
-    const url = Environment.BASE_URL + `/Users/${id}/AddUserToGroup`;
+    const url = Environment.BASE_URL + `/User/${id}/AddUserToGroup`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -142,7 +165,7 @@ export const addUserGroupEdit = async (id: string, data: IGroupRequestModel) => 
 export const removeUserGroupEdit = async (id: string, data: IGroupRequestModel) => {
 
     const token = await getToken();
-    const url = Environment.BASE_URL + `/Users/${id}/RemoveUserToGroup`;
+    const url = Environment.BASE_URL + `/User/${id}/RemoveUserToGroup`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -165,7 +188,7 @@ export const removeUserGroupEdit = async (id: string, data: IGroupRequestModel) 
 export const deleteUserById = async (id: string) => {
 
     let token = await getToken();
-    let url = Environment.BASE_URL + `/Users/${id}`;
+    let url = Environment.BASE_URL + `/User/${id}`;
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }

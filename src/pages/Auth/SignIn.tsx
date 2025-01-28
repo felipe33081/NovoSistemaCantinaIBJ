@@ -14,7 +14,7 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import ForgotPassword from './ForgotPassword';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../../internals/components/CustomIcons';
+import { CustomIBJIcon } from '../../internals/components/CustomIcons';
 import AppTheme from '../../theme/AppTheme';
 import ColorModeSelect from '../../theme/ColorModeSelect';
 import createThemeWithVars from '@mui/material/styles/createThemeWithVars';
@@ -69,11 +69,15 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  const [openModalNewPassword, setOpenModalNewPassword] = React.useState(false);
   const navigate = useNavigate();
   const { setIsAuthenticated } = useAuth();
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  
+  const handleClickOpenNewPassword = () => setOpenModalNewPassword(true);
+  const handleCloseNewPassword = () => setOpenModalNewPassword(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -85,24 +89,31 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
       const username = data.get('email')?.toString() ?? '';
       const password = data.get('password')?.toString() ?? '';
 
-      await signIn({
+      const user = await signIn({
         username: username,
         password: password,
       })
 
-      console.log('Login realizado com sucesso');
+      if (user.nextStep.signInStep !== "DONE" && user.isSignedIn != true){
+        setIsAuthenticated(false);
+        handleClickOpenNewPassword();
+        navigate('/changepassword');
+      }
+      else{
+        console.log('Login realizado com sucesso');
 
-      setIsAuthenticated(true);
-      navigate('/dashboard');
+        setIsAuthenticated(true);
+        navigate('/painel');
+      }
     } catch (error: any) {
       console.error('Sign-in error:', error);
       setIsAuthenticated(false);
-      if (error.code === 'UserNotFoundException') {
+      if (error == 'UserNotFoundException') {
         setEmailError(true);
         setEmailErrorMessage('Usuário não encontrado.');
-      } else if (error.code === 'NotAuthorizedException') {
+      } else if (error == 'NotAuthorizedException') {
         setPasswordError(true);
-        setPasswordErrorMessage('Senha incorreta.');
+        setPasswordErrorMessage('Email ou Senha está incorreto.');
       } else {
         setEmailErrorMessage('Email ou Senha está incorreto. Tente novamente.');
       }
@@ -142,7 +153,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
       <SignInContainer direction="column" justifyContent="space-between" alignItems='start'>
         <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
         <Card variant="outlined">
-          <SitemarkIcon />
+          <CustomIBJIcon />
           <Typography
             component="h1"
             variant="h4"
@@ -200,7 +211,6 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               control={<Checkbox value="remember" color="primary" />}
               label="Lembrar-me"
             />
-            <ForgotPassword open={open} handleClose={handleClose} />
             <Button
               type="submit"
               fullWidth
@@ -210,7 +220,9 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               Entrar
             </Button>
           </Box>
+          {/* <ForceNewPassword open={openModalNewPassword} handleClose={handleCloseNewPassword} /> */}
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <ForgotPassword open={open} handleClose={handleClose} />
             <Link
               component="button"
               onClick={handleClickOpen}

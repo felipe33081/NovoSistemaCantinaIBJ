@@ -4,8 +4,13 @@ import SignIn from './pages/Auth/SignIn';
 import Dashboard from './Dashboard';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Box from '@mui/material/Box';
-import CircularProgress, { CircularProgressProps } from '@mui/material/CircularProgress';
-import UserList from './pages/User/UserList';
+import CircularProgress from '@mui/material/CircularProgress';
+import ForceNewPassword from './pages/Auth/ForceNewPassword';
+import ProtectedLayout from './pages/ProtectedLayout';
+import CustomerList from './pages/Customer/CustomerList';
+import OrderList from './pages/Order/OrderList';
+import ProductList from './pages/Product/ProductList';
+import UserConteiner from './pages/User/ConteinerList/UserConteiner';
 
 export default function App() {
     // Função para proteger rotas
@@ -30,24 +35,32 @@ export default function App() {
         return isAuthenticated ? children : <Navigate to="/signIn" />;
     }
 
-    function ProtectedRoutes() {
-        return (
-            <PrivateRoute>
-                <Routes>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/usuario" element={<UserList />} />
-                    {/* <Route path="/settings" element={<Settings />} /> */}
-                </Routes>
-            </PrivateRoute>
-        );
-    }
-
     return (
         <AuthProvider>
             <Router>
                 <Routes>
+                    {/* Rotas públicas */}
                     <Route path="/signIn" element={<SignIn />} />
-                    <Route path="/*" element={<ProtectedRoutes />} />
+                    <Route path="/changepassword" element={<ForceNewPassword />} />
+
+                    {/* Rotas protegidas */}
+                    <Route
+                        path="/*"
+                        element={
+                            <PrivateRoute>
+                                <Routes>
+                                    <Route element={<ProtectedLayout />}>
+                                        <Route path="/painel" element={<Dashboard />} />
+                                        <Route path="/pedido" element={<OrderList />} />
+                                        <Route path="/cliente" element={<CustomerList />} />
+                                        <Route path="/produto" element={<ProductList />} />
+                                        <Route path="/usuario" element={<UserConteiner />} />
+                                    </Route>
+                                </Routes>
+                            </PrivateRoute>
+                        }
+                    />
+
                     <Route path="/" element={<Navigate to="/signIn" />} />
                 </Routes>
             </Router>

@@ -132,7 +132,7 @@ export const rows: GridRowsProp = [
   {
     id: 1,
     pageTitle: 'Homepage Overview',
-    status: 'Online',
+    status: 'CONFIRMED',
     eventCount: 8345,
     users: 212423,
     viewsPerUser: 18.5,
@@ -147,7 +147,7 @@ export const rows: GridRowsProp = [
   {
     id: 2,
     pageTitle: 'Product Details - Gadgets',
-    status: 'Online',
+    status: 'FORCE_CHANGE_PASSWORD',
     eventCount: 5653,
     users: 172240,
     viewsPerUser: 9.7,

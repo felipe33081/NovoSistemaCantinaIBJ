@@ -10,6 +10,7 @@ import SelectContent from './SelectContent';
 import MenuContent from './MenuContent';
 import OptionsMenu from './OptionsMenu';
 import { useAuth } from '../contexts/AuthContext';
+import { CustomIBJIcon } from '../internals/components/CustomIcons';
 
 const drawerWidth = 240;
 
@@ -41,10 +42,11 @@ export default function SideMenu() {
         sx={{
           display: 'flex',
           mt: 'calc(var(--template-frame-height, 0px) + 4px)',
-          p: 1.5,
+          p: 1,
+          alignSelf: 'center'
         }}
       >
-        <SelectContent />
+        <CustomIBJIcon />
       </Box>
       <Divider />
       <MenuContent />

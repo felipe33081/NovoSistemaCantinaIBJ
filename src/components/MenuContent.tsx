@@ -13,28 +13,46 @@ import ListAltRoundedIcon from '@mui/icons-material/ListAltRounded';
 import GroupRoundedIcon from '@mui/icons-material/GroupRounded';
 import Inventory2RoundedIcon from '@mui/icons-material/Inventory2Rounded';
 import PortraitRoundedIcon from '@mui/icons-material/PortraitRounded';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const mainListItems = [
-  { text: 'Painel', icon: <HomeRoundedIcon /> },
-  { text: 'Pedidos', icon: <ListAltRoundedIcon /> },
-  { text: 'Clientes', icon: <GroupRoundedIcon /> },
-  { text: 'Produtos', icon: <Inventory2RoundedIcon /> },
-  { text: 'Usuários', icon: <PortraitRoundedIcon /> },
+  { text: 'Painel', route: '/painel', page: 0, icon: <HomeRoundedIcon /> },
+  { text: 'Pedidos', route: '/pedido', page: 1, icon: <ListAltRoundedIcon /> },
+  { text: 'Clientes', route: '/cliente', page: 2, icon: <GroupRoundedIcon /> },
+  { text: 'Produtos', route: '/produto', page: 3, icon: <Inventory2RoundedIcon /> },
+  { text: 'Usuários', route: '/usuario', page: 4, icon: <PortraitRoundedIcon /> },
 ];
 
 const secondaryListItems = [
-  { text: 'Configurações', icon: <SettingsRoundedIcon /> },
-  { text: 'Sobre', icon: <InfoRoundedIcon /> },
-  { text: 'Feedback', icon: <HelpRoundedIcon /> },
+  { text: 'Configurações', route: '/configuracao', page: 5, icon: <SettingsRoundedIcon /> },
+  { text: 'Sobre', route: '/sobre', page: 6, icon: <InfoRoundedIcon /> },
+  { text: 'Feedback', route: '/feeback', page: 7, icon: <HelpRoundedIcon /> },
 ];
 
 export default function MenuContent() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [selected, setSelected] = useState<number | null>(null);
+
+  useEffect(() => {
+    const currentPage = mainListItems.findIndex((item) => item.route === location.pathname);
+    setSelected(currentPage >= 0 ? currentPage : null);
+  }, [location.pathname]);
+
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
       <List dense>
         {mainListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton selected={index === 0}>
+            <ListItemButton
+              onClick={() => {
+                setSelected(item.page);
+                navigate(item.route);
+              }}
+              selected={selected === item.page}
+            >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
@@ -42,16 +60,16 @@ export default function MenuContent() {
         ))}
       </List>
 
-      <List dense>
+      {/* <List dense>
         {secondaryListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton>
+            <ListItemButton onClick={() => navigate(item.route)}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
         ))}
-      </List>
+      </List> */}
     </Stack>
   );
 }
