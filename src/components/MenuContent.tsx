@@ -60,7 +60,7 @@ export default function MenuContent() {
         ))}
       </List>
 
-      <List dense>
+      {/* <List dense>
         {secondaryListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
             <ListItemButton onClick={() => navigate(item.route)}>
@@ -69,7 +69,7 @@ export default function MenuContent() {
             </ListItemButton>
           </ListItem>
         ))}
-      </List>
+      </List> */}
     </Stack>
   );
 }

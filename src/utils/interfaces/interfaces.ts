@@ -1,4 +1,12 @@
+import { GridRowsProp } from "@mui/x-data-grid";
 import { OrderStatusEnum, PaymentOfTypeEnum } from "../enums/enums";
+
+export interface IUserListType {
+    queryData: any
+    rowsPerPage: number
+    setRowsPerPage: (page: number) => void
+    page: number;
+}
 
 export interface IListDataPagination<T> {
     page: number

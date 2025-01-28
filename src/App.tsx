@@ -5,12 +5,12 @@ import Dashboard from './Dashboard';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import UserList from './pages/User/UserList';
 import ForceNewPassword from './pages/Auth/ForceNewPassword';
 import ProtectedLayout from './pages/ProtectedLayout';
 import CustomerList from './pages/Customer/CustomerList';
 import OrderList from './pages/Order/OrderList';
 import ProductList from './pages/Product/ProductList';
+import UserConteiner from './pages/User/ConteinerList/UserConteiner';
 
 export default function App() {
     // Função para proteger rotas
@@ -54,7 +54,7 @@ export default function App() {
                                         <Route path="/pedido" element={<OrderList />} />
                                         <Route path="/cliente" element={<CustomerList />} />
                                         <Route path="/produto" element={<ProductList />} />
-                                        <Route path="/usuario" element={<UserList />} />
+                                        <Route path="/usuario" element={<UserConteiner />} />
                                     </Route>
                                 </Routes>
                             </PrivateRoute>

@@ -1,0 +1,57 @@
+import * as React from 'react';
+import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
+import { CustomNoRowsOverlay } from '../internals/components/CustomIcons';
+
+export interface ICustomDataGridType {
+  rows: never[]
+  columns: GridColDef[]
+  totalRows: number
+  currentPage: number
+  rowsPerPage: number
+  loading: boolean
+  setCurrentPage: (value: number) => void
+  setRowsPerPage: (value: number) => void
+}
+
+export const DataTable = ({
+  rows,
+  columns,
+  totalRows,
+  currentPage,
+  rowsPerPage,
+  loading,
+  setCurrentPage,
+  setRowsPerPage
+}: ICustomDataGridType) => {
+  return (
+    <DataGrid
+      autoHeight
+      rows={rows}
+      columns={columns}
+      rowCount={totalRows}
+      pageSizeOptions={[5, 10, 20, 35, { value: -1, label: 'All' }]}
+      paginationMode="server"
+      paginationModel={{
+        page: currentPage,
+        pageSize: rowsPerPage,
+      }}
+      onPaginationModelChange={(newModel) => {
+        setCurrentPage(newModel.page);
+        setRowsPerPage(newModel.pageSize);
+      }}
+      loading={loading}
+      getRowId={(row) => row.id}
+      disableColumnResize
+      density="compact"
+      checkboxSelection
+      disableRowSelectionOnClick
+      slots={{ noRowsOverlay: CustomNoRowsOverlay, toolbar: GridToolbar }}
+      slotProps={{
+        toolbar: {
+          showQuickFilter: true,
+        },
+      }}
+      // filterMode="server"
+    />
+  );
+}

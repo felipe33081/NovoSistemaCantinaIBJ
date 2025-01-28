@@ -1,11 +1,12 @@
 import React from "react";
 import { Box, Stack, alpha } from "@mui/material";
 import createThemeWithVars from '@mui/material/styles/createThemeWithVars';
-import HeaderForPages from "../../components/HeaderForPages";
+import HeaderForPages from "../../../components/HeaderForPages";
+import UserGrid from "./UserGrid";
 
 const theme = createThemeWithVars();
 
-export default function UserList() {
+export default function UserConteiner() {
     return (
         <Box sx={{ display: 'flex' }}>
             <Box
@@ -28,6 +29,7 @@ export default function UserList() {
                     }}
                 >
                     <HeaderForPages />
+                    <UserGrid />
                 </Stack>
             </Box>
         </Box>
