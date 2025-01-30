@@ -1,4 +1,3 @@
-import { GridRowsProp } from "@mui/x-data-grid";
 import { OrderStatusEnum, PaymentOfTypeEnum } from "../enums/enums";
 
 export interface IUserListType {

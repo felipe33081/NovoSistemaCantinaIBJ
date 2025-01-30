@@ -41,6 +41,7 @@ export const userColumns: GridColDef[] = [
         }
     },
     {
+        filterable: false,
         field: 'phoneNumber',
         headerName: 'Telefone',
         flex: 1.5,
@@ -59,6 +60,7 @@ export const userColumns: GridColDef[] = [
         }
     },
     {
+        filterable: false,
         field: 'userStatus',
         headerName: 'Status',
         flex: 1.5,
