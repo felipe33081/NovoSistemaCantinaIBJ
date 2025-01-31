@@ -8,7 +8,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import ForceNewPassword from './pages/Auth/ForceNewPassword';
 import ProtectedLayout from './pages/ProtectedLayout';
 import OrderList from './pages/Order/OrderList';
-import ProductList from './pages/Product/ProductList';
+import ProductConteiner from './pages/Product/ConteinerList/ProductConteiner';
 import UserConteiner from './pages/User/ConteinerList/UserConteiner';
 import CustomerConteiner from './pages/Customer/ConteinerList/CustomerConteiner';
 
@@ -53,7 +53,7 @@ export default function App() {
                                         <Route path="/painel" element={<Dashboard />} />
                                         <Route path="/pedido" element={<OrderList />} />
                                         <Route path="/cliente" element={<CustomerConteiner />} />
-                                        <Route path="/produto" element={<ProductList />} />
+                                        <Route path="/produto" element={<ProductConteiner />} />
                                         <Route path="/usuario" element={<UserConteiner />} />
                                     </Route>
                                 </Routes>

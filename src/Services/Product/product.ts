@@ -22,7 +22,7 @@ export const getProductList = async (filters: IGetProductListAsync) => {
         params
     }
     try {
-        const result = await axios.get<IListDataPagination<IProductReadModel>>(url, config);
+        const result = await axios.get(url, config);
         return result.data;
     }
     catch (err: any) {

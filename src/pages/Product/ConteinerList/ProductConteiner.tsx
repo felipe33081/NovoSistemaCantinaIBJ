@@ -1,11 +1,12 @@
 import React from "react";
-import { Typography, Box, alpha, Stack } from "@mui/material";
+import { Box, alpha, Stack } from "@mui/material";
 import createThemeWithVars from "@mui/material/styles/createThemeWithVars";
-import HeaderForPages from "../../components/HeaderForPages";
+import HeaderForPages from "../../../components/HeaderForPages";
+import ProductGrid from "./ProductGrid";
 
 const theme = createThemeWithVars();
 
-export default function ProductList() {
+export default function ProductConteiner() {
     return (
         <Box sx={{ display: 'flex' }}>
             <Box
@@ -28,6 +29,7 @@ export default function ProductList() {
                     }}
                 >
                     <HeaderForPages />
+                    <ProductGrid />
                 </Stack>
             </Box>
         </Box>
