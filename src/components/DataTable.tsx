@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridFilterModel, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridFilterModel } from '@mui/x-data-grid';
 import { CustomNoRowsOverlay } from '../internals/components/CustomIcons';
+import CustomToolbar from './CustomToolBar';
 
 export interface ICustomDataGridType {
   rows: never[]
@@ -47,7 +48,7 @@ export const DataTable = ({
       density="compact"
       checkboxSelection
       disableRowSelectionOnClick
-      slots={{ noRowsOverlay: CustomNoRowsOverlay, toolbar: GridToolbar }}
+      slots={{ noRowsOverlay: CustomNoRowsOverlay, toolbar: CustomToolbar }}
       slotProps={{
         toolbar: {
           showQuickFilter: true,
