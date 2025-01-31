@@ -1,11 +1,12 @@
 import React from "react";
-import { Typography, Box, alpha, Stack } from "@mui/material";
+import { alpha, Box, Stack } from "@mui/material";
 import createThemeWithVars from "@mui/material/styles/createThemeWithVars";
-import HeaderForPages from "../../components/HeaderForPages";
+import HeaderForPages from "../../../components/HeaderForPages";
+import CustomerGrid from "./CustomerGrid";
 
 const theme = createThemeWithVars();
 
-export default function CustomerList() {
+export default function CustomerConteiner () {
     return (
         <Box sx={{ display: 'flex' }}>
             <Box
@@ -28,6 +29,7 @@ export default function CustomerList() {
                     }}
                 >
                     <HeaderForPages />
+                    <CustomerGrid />
                 </Stack>
             </Box>
         </Box>

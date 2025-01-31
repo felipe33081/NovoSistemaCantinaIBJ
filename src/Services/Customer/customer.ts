@@ -22,7 +22,7 @@ export const getCustomerList = async (filters: IGetCustomerPersonListFilter) => 
         params
     }
     try {
-        let result = await axios.get<IListDataPagination<ICustomerPersonReadModel>>(url, config);
+        let result = await axios.get(url, config);
         return result.data;
     }
     catch (err: any) {

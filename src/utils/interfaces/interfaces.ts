@@ -30,7 +30,7 @@ export interface IGetCustomerPersonListFilter {
     page: number
     size: number
     name?: string | null
-    email?: string | null
+    phone?: string | null
     searchString?: string | null
     isDeleted?: boolean | null
     orderBy?: string | null
