@@ -12,7 +12,6 @@ import {
 } from '../../utils/interfaces/interfaces';
 
 export const getOrderList = async (filters: IGetOrderListAsync) => {
-    filters.orderBy = filters?.orderBy != undefined ? filters?.orderBy + "_" + filters?.orderByDirection?.toUpperCase() : undefined;
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
 
     const token = await getToken();

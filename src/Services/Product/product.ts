@@ -11,7 +11,6 @@ import {
 } from '../../utils/interfaces/interfaces';
 
 export const getProductList = async (filters: IGetProductListAsync) => {
-    filters.orderBy = filters?.orderBy != undefined ? filters?.orderBy + "_" + filters?.orderByDirection?.toUpperCase() : undefined;
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
 
     const token = await getToken();

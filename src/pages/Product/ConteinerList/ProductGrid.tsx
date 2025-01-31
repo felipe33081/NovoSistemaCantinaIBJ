@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Copyright from '../../../internals/components/Copyright';
 import { DataTable } from '../../../components/DataTable';
-import { GridFilterModel } from '@mui/x-data-grid';
+import { GridFilterModel, GridSortModel } from '@mui/x-data-grid';
 import { IGetProductListAsync } from '../../../utils/interfaces/interfaces';
 import { getProductList } from '../../../Services/Product/product';
 import { productColumns } from './ProductList';
@@ -16,9 +16,10 @@ export default function ProductGrid() {
     const [currentPage, setCurrentPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const [filterModel, setFilterModel] = useState<GridFilterModel>({ items: [] });
+    const [sortModel, setSortModel] = useState<GridSortModel>([]);
     const isLoading = useRef(false);
 
-    const fetchProducts = async (page: number, size: number, filters: GridFilterModel) => {
+    const fetchProducts = async (page: number, size: number, filters: GridFilterModel, sort: GridSortModel) => {
         if (isLoading.current) return;
 
         setLoading(true);
@@ -33,12 +34,16 @@ export default function ProductGrid() {
                 return acc;
             }, {} as IGetProductListAsync);
 
+            const orderBy = sort[0]?.field || "CreatedAt";
+            const orderByDirection = sort[0]?.sort?.toUpperCase() || "DESC";
+
             const params: IGetProductListAsync = {
                 page,
                 size,
                 name: mappedFilters.name,
                 description: mappedFilters.description,
-                searchString: quickFilterValue
+                searchString: quickFilterValue,
+                orderBy: `${orderBy}_${orderByDirection}`
             };
             const response = await getProductList(params);
             setRows(response.data || []);
@@ -54,11 +59,16 @@ export default function ProductGrid() {
     };
 
     useEffect(() => {
-        fetchProducts(currentPage, rowsPerPage, filterModel);
-    }, [currentPage, rowsPerPage, filterModel]);
+        fetchProducts(currentPage, rowsPerPage, filterModel, sortModel);
+    }, [currentPage, rowsPerPage, filterModel, sortModel]);
 
     const handleFilterChange = (newFilterModel: GridFilterModel) => {
         setFilterModel(newFilterModel);
+        setCurrentPage(0);
+    };
+
+    const handleSortChange = (newSortModel: GridSortModel) => {
+        setSortModel(newSortModel);
         setCurrentPage(0);
     };
 
@@ -78,6 +88,7 @@ export default function ProductGrid() {
                     setCurrentPage={setCurrentPage}
                     setRowsPerPage={setRowsPerPage}
                     onFilterChange={handleFilterChange}
+                    onSortChange={handleSortChange}
                 />
             </Grid>
             <Copyright sx={{ my: 4 }} />

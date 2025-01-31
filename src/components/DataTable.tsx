@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridFilterModel } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridFilterModel, GridSortModel } from '@mui/x-data-grid';
 import { CustomNoRowsOverlay } from '../internals/components/CustomIcons';
 import CustomToolbar from './CustomToolBar';
 
@@ -13,6 +13,7 @@ export interface ICustomDataGridType {
   setCurrentPage: (value: number) => void
   setRowsPerPage: (value: number) => void
   onFilterChange: (filterModel: GridFilterModel) => void;
+  onSortChange?: (sortModel: GridSortModel) => void
 }
 
 export const DataTable = ({
@@ -24,7 +25,8 @@ export const DataTable = ({
   loading,
   setCurrentPage,
   setRowsPerPage,
-  onFilterChange
+  onFilterChange,
+  onSortChange
 }: ICustomDataGridType) => {
   return (
     <DataGrid
@@ -56,6 +58,9 @@ export const DataTable = ({
       }}
       filterMode="server"
       onFilterModelChange={onFilterChange}
+      sortingMode="server"
+      sortingOrder={['asc', 'desc']}
+      onSortModelChange={onSortChange}
     />
   );
 }

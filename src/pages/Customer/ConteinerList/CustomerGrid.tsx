@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Copyright from '../../../internals/components/Copyright';
 import { DataTable } from '../../../components/DataTable';
-import { GridFilterModel } from '@mui/x-data-grid';
+import { GridFilterModel, GridSortModel } from '@mui/x-data-grid';
 import { IGetCustomerPersonListFilter } from '../../../utils/interfaces/interfaces';
 import { getCustomerList } from '../../../Services/Customer/customer';
 import { customerColumns } from './CustomerList';
@@ -17,8 +17,9 @@ export default function CustomerGrid() {
     const [rowsPerPage, setRowsPerPage] = useState(20);
     const [filterModel, setFilterModel] = useState<GridFilterModel>({ items: [] });
     const isLoading = useRef(false);
+    const [sortModel, setSortModel] = useState<GridSortModel>([]);
 
-    const fetchCustomers = async (page: number, size: number, filters: GridFilterModel) => {
+    const fetchCustomers = async (page: number, size: number, filters: GridFilterModel, sort: GridSortModel) => {
         if (isLoading.current) return;
 
         setLoading(true);
@@ -33,13 +34,18 @@ export default function CustomerGrid() {
                 return acc;
             }, {} as IGetCustomerPersonListFilter);
 
+            const orderBy = sort[0]?.field || "CreatedAt";
+            const orderByDirection = sort[0]?.sort?.toUpperCase() || "DESC";
+
             const params: IGetCustomerPersonListFilter = {
                 page,
                 size,
                 name: mappedFilters.name,
                 phone: mappedFilters.phone,
-                searchString: quickFilterValue
+                searchString: quickFilterValue,
+                orderBy: `${orderBy}_${orderByDirection}`
             };
+
             const response = await getCustomerList(params);
             setRows(response.data || []);
             setTotalRows(response.totalItems || 0);
@@ -54,11 +60,16 @@ export default function CustomerGrid() {
     };
 
     useEffect(() => {
-        fetchCustomers(currentPage, rowsPerPage, filterModel);
-    }, [currentPage, rowsPerPage, filterModel]);
+        fetchCustomers(currentPage, rowsPerPage, filterModel, sortModel);
+    }, [currentPage, rowsPerPage, filterModel, sortModel]);
 
     const handleFilterChange = (newFilterModel: GridFilterModel) => {
         setFilterModel(newFilterModel);
+        setCurrentPage(0);
+    };
+
+    const handleSortChange = (newSortModel: GridSortModel) => {
+        setSortModel(newSortModel);
         setCurrentPage(0);
     };
 
@@ -78,6 +89,7 @@ export default function CustomerGrid() {
                     setCurrentPage={setCurrentPage}
                     setRowsPerPage={setRowsPerPage}
                     onFilterChange={handleFilterChange}
+                    onSortChange={handleSortChange}
                 />
             </Grid>
             <Copyright sx={{ my: 4 }} />
