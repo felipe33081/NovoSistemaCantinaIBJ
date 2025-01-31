@@ -7,10 +7,10 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import ForceNewPassword from './pages/Auth/ForceNewPassword';
 import ProtectedLayout from './pages/ProtectedLayout';
-import CustomerList from './pages/Customer/CustomerList';
 import OrderList from './pages/Order/OrderList';
 import ProductList from './pages/Product/ProductList';
 import UserConteiner from './pages/User/ConteinerList/UserConteiner';
+import CustomerConteiner from './pages/Customer/ConteinerList/CustomerConteiner';
 
 export default function App() {
     // Função para proteger rotas
@@ -52,7 +52,7 @@ export default function App() {
                                     <Route element={<ProtectedLayout />}>
                                         <Route path="/painel" element={<Dashboard />} />
                                         <Route path="/pedido" element={<OrderList />} />
-                                        <Route path="/cliente" element={<CustomerList />} />
+                                        <Route path="/cliente" element={<CustomerConteiner />} />
                                         <Route path="/produto" element={<ProductList />} />
                                         <Route path="/usuario" element={<UserConteiner />} />
                                     </Route>

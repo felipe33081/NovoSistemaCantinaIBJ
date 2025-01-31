@@ -19,6 +19,7 @@
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.1",
     "@types/toastr": "^2.1.43",
+    "accounting": "^0.4.1",
     "aws-amplify": "^6.12.1",
     "axios": "^1.7.9",
     "clsx": "2.1.1",
@@ -54,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "@types/accounting": "^0.4.1",
     "process": "^0.11.10"
   }
 }

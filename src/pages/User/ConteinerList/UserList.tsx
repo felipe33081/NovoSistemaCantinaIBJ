@@ -2,6 +2,7 @@
 import React from 'react';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import Chip from '@mui/material/Chip';
+import Helper from '../../../helpers/format.helpers';
 
 export const userColumns: GridColDef[] = [
     {
@@ -54,7 +55,7 @@ export const userColumns: GridColDef[] = [
                         marginLeft: '-8px'
                     }}
                 >
-                    {cellValues.row?.phoneNumber}
+                    {Helper.formatPhoneNumber(cellValues.row?.phoneNumber)}
                 </div >
             );
         }
