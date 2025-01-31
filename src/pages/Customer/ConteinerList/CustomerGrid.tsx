@@ -27,7 +27,6 @@ export default function CustomerGrid() {
         try {
             const quickFilterValue = filters.quickFilterValues?.[0] ?? "";
 
-            ///TODO: validar filtros possíveis
             const mappedFilters = filters.items.reduce((acc, filter) => {
                 if (filter.field === "name") acc.name = filter.value;
                 if (filter.field === "phone") acc.phone = filter.value;
