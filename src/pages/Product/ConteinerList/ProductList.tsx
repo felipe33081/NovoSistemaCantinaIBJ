@@ -1,7 +1,8 @@
 import React from "react";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import Helper from "../../../helpers/format.helpers";
-import { renderDisponibility } from "../../../hooks/renderDisponibility";
+import { renderDisponibilityProduct } from "../../../hooks/renderDisponibilityProduct";
+import { renderCurrencyValue } from "../../../hooks/renderCurrencyValue";
 
 export const productColumns: GridColDef[] = [
     {
@@ -46,21 +47,10 @@ export const productColumns: GridColDef[] = [
         headerName: 'Preço',
         flex: 1,
         minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => {
-            return (
-                <div
-                    style={{
-                        textAlign: 'left',
-                        marginLeft: '-8px'
-                    }}
-                >
-                    {Helper.formatCurrencyAsIs(cellValues.row?.price)}
-                </div >
-            );
-        }
+        renderCell: (cellValues: GridRenderCellParams) => renderCurrencyValue(cellValues.value as any)
     },
-    {
-        filterable: false,
+    {   
+        filterable: false,  
         field: 'quantity',
         headerName: 'Quantidade',
         flex: 1,
@@ -84,7 +74,7 @@ export const productColumns: GridColDef[] = [
         headerName: 'Disponibilidade',
         flex: 1,
         minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => renderDisponibility(cellValues.value as any)
+        renderCell: (cellValues: GridRenderCellParams) => renderDisponibilityProduct(cellValues.value as any)
     },
     {
         filterable: false,

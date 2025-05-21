@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import Chip from '@mui/material/Chip';
 import Helper from '../../../helpers/format.helpers';
+import { renderUserStatus } from '../../../hooks/renderUserStatus';
 
 export const userColumns: GridColDef[] = [
     {
@@ -66,46 +65,6 @@ export const userColumns: GridColDef[] = [
         headerName: 'Status',
         flex: 1.5,
         minWidth: 200,
-        renderCell: (cellValues) => renderStatus(cellValues.value as any)
+        renderCell: (cellValues) => renderUserStatus(cellValues.value as any)
     }
 ];
-
-const makeStyle = (userStatus: string) => {
-    if (userStatus === "CONFIRMED") {
-      return {
-        backgroundColor: "#f6fef6",
-        textColor: "green",
-      };
-    } else if (userStatus === "FORCE_CHANGE_PASSWORD") {
-      return {
-        backgroundColor: "#fff0f0",
-        textColor: "red",
-      };
-    }
-    else {
-        return {
-            backgroundColor: "black",
-            textColor: "gray",
-          };
-    }
-  };
-
-const renderStatus = (status: 'CONFIRMED' | 'FORCE_CHANGE_PASSWORD') => {
-    const styles = makeStyle(status);
-
-    return (
-        <Chip
-            label={status === "CONFIRMED" ? "Confirmado" : "Alteração de Senha"}
-            sx={{
-                backgroundColor: styles.backgroundColor,
-                color: styles.textColor,
-                fontWeight: "bold",
-                border: `1px solid ${styles.textColor}`,
-                "& .MuiChip-label": {
-                    color: styles.textColor,
-                },
-            }}
-            variant="outlined"
-        />
-    );
-};

@@ -1,15 +1,15 @@
 import React from "react";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import Helper from "../../../helpers/format.helpers";
-import { renderBalanceCustomer } from "../../../hooks/renderBalanceCustomer";
 import { renderDate } from "../../../hooks/renderDate";
+import { renderStatusOrder } from "../../../hooks/renderStatusOrder";
+import { renderCurrencyValue } from "../../../hooks/renderCurrencyValue";
 
-export const customerColumns: GridColDef[] = [
+export const orderColumns: GridColDef[] = [
     {
-        field: 'name',
-        headerName: 'Nome',
-        flex: 1,
-        minWidth: 200,
+        field: 'id',
+        headerName: 'Número do Pedido',
+        flex: 0.7,
+        minWidth: 150,
         renderCell: (cellValues: GridRenderCellParams) => {
             return (
                 <div
@@ -18,36 +18,45 @@ export const customerColumns: GridColDef[] = [
                         marginLeft: '-8px'
                     }}
                 >
-                    {cellValues.row?.name}
-                </div >
-            );
-        }
-    },
-    {
-        field: 'phone',
-        headerName: 'Telefone',
-        flex: 1,
-        minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => {
-            return (
-                <div
-                    style={{
-                        textAlign: 'left',
-                        marginLeft: '-8px'
-                    }}
-                >
-                    {Helper.formatPhoneNumber(cellValues.row?.phone)}
+                    {cellValues.row?.id}
                 </div >
             );
         }
     },
     {
         filterable: false,
-        field: 'balance',
-        headerName: 'Saldo',
+        field: 'customerPersonDisplay',
+        headerName: 'Nome do Cliente',
         flex: 1,
         minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => renderBalanceCustomer(cellValues.value as any)
+        renderCell: (cellValues: GridRenderCellParams) => {
+            return (
+                <div
+                    style={{
+                        textAlign: 'left',
+                        marginLeft: '-8px'
+                    }}
+                >
+                    {cellValues.row?.customerPersonDisplay || cellValues.row?.customerName}
+                </div >
+            );
+        }
+    },
+    {
+        filterable: false,
+        field: 'totalValue',
+        headerName: 'Valor total',
+        flex: 1,
+        minWidth: 200,
+        renderCell: (cellValues: GridRenderCellParams) => renderCurrencyValue(cellValues.value as any)
+    },
+    {
+        filterable: false,
+        field: 'statusDisplay',
+        headerName: 'Status',
+        flex: 1,
+        minWidth: 200,
+        renderCell: (cellValues: GridRenderCellParams) => renderStatusOrder(cellValues.value as any)
     },
     {
         filterable: false,
@@ -71,31 +80,6 @@ export const customerColumns: GridColDef[] = [
                 }}
             >
                 {cellValues.row?.createdBy}
-            </div>
-        )
-    },
-    {
-        filterable: false,
-        field: "updatedAt",
-        headerName: "Atualizado em",
-        flex: 1,
-        minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => renderDate(cellValues.row?.updatedAt) ?? "N/a"
-    },
-    {
-        filterable: false,
-        field: 'updatedBy',
-        headerName: 'Atualizado por',
-        flex: 1,
-        minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => (
-            <div
-                style={{
-                    textAlign: 'left',
-                    marginLeft: '-8px'
-                }}
-            >
-                {cellValues.row?.updatedBy ?? "N/a"}
             </div>
         )
     }

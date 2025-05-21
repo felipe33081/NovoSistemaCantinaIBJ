@@ -23,7 +23,7 @@ export const getOrderList = async (filters: IGetOrderListAsync) => {
     }
 
     try {
-        const result = await axios.get<IListDataPagination<IOrderReadModel>>(url, config);
+        const result = await axios.get(url, config);
         return result.data;
     }
     catch (err: any) {

@@ -3,23 +3,23 @@ import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Copyright from '../../../internals/components/Copyright';
-import { getUserList } from '../../../Services/User/user';
-import { userColumns } from './UserList';
 import { DataTable } from '../../../components/DataTable';
-import { IGetUserListFilter } from '../../../utils/interfaces/interfaces';
-import { GridFilterModel } from '@mui/x-data-grid';
+import { GridFilterModel, GridSortModel } from '@mui/x-data-grid';
+import { IGetOrderListAsync } from '../../../utils/interfaces/interfaces';
+import { getOrderList } from '../../../Services/Order/order';
+import { orderColumns } from './OrderList';
 
-export default function UserGrid() {
+export default function OrderGrid () {
     const [loading, setLoading] = useState(false);
     const [rows, setRows] = useState([]);
     const [totalRows, setTotalRows] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const paginationState = useRef<{ [key: number]: string | null }>({ 0: null });
     const [filterModel, setFilterModel] = useState<GridFilterModel>({ items: [] });
     const isLoading = useRef(false);
+    const [sortModel, setSortModel] = useState<GridSortModel>([]);
 
-    const fetchUsers = async (page: number, size: number, filters: GridFilterModel) => {
+    const fetchOrders = async (page: number, size: number, filters: GridFilterModel, sort: GridSortModel) => {
         if (isLoading.current) return;
 
         setLoading(true);
@@ -29,27 +29,30 @@ export default function UserGrid() {
             const quickFilterValue = filters.quickFilterValues?.[0] ?? "";
 
             const mappedFilters = filters.items.reduce((acc, filter) => {
-                if (filter.field === "name") acc.name = filter.value;
-                if (filter.field === "email") acc.email = filter.value;
+                if (filter.field === "id") acc.id = filter.value;
+                if (filter.field === "status") acc.status = filter.value;
                 return acc;
-            }, {} as IGetUserListFilter);
+            }, {} as IGetOrderListAsync);
 
-            const params: IGetUserListFilter = {
+            const orderBy = sort[0]?.field || "CreatedAt";
+            const orderByDirection = sort[0]?.sort?.toUpperCase() || "DESC";
+
+            const params: IGetOrderListAsync = {
                 page,
                 size,
-                paginationToken: paginationState.current[page],
-                name: mappedFilters.name ?? quickFilterValue,
-                email: mappedFilters.email ?? ""
+                id: mappedFilters.id,
+                status: mappedFilters.status,
+                searchString: quickFilterValue,
+                orderBy: `${orderBy}_${orderByDirection}`
             };
-            const response = await getUserList(params);
+
+            const response = await getOrderList(params);
             setRows(response.data || []);
             setTotalRows(response.totalItems || 0);
 
-            paginationState.current[page + 1] = response.paginationToken || null;
-
             setCurrentPage(page);
         } catch (error) {
-            console.error('Erro ao buscar lista de usuários:', error);
+            console.error('Erro ao buscar lista de clientes:', error);
         } finally {
             setLoading(false);
             isLoading.current = false;
@@ -57,23 +60,28 @@ export default function UserGrid() {
     };
 
     useEffect(() => {
-        fetchUsers(currentPage, rowsPerPage, filterModel);
-    }, [currentPage, rowsPerPage, filterModel]);
+        fetchOrders(currentPage, rowsPerPage, filterModel, sortModel);
+    }, [currentPage, rowsPerPage, filterModel, sortModel]);
 
     const handleFilterChange = (newFilterModel: GridFilterModel) => {
         setFilterModel(newFilterModel);
         setCurrentPage(0);
     };
 
+    const handleSortChange = (newSortModel: GridSortModel) => {
+        setSortModel(newSortModel);
+        setCurrentPage(0);
+    };
+
     return (
         <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1700px' } }}>
             <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-                Usuários
+                Pedidos
             </Typography>
             <Grid>
                 <DataTable
                     rows={rows}
-                    columns={userColumns}
+                    columns={orderColumns}
                     totalRows={totalRows}
                     currentPage={currentPage}
                     rowsPerPage={rowsPerPage}
@@ -81,6 +89,7 @@ export default function UserGrid() {
                     setCurrentPage={setCurrentPage}
                     setRowsPerPage={setRowsPerPage}
                     onFilterChange={handleFilterChange}
+                    onSortChange={handleSortChange}
                 />
             </Grid>
             <Copyright sx={{ my: 4 }} />

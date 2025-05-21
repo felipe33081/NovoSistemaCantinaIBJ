@@ -1,12 +1,11 @@
 import React from 'react';
-import { Outlet, useLocation  } from 'react-router-dom';
+import { Outlet  } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Stack from '@mui/material/Stack';
 import SideMenu from '../components/SideMenu';
 import AppNavbar from '../components/AppNavbar';
 import AppTheme from '../theme/AppTheme';
-import NavbarBreadcrumbs from '../components/NavbarBreadcrumbs';
 
 export default function ProtectedLayout() {
 

@@ -1,37 +1,41 @@
 import { Chip } from "@mui/material";
-import Helper from "../helpers/format.helpers";
 import React from "react";
 
-const makeStyle = (balance: number) => {
-    if (balance === 0) {
+const makeStyle = (statusDisplay: string) => {
+    if (statusDisplay === "Finalizado") {
         return {
-            backgroundColor: "#e0e1dd",
-            textColor: "#778da9",
+            backgroundColor: "#f6fef6",
+            textColor: "green",
         };
-    } else if (balance < 0) {
+    } else if (statusDisplay === "Excluído") {
         return {
             backgroundColor: "#fff0f0",
             textColor: "red",
         };
-    } else {
+    } else if (statusDisplay === "Em andamento") {
         return {
-            backgroundColor: "#f6fef6",
-            textColor: "green"
+            backgroundColor: "#59bfff",
+            textColor: "white",
         };
+    }
+    else {
+        return {
+            backgroundColor: "black",
+            textColor: "gray",
+          };
     }
 };
 
-export const renderBalance = (balance: number) => {
-    const styles = makeStyle(balance);
+export const renderStatusOrder = (status: string) => {
+    const styles = makeStyle(status);
 
     return (
         <Chip
-            label={Helper.formatCurrencyAsIs(balance)}
+            label={status}
             sx={{
                 backgroundColor: styles.backgroundColor,
                 color: styles.textColor,
                 fontWeight: "bold",
-                border: `1px solid ${styles.textColor}`,
                 "& .MuiChip-label": {
                     color: styles.textColor,
                 },

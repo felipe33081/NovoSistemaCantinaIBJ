@@ -1,81 +1,32 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Divider from '@mui/material/Divider';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import MuiCard from '@mui/material/Card';
-import { styled } from '@mui/material/styles';
 import ForgotPassword from './ForgotPassword';
 import { CustomIBJIcon } from '../../internals/components/CustomIcons';
 import AppTheme from '../../theme/AppTheme';
 import ColorModeSelect from '../../theme/ColorModeSelect';
-import createThemeWithVars from '@mui/material/styles/createThemeWithVars';
 import { useNavigate } from 'react-router-dom';
 import { signIn, signOut } from 'aws-amplify/auth';
 import { FormEvent } from "react";
 import { useAuth } from '../../contexts/AuthContext';
-
-const theme = createThemeWithVars();
-
-const Card = styled(MuiCard)(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignSelf: 'center',
-  width: '100%',
-  padding: theme.spacing(4),
-  gap: theme.spacing(2),
-  margin: 'auto',
-  [theme.breakpoints.up('sm')]: {
-    maxWidth: '450px',
-  },
-  boxShadow:
-    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
-  ...theme.applyStyles('dark', {
-    boxShadow:
-      'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
-  }),
-}));
-
-const SignInContainer = styled(Stack)(({ theme }) => ({
-  padding: 20,
-  marginTop: '10vh',
-  '&::before': {
-    content: '""',
-    display: 'block',
-    position: 'absolute',
-    zIndex: -1,
-    inset: 0,
-    backgroundImage:
-      'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
-    backgroundRepeat: 'no-repeat',
-    ...theme.applyStyles('dark', {
-      backgroundImage:
-        'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
-    }),
-  },
-}));
+import { SignInContainer, Card } from './SignInConteiner';
+import SignInFormFields from './SignInFormFields';
 
 export default function SignIn(props: { disableCustomTheme?: boolean }) {
-  const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-  const [open, setOpen] = React.useState(false);
-  const [openModalNewPassword, setOpenModalNewPassword] = React.useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+  const [open, setOpen] = useState(false);
+  const [openModalNewPassword, setOpenModalNewPassword] = useState(false);
   const navigate = useNavigate();
   const { setIsAuthenticated } = useAuth();
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  
+
   const handleClickOpenNewPassword = () => setOpenModalNewPassword(true);
   const handleCloseNewPassword = () => setOpenModalNewPassword(false);
 
@@ -93,13 +44,13 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
         username: username,
         password: password,
       })
-
-      if (user.nextStep.signInStep !== "DONE" && user.isSignedIn != true){
+      //ajustar isso pra verificar se o signInStep é igual ao tipo diretamente que é FORCECHANGEPASSOWORD, algo assim, verificar na documentação do cognito aws
+      if (user.nextStep.signInStep !== "DONE" && user.isSignedIn != true) {
         setIsAuthenticated(false);
         handleClickOpenNewPassword();
         navigate('/changepassword');
       }
-      else{
+      else {
         console.log('Login realizado com sucesso');
 
         setIsAuthenticated(true);
@@ -172,53 +123,13 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               gap: 2,
             }}
           >
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <TextField
-                error={emailError}
-                helperText={emailErrorMessage}
-                id="email"
-                type="email"
-                name="email"
-                placeholder="seu-email@email.com"
-                autoComplete="email"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                color={emailError ? 'error' : 'primary'}
-                sx={{ ariaLabel: 'email' }}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="password">Senha</FormLabel>
-              <TextField
-                error={passwordError}
-                helperText={passwordErrorMessage}
-                name="password"
-                placeholder="••••••"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                color={passwordError ? 'error' : 'primary'}
-              />
-            </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Lembrar-me"
+            <SignInFormFields
+              emailError={emailError}
+              emailErrorMessage={emailErrorMessage}
+              passwordError={passwordError}
+              passwordErrorMessage={passwordErrorMessage}
+              validateInputs={validateInputs}
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              onClick={validateInputs}
-            >
-              Entrar
-            </Button>
           </Box>
           {/* <ForceNewPassword open={openModalNewPassword} handleClose={handleCloseNewPassword} /> */}
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>

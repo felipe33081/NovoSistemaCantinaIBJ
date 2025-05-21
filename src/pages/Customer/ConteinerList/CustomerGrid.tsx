@@ -14,7 +14,7 @@ export default function CustomerGrid() {
     const [rows, setRows] = useState([]);
     const [totalRows, setTotalRows] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(20);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const [filterModel, setFilterModel] = useState<GridFilterModel>({ items: [] });
     const isLoading = useRef(false);
     const [sortModel, setSortModel] = useState<GridSortModel>([]);

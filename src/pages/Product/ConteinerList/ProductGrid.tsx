@@ -14,7 +14,7 @@ export default function ProductGrid() {
     const [rows, setRows] = useState([]);
     const [totalRows, setTotalRows] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(20);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const [filterModel, setFilterModel] = useState<GridFilterModel>({ items: [] });
     const [sortModel, setSortModel] = useState<GridSortModel>([]);
     const isLoading = useRef(false);

@@ -8,6 +8,7 @@ import ChartUserByCountry from './ChartUserByCountry';
 import PageViewsBarChart from './PageViewsBarChart';
 import SessionsChart from './SessionsChart';
 import StatCard, { StatCardProps } from './StatCard';
+import OrderGrid from '../pages/Order/ConteinerList/OrderGrid';
 
 const data: StatCardProps[] = [
   {
@@ -72,7 +73,7 @@ export default function MainGrid() {
       </Typography>
       <Grid container spacing={2} columns={12}>
         <Grid size={{ md: 12, lg: 9 }}>
-          {/* <CustomizedDataGrid /> */}
+          <OrderGrid />
         </Grid>
         <Grid size={{ xs: 12, lg: 3 }}>
           <Stack gap={2} direction={{ xs: 'column', sm: 'row', lg: 'column' }}>
