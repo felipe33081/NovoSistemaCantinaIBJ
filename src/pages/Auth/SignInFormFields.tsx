@@ -1,5 +1,6 @@
 import { FormControl, FormControlLabel, FormLabel, Checkbox, TextField, Button } from '@mui/material';
 import React from 'react';
+import FormTextField from '../../components/FormTextField';
 
 interface SignInFormFieldsProps {
   emailError: boolean;
@@ -18,47 +19,31 @@ export default function SignInFormFields({
 }: SignInFormFieldsProps) {
   return (
     <>
-      <FormControl>
-        <FormLabel htmlFor="email">Email</FormLabel>
-        <TextField
-          error={emailError}
-          helperText={emailErrorMessage}
-          id="email"
-          type="email"
-          name="email"
-          placeholder="seu-email@email.com"
-          autoComplete="email"
-          autoFocus
-          required
-          fullWidth
-          variant="outlined"
-          color={emailError ? 'error' : 'primary'}
-          sx={{ ariaLabel: 'email' }}
-        />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel htmlFor="password">Senha</FormLabel>
-        <TextField
-          error={passwordError}
-          helperText={passwordErrorMessage}
-          name="password"
-          placeholder="••••••"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          required
-          fullWidth
-          variant="outlined"
-          color={passwordError ? 'error' : 'primary'}
-        />
-      </FormControl>
-
+      <FormTextField
+        id="email"
+        name="email"
+        label="Email"
+        type="email"
+        placeholder="seu-email@email.com"
+        autoComplete="email"
+        autoFocus
+        error={emailError}
+        helperText={emailErrorMessage}
+      />
+      <FormTextField
+        id="password"
+        name="password"
+        label="Senha"
+        type="password"
+        placeholder="••••••"
+        autoComplete="current-password"
+        error={passwordError}
+        helperText={passwordErrorMessage}
+      />
       <FormControlLabel
         control={<Checkbox value="remember" color="primary" />}
         label="Lembrar-me"
       />
-
       <Button
         type="submit"
         fullWidth

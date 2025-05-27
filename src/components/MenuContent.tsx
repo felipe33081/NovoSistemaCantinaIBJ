@@ -6,9 +6,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
-import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
 import ListAltRoundedIcon from '@mui/icons-material/ListAltRounded';
 import GroupRoundedIcon from '@mui/icons-material/GroupRounded';
 import Inventory2RoundedIcon from '@mui/icons-material/Inventory2Rounded';
@@ -22,12 +19,6 @@ const mainListItems = [
   { text: 'Clientes', route: '/cliente', page: 2, icon: <GroupRoundedIcon /> },
   { text: 'Produtos', route: '/produto', page: 3, icon: <Inventory2RoundedIcon /> },
   { text: 'Usuários', route: '/usuario', page: 4, icon: <PortraitRoundedIcon /> },
-];
-
-const secondaryListItems = [
-  { text: 'Configurações', route: '/configuracao', page: 5, icon: <SettingsRoundedIcon /> },
-  { text: 'Sobre', route: '/sobre', page: 6, icon: <InfoRoundedIcon /> },
-  { text: 'Feedback', route: '/feeback', page: 7, icon: <HelpRoundedIcon /> },
 ];
 
 export default function MenuContent() {
@@ -59,17 +50,6 @@ export default function MenuContent() {
           </ListItem>
         ))}
       </List>
-
-      {/* <List dense>
-        {secondaryListItems.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton onClick={() => navigate(item.route)}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List> */}
     </Stack>
   );
 }

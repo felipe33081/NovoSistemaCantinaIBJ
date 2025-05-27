@@ -6,7 +6,7 @@ import OrderGrid from "./OrderGrid";
 
 const theme = createThemeWithVars();
 
-export default function OrderConteiner () {
+export default function OrderConteiner() {
     return (
         <Box sx={{ display: 'flex' }}>
             <Box

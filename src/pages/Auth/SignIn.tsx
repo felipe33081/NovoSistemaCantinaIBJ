@@ -112,6 +112,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
           >
             Entrar
           </Typography>
+
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -131,7 +132,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               validateInputs={validateInputs}
             />
           </Box>
-          {/* <ForceNewPassword open={openModalNewPassword} handleClose={handleCloseNewPassword} /> */}
+
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <ForgotPassword open={open} handleClose={handleClose} />
             <Link
