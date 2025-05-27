@@ -1,6 +1,7 @@
 import { FormControl, FormControlLabel, FormLabel, Checkbox, TextField, Button } from '@mui/material';
 import React from 'react';
 import FormTextField from '../../components/FormTextField';
+import PasswordInput from '../../components/PasswordField';
 
 interface SignInFormFieldsProps {
   emailError: boolean;
@@ -25,20 +26,16 @@ export default function SignInFormFields({
         label="Email"
         type="email"
         placeholder="seu-email@email.com"
-        autoComplete="email"
-        autoFocus
         error={emailError}
         helperText={emailErrorMessage}
       />
-      <FormTextField
+      <PasswordInput
         id="password"
         name="password"
         label="Senha"
-        type="password"
-        placeholder="••••••"
-        autoComplete="current-password"
-        error={passwordError}
-        helperText={passwordErrorMessage}
+        //value={password}
+        //onChange={(e) => setPassword(e.target.value)}
+        required
       />
       <FormControlLabel
         control={<Checkbox value="remember" color="primary" />}

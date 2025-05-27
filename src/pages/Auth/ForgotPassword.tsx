@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import OutlinedInput from '@mui/material/OutlinedInput';
+import FormTextField from '../../components/FormTextField';
 
 interface ForgotPasswordProps {
   open: boolean;
@@ -33,16 +34,11 @@ export default function ForgotPassword({ open, handleClose }: ForgotPasswordProp
         <DialogContentText>
           Insira o endereço de e-mail da sua conta e lhe enviaremos um link para redefinir sua senha.
         </DialogContentText>
-        <OutlinedInput
-          autoFocus
-          required
-          margin="dense"
+        <FormTextField
           id="email"
           name="email"
-          label="Email address"
-          placeholder="E-mail"
-          type="email"
-          fullWidth
+          label="E-mail"
+          type="name"
         />
       </DialogContent>
       <DialogActions sx={{ pb: 3, px: 3 }}>

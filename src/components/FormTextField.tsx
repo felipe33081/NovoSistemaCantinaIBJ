@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import {
-    FormControl,
-    FormLabel,
     TextField,
     TextFieldProps
 } from '@mui/material';
 
 interface FormTextFieldProps extends Omit<TextFieldProps, 'label'> {
     label: string;
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function FormTextField({
@@ -21,24 +20,22 @@ export default function FormTextField({
     variant = 'outlined',
     color,
     sx,
+    onChange,
     ...rest
 }: FormTextFieldProps) {
     return (
-        <FormControl fullWidth={fullWidth}>
-            <FormLabel htmlFor={id}>{label}</FormLabel>
-            <TextField
-                id={id}
-                name={name}
-                required={required}
-                error={error}
-                helperText={helperText}
-                variant={variant}
-                color={error ? 'error' : color ?? 'primary'}
-                aria-label={id}
-                sx={sx}
-                fullWidth={fullWidth}
-                {...rest}
-            />
-        </FormControl>
+        <TextField
+            id={id}
+            name={name}
+            label={label}
+            error={error}
+            helperText={helperText}
+            required={required}
+            fullWidth={fullWidth}
+            variant={variant}
+            color={error ? 'error' : color}
+            onChange={onChange}
+            {...rest}
+        />
     );
 }

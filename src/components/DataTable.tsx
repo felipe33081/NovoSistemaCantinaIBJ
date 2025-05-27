@@ -48,7 +48,7 @@ export const DataTable = ({
       getRowId={(row) => row.id}
       disableColumnResize
       density="compact"
-      checkboxSelection
+      //checkboxSelection
       disableRowSelectionOnClick
       slots={{ noRowsOverlay: CustomNoRowsOverlay, toolbar: CustomToolbar }}
       slotProps={{

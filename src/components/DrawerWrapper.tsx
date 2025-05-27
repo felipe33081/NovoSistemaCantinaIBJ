@@ -8,6 +8,7 @@ interface DrawerWrapperProps {
     title?: string;
     children: React.ReactNode;
     width?: number | string;
+    actions?: React.ReactNode;
 }
 
 export default function DrawerWrapper({
@@ -15,7 +16,8 @@ export default function DrawerWrapper({
     onClose,
     title,
     children,
-    width = 400,
+    width = 490,
+    actions
 }: DrawerWrapperProps) {
     return (
         <Drawer
@@ -51,10 +53,19 @@ export default function DrawerWrapper({
                     </IconButton>
                 </Box>
 
-                <Divider />
-
-                <Box sx={{ mt: 2, flexGrow: 1, overflowY: 'auto' }}>
+                <Box
+                    sx={{
+                        mt: 1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 2,
+                    }}
+                >
                     {children}
+                    {actions &&
+                        <Box>
+                            {actions}
+                        </Box>}
                 </Box>
             </Box>
         </Drawer>

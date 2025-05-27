@@ -37,7 +37,6 @@ export default function Header() {
     >
       <NavbarBreadcrumbs page={page} subPage={subPage} />
       <Stack direction="row" sx={{ gap: 1 }}>
-        <Search />
         <CustomDatePicker />
         <MenuButton showBadge aria-label="Open notifications">
           <NotificationsRoundedIcon />
