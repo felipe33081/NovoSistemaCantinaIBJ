@@ -34,7 +34,7 @@ export default function UserCreateDrawer({
         <DrawerWrapper
             open={open}
             onClose={onClose}
-            title="Adicionar novo usuário"
+            title="Novo usuário"
             actions={
                 <Box display="flex" justifyContent="flex-end" gap={2}>
                     <Button onClick={onClose}>Cancelar</Button>

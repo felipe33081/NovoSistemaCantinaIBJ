@@ -16,7 +16,7 @@ export default function DrawerWrapper({
     onClose,
     title,
     children,
-    width = 490,
+    width = 400,
     actions
 }: DrawerWrapperProps) {
     return (
@@ -27,13 +27,18 @@ export default function DrawerWrapper({
         >
             <Box
                 sx={{
-                    width: typeof width === 'number' ? `${width}px` : width,
-                    p: 2,
+                    width: {
+                        xs: '100vw',     // telas pequenas (mobile): largura total
+                        sm: '80vw',      // telas pequenas/médias: 80%
+                        md: 500,         // telas médias pra cima: fixo 500px
+                        lg: 600          // telas grandes: fixo 600px
+                    },
+                    maxWidth: '100vw',
                     display: 'flex',
                     flexDirection: 'column',
-                    height: '100%',
+                    height: '100vh',
+                    p: 3
                 }}
-                role="presentation"
             >
                 <Box
                     sx={{
@@ -53,9 +58,11 @@ export default function DrawerWrapper({
                     </IconButton>
                 </Box>
 
+                <Divider/>
+
                 <Box
                     sx={{
-                        mt: 1,
+                        mt: 2,
                         display: 'flex',
                         flexDirection: 'column',
                         gap: 2,

@@ -96,14 +96,14 @@ export default function UserGrid() {
                     <Button
                     onClick={handleRefresh}
                     >
-                        Atualizar Lista
+                        Atualizar
                     </Button>
 
                     <Button
                         variant="contained"
                         onClick={() => setOpenCreateDrawer(true)}
                     >
-                        Adicionar novo Usuário
+                        Adicionar usuário
                     </Button>
                 </Box>
             </Box>
