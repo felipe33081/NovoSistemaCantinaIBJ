@@ -7,7 +7,10 @@ import { Box, Button, IconButton } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from "@mui/icons-material/Edit";
 
-export const getUserColumns = (handleDelete: (id: string) => void): GridColDef[] => {
+export const getUserColumns = (
+    handleDelete: (id: string) => void,
+    handleEdit: (id: string) => void
+): GridColDef[] => {
     const navigate = useNavigate();
 
     return [
@@ -86,7 +89,7 @@ export const getUserColumns = (handleDelete: (id: string) => void): GridColDef[]
                 <Box display="flex">
                     <Button
                         color="primary"
-                        onClick={() => navigate(`/usuario/editar/${params.row.id}`)}
+                        onClick={() => handleEdit(params.row.id)}
                     >
                         <EditIcon />
                     </Button>

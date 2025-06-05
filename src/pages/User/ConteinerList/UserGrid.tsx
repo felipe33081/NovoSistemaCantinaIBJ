@@ -5,11 +5,12 @@ import Typography from '@mui/material/Typography';
 import Copyright from '../../../internals/components/Copyright';
 import { deleteUserById, getUserList } from '../../../Services/User/user';
 import { DataTable } from '../../../components/DataTable';
-import { IGetUserListFilter } from '../../../utils/interfaces/interfaces';
+import { IGetUserListFilter, IUserGetResponseModel } from '../../../utils/interfaces/interfaces';
 import { GridFilterModel } from '@mui/x-data-grid';
 import UserCreateDrawer from '../CreateEdit/UserCreateDrawer';
 import { Button, Divider } from '@mui/material';
 import { getUserColumns } from './UserList';
+import UserEditDrawer from '../CreateEdit/UserEditDrawer';
 
 export default function UserGrid() {
     const [loading, setLoading] = useState(false);
@@ -21,6 +22,8 @@ export default function UserGrid() {
     const [filterModel, setFilterModel] = useState<GridFilterModel>({ items: [] });
     const isLoading = useRef(false);
     const [openCreateDrawer, setOpenCreateDrawer] = useState(false);
+    const [editUserId, setEditUserId] = useState<string | null>(null);
+    const [openEditDrawer, setOpenEditDrawer] = useState(false);
 
     const fetchUsers = async (page: number, size: number, filters: GridFilterModel) => {
         if (isLoading.current) return;
@@ -73,6 +76,11 @@ export default function UserGrid() {
         fetchUsers(currentPage, rowsPerPage, filterModel);
     };
 
+    const handleEdit = (id: string) => {
+        setEditUserId(id);
+        setOpenEditDrawer(true);
+    };
+
     const handleRefresh = () => {
         fetchUsers(currentPage, rowsPerPage, filterModel);
     };
@@ -94,7 +102,7 @@ export default function UserGrid() {
 
                 <Box sx={{ display: 'flex', gap: 2 }}>
                     <Button
-                    onClick={handleRefresh}
+                        onClick={handleRefresh}
                     >
                         Atualizar
                     </Button>
@@ -114,11 +122,22 @@ export default function UserGrid() {
                 onSuccess={handleRefresh}
             />
 
+            <UserEditDrawer
+                open={openEditDrawer}
+                onClose={() => setOpenEditDrawer(false)}
+                onSuccess={() => {
+                    handleRefresh();
+                    setOpenEditDrawer(false);
+                    setEditUserId(null);
+                }}
+                id={editUserId}
+            />
+
             <Grid>
                 <DataTable
                     rows={rows}
                     columns={
-                        getUserColumns(handleDelete)
+                        getUserColumns(handleDelete, handleEdit)
                     }
                     totalRows={totalRows}
                     currentPage={currentPage}
