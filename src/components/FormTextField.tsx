@@ -1,13 +1,8 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import {
-    TextField,
-    TextFieldProps
+    TextField
 } from '@mui/material';
-
-interface FormTextFieldProps extends Omit<TextFieldProps, 'label'> {
-    label: string;
-    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-}
+import { FormTextFieldProps } from '../utils/interfaces/interfaces';
 
 export default function FormTextField({
     label,

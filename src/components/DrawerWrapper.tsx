@@ -1,22 +1,13 @@
 import React from 'react';
 import { Drawer, Box, Typography, IconButton, Divider } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-
-interface DrawerWrapperProps {
-    open: boolean;
-    onClose: () => void;
-    title?: string;
-    children: React.ReactNode;
-    width?: number | string;
-    actions?: React.ReactNode;
-}
+import { DrawerWrapperProps } from '../utils/interfaces/interfaces';
 
 export default function DrawerWrapper({
     open,
     onClose,
     title,
     children,
-    width = 400,
     actions
 }: DrawerWrapperProps) {
     return (

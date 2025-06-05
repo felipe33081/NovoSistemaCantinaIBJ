@@ -2,14 +2,7 @@ import { FormControl, FormControlLabel, FormLabel, Checkbox, TextField, Button }
 import React from 'react';
 import FormTextField from '../../components/FormTextField';
 import PasswordInput from '../../components/PasswordField';
-
-interface SignInFormFieldsProps {
-  emailError: boolean;
-  emailErrorMessage: string;
-  passwordError: boolean;
-  passwordErrorMessage: string;
-  validateInputs: () => boolean;
-}
+import { SignInFormFieldsProps } from '../../utils/interfaces/interfaces';
 
 export default function SignInFormFields({
   emailError,

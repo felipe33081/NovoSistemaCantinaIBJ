@@ -1,4 +1,6 @@
+import { TextFieldProps } from "@mui/material";
 import { OrderStatusEnum, PaymentOfTypeEnum } from "../enums/enums";
+import { ChangeEvent } from "react";
 
 export interface IUserListType {
     queryData: any
@@ -71,7 +73,7 @@ export interface IFinalizeOrderRequestModel {
 export interface IGetOrderListAsync {
     page: number
     size: number
-    searchString?: string  | null
+    searchString?: string | null
     id?: number | null
     isDeleted?: boolean | null
     orderBy?: string | null
@@ -199,4 +201,45 @@ export interface IUserGetResponseModel {
     email: string
     userStatus: string
     emailVerified: boolean
+}
+
+export interface CustomTabsProps {
+    value: number;
+    onChange: (event: React.SyntheticEvent, newValue: number) => void;
+    labels: string[];
+}
+
+export interface UserCreateDrawerProps {
+    open: boolean;
+    onClose: () => void;
+    onSuccess: () => void;
+}
+
+export interface DrawerWrapperProps {
+    open: boolean;
+    onClose: () => void;
+    title?: string;
+    children: React.ReactNode;
+    width?: number | string;
+    actions?: React.ReactNode;
+}
+
+export interface FormTextFieldProps extends Omit<TextFieldProps, 'label'> {
+    label: string;
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface SignInFormFieldsProps {
+    emailError: boolean;
+    emailErrorMessage: string;
+    passwordError: boolean;
+    passwordErrorMessage: string;
+    validateInputs: () => boolean;
+}
+
+export interface UserEditDrawerProps {
+    id: string | null;
+    open: boolean;
+    onClose: () => void;
+    onSuccess: () => void;
 }

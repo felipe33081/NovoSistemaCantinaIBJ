@@ -60,7 +60,6 @@ export default function App() {
                             </PrivateRoute>
                         }
                     />
-
                     <Route path="/" element={<Navigate to="/signIn" />} />
                 </Routes>
             </Router>

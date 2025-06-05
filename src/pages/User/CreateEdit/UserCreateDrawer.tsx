@@ -5,12 +5,7 @@ import FormTextField from '../../../components/FormTextField';
 import { PhoneMaskInput } from '../../../components/PhoneMaskField';
 import PasswordInput from '../../../components/PasswordField';
 import { postUserCreate } from '../../../Services/User/user';
-
-interface UserCreateDrawerProps {
-    open: boolean;
-    onClose: () => void;
-    onSuccess: () => void;
-}
+import { UserCreateDrawerProps } from '../../../utils/interfaces/interfaces';
 
 export default function UserCreateDrawer({
     open,
@@ -38,12 +33,12 @@ export default function UserCreateDrawer({
             actions={
                 <Box display="flex" justifyContent="flex-end" gap={2}>
                     <Button onClick={onClose}>Cancelar</Button>
-                    <Button variant="contained" onClick={handleSubmit}>Salvar</Button>
+                    <Button variant="contained" onClick={handleSubmit}>Criar</Button>
                 </Box>
             }
         >
             {/* não tá dando erro ao tentar salvar o form sem preencher os campos obrigatorios */}
-            <Box component="form" display="flex" flexDirection="column" gap={2}>
+            <Box component="form" display="flex" flexDirection="column" mt={2} gap={3}>
                 <FormTextField
                     id="name"
                     name="name"
@@ -61,7 +56,7 @@ export default function UserCreateDrawer({
                     onChange={(e) => setEmail(e.target.value)}
                     autoComplete="email"
                 />
-                <Box component="form" display="flex" gap={2}>
+                <Box component="form" display="flex" gap={3}>
                     <PhoneMaskInput
                         id="phoneNumber"
                         label="Telefone"

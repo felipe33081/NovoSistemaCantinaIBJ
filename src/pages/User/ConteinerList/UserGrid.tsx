@@ -5,12 +5,14 @@ import Typography from '@mui/material/Typography';
 import Copyright from '../../../internals/components/Copyright';
 import { deleteUserById, getUserList } from '../../../Services/User/user';
 import { DataTable } from '../../../components/DataTable';
-import { IGetUserListFilter, IUserGetResponseModel } from '../../../utils/interfaces/interfaces';
+import { IGetUserListFilter } from '../../../utils/interfaces/interfaces';
 import { GridFilterModel } from '@mui/x-data-grid';
 import UserCreateDrawer from '../CreateEdit/UserCreateDrawer';
-import { Button, Divider } from '@mui/material';
+import { Button } from '@mui/material';
 import { getUserColumns } from './UserList';
 import UserEditDrawer from '../CreateEdit/UserEditDrawer';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import AddIcon from '@mui/icons-material/Add';
 
 export default function UserGrid() {
     const [loading, setLoading] = useState(false);
@@ -104,6 +106,7 @@ export default function UserGrid() {
                     <Button
                         onClick={handleRefresh}
                     >
+                        <RefreshIcon/>
                         Atualizar
                     </Button>
 
@@ -111,7 +114,8 @@ export default function UserGrid() {
                         variant="contained"
                         onClick={() => setOpenCreateDrawer(true)}
                     >
-                        Adicionar usuário
+                        <AddIcon/>
+                        Novo
                     </Button>
                 </Box>
             </Box>
@@ -124,7 +128,9 @@ export default function UserGrid() {
 
             <UserEditDrawer
                 open={openEditDrawer}
-                onClose={() => setOpenEditDrawer(false)}
+                onClose={() => {
+                    setOpenEditDrawer(false);
+                }}
                 onSuccess={() => {
                     handleRefresh();
                     setOpenEditDrawer(false);
