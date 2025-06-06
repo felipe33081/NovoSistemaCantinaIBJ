@@ -1,6 +1,7 @@
 import { TextFieldProps } from "@mui/material";
 import { OrderStatusEnum, PaymentOfTypeEnum } from "../enums/enums";
 import { ChangeEvent } from "react";
+import { GridColDef, GridFilterModel, GridSortModel } from "@mui/x-data-grid";
 
 export interface IUserListType {
     queryData: any
@@ -238,8 +239,67 @@ export interface SignInFormFieldsProps {
 }
 
 export interface UserEditDrawerProps {
-    id: string | null;
+    id: string;
     open: boolean;
     onClose: () => void;
     onSuccess: () => void;
+}
+
+export interface UserFormTabsProps {
+    tabIndex: number;
+    handleChangeTab: (event: React.SyntheticEvent, newValue: number) => void;
+    name: string;
+    setName: (val: string) => void;
+    email: string;
+    setEmail: (val: string) => void;
+    phoneNumber: string;
+    setPhone: (val: string) => void;
+    userStatus: string;
+    setUserStatus: (val: string) => void;
+    emailVerified: boolean;
+    setEmailVerified: (val: boolean) => void;
+}
+
+export interface ICustomDataGridType {
+    rows: any[]
+    columns: GridColDef[]
+    totalRows: number
+    currentPage?: number
+    rowsPerPage?: number
+    loading: boolean
+    setCurrentPage?: (value: number) => void
+    setRowsPerPage?: (value: number) => void
+    onFilterChange?: (filterModel: GridFilterModel) => void
+    onSortChange?: (sortModel: GridSortModel) => void
+    customRowId?: string
+}
+
+export interface UserAddGroupDrawerProps {
+    id?: string;
+    open: boolean;
+    onClose: () => void;
+    onSuccess: () => void;
+}
+
+export interface UserTabsPanelProps {
+    id: string;
+    tabIndex: number;
+    setTabIndex: (value: number) => void;
+    name: string;
+    email: string;
+    phoneNumber: string;
+    userStatus: string;
+    emailVerified: boolean;
+    setName: (value: string) => void;
+    setEmail: (value: string) => void;
+    setPhone: (value: string) => void;
+    setUserStatus: (value: string) => void;
+    setEmailVerified: (value: boolean) => void;
+    handleRefresh: () => void;
+    rows: any[];
+    totalRows: number;
+    loading: boolean;
+    columns: GridColDef[];
+    openAddGroupDrawer: boolean;
+    setOpenAddGroupDrawer: (value: boolean) => void;
 }

@@ -1,9 +1,8 @@
 import React from 'react';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import Helper from '../../../helpers/format.helpers';
-import { renderUserStatus } from '../../../hooks/renderUserStatus';
-import { useNavigate } from 'react-router-dom';
-import { Box, Button, IconButton } from '@mui/material';
+import { renderUserStatus } from '../../../hooks/User/renderUserStatus';
+import { Box, Button } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -11,7 +10,6 @@ export const getUserColumns = (
     handleDelete: (id: string) => void,
     handleEdit: (id: string) => void
 ): GridColDef[] => {
-    const navigate = useNavigate();
 
     return [
         {

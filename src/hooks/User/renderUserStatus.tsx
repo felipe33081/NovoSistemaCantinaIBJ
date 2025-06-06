@@ -21,7 +21,7 @@ const makeStyle = (userStatus: string) => {
     }
   };
 
-export const renderUserStatus = (status: 'CONFIRMED' | 'FORCE_CHANGE_PASSWORD') => {
+export const renderUserStatus = (status: string) => {
     const styles = makeStyle(status);
 
     return (

@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import DrawerWrapper from '../../../components/DrawerWrapper';
-import { Box, Button, Paper } from '@mui/material';
-import FormTextField from '../../../components/FormTextField';
-import { PhoneMaskInput } from '../../../components/PhoneMaskField';
-import { getUserById } from '../../../Services/User/user';
-import { CustomTabPanel, CustomTabs } from '../../../components/CustomTabPanel';
-import { Checkbox, FormControlLabel } from "@mui/material";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import { Box, Button } from '@mui/material';
+import { getUserById, getUserGroupsList, removeUserGroupEdit } from '../../../Services/User/user';
 import { UserEditDrawerProps } from '../../../utils/interfaces/interfaces';
 import { useTabs } from '../../../hooks/useTabs';
-import { useSubmitUserForm } from '../../../hooks/useSubmitUserForm';
+import { useSubmitUserForm } from '../../../hooks/User/useSubmitUserForm';
+import { getGroupsColumns } from '../ConteinerList/GroupsList';
+import { UserTabsPanel } from '../../../components/User/UserTabsPanelProps';
 
 export default function UserEditDrawer({
     id,
@@ -18,12 +14,16 @@ export default function UserEditDrawer({
     onClose,
     onSuccess
 }: UserEditDrawerProps) {
+    const [rows, setRows] = useState([]);
+    const [totalRows, setTotalRows] = useState(0);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhone] = useState('');
     const [emailVerified, setEmailVerified] = useState(false);
     const [userStatus, setUserStatus] = useState('');
-    const { tabIndex, handleChangeTab } = useTabs();
+    const { tabIndex, handleChangeTab, setTabIndex } = useTabs();
+    const [loading, setLoading] = useState(false);
+    const [openAddGroupDrawer, setOpenAddGroupDrawer] = useState(false);
     const { handleSubmit } = useSubmitUserForm({
         id,
         name,
@@ -33,6 +33,18 @@ export default function UserEditDrawer({
         onSuccess,
         onClose,
     });
+
+    const fetchUserGroups = async () => {
+        try {
+            const response = await getUserGroupsList(id ?? '');
+            setRows(response.data);
+            setTotalRows(response.totalItems || 0);
+
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         if (!id || !open) return;
@@ -59,6 +71,38 @@ export default function UserEditDrawer({
         fetchUser();
     }, [id, open]);
 
+    useEffect(() => {
+        if (!id || !open) return;
+
+        setRows([]);
+        const fetchUserGroups = async () => {
+            try {
+                const response = await getUserGroupsList(id ?? '');
+                setRows(response.data);
+                setTotalRows(response.totalItems || 0);
+
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+            }
+        };
+
+        fetchUserGroups();
+    }, [id]);
+
+    const handleDelete = async (groupName: string) => {
+        const data = {
+            groupName,
+        };
+        await removeUserGroupEdit(id ?? '', data);
+        const response = await getUserGroupsList(id ?? '');
+        setRows(response.data);
+    };
+
+    const handleRefresh = () => {
+        fetchUserGroups();
+    };
+
     return (
         <DrawerWrapper
             open={open}
@@ -71,94 +115,28 @@ export default function UserEditDrawer({
                 </Box>
             }
         >
-            <Paper
-                elevation={0}
-                sx={{
-                    backgroundColor: "#fff",
-                    border: "1px solid #E0E0E0",
-                    borderRadius: "8px",
-                    overflow: "hidden",
-                    mt: 2,
-                }}
-            >
-                <CustomTabs
-                    value={tabIndex}
-                    onChange={handleChangeTab}
-                    labels={["Informações", "Grupos"]}
-                />
-
-                <CustomTabPanel value={tabIndex} index={0}>
-                    {/* Conteúdo da aba Informações */}
-                    <Box component="form" display="flex" flexDirection="column" gap={3}>
-                        <FormTextField
-                            id="name"
-                            name="name"
-                            label="Nome"
-                            type="name"
-                            onChange={(e) => setName(e.target.value)}
-                            value={name}
-                        />
-                        <FormTextField
-                            id="email"
-                            name="email"
-                            label="Email"
-                            type="email"
-                            required={true}
-                            placeholder="email@host.com"
-                            onChange={(e) => setEmail(e.target.value)}
-                            autoComplete="email"
-                            value={email}
-                        />
-                        <Box component="form" display="flex" gap={3}>
-                            <PhoneMaskInput
-                                id="phoneNumber"
-                                label="Telefone"
-                                fullWidth
-                                required={true}
-                                placeholder="(00) 00000-0000"
-                                onChange={(e) => setPhone(e.target.value)}
-                                sx={{ mb: 3 }}
-                                value={phoneNumber}
-                            />
-                            <FormTextField
-                                id="userStatus"
-                                name="userStatus"
-                                label="Status"
-                                required={false}
-                                disabled={true}
-                                onChange={(e) => setUserStatus(e.target.value)}
-                                value={userStatus}
-                            />
-                        </Box>
-                        <FormControlLabel
-                            sx={{
-                                mt: -4
-                            }}
-                            control={
-                                <Checkbox
-                                    checked={emailVerified}
-                                    onChange={(e) => setEmailVerified(e.target.checked)}
-                                    icon={<CheckBoxOutlineBlankIcon />}
-                                    checkedIcon={<CheckBoxIcon />}
-                                    sx={{
-                                        color: "#c2410c",
-                                        '&.Mui-checked': {
-                                            borderColor: 'white',
-                                            color: "#c2410c",
-                                            backgroundColor: 'white'
-                                        }
-                                    }}
-                                />
-                            }
-                            label="E-mail verificado"
-                        />
-                    </Box>
-                </CustomTabPanel>
-                <CustomTabPanel value={tabIndex} index={1}>
-                    {/* Conteúdo da aba Grupos */}
-                </CustomTabPanel>
-            </Paper>
-
+            <UserTabsPanel
+                id={id}
+                tabIndex={tabIndex}
+                setTabIndex={setTabIndex}
+                name={name}
+                email={email}
+                phoneNumber={phoneNumber}
+                userStatus={userStatus}
+                emailVerified={emailVerified}
+                setName={setName}
+                setEmail={setEmail}
+                setPhone={setPhone}
+                setUserStatus={setUserStatus}
+                setEmailVerified={setEmailVerified}
+                handleRefresh={handleRefresh}
+                rows={rows}
+                totalRows={totalRows}
+                loading={loading}
+                columns={getGroupsColumns(handleDelete)}
+                openAddGroupDrawer={openAddGroupDrawer}
+                setOpenAddGroupDrawer={setOpenAddGroupDrawer}
+            />
         </DrawerWrapper>
     )
 }

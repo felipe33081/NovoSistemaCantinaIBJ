@@ -136,7 +136,7 @@ export default function UserGrid() {
                     setOpenEditDrawer(false);
                     setEditUserId(null);
                 }}
-                id={editUserId}
+                id={editUserId ?? ''}
             />
 
             <Grid>

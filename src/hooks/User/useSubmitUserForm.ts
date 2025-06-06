@@ -1,8 +1,8 @@
 import { useCallback } from "react";
-import { putUserEdit } from "../Services/User/user";
+import { putUserEdit } from "../../Services/User/user";
 
 interface UseSubmitUserFormProps {
-    id: string | null;
+    id: string;
     name: string;
     email: string;
     phoneNumber: string;
