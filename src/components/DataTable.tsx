@@ -1,27 +1,15 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridFilterModel, GridSortModel } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { CustomNoRowsOverlay } from '../internals/components/CustomIcons';
 import CustomToolbar from './CustomToolBar';
-
-export interface ICustomDataGridType {
-  rows: never[]
-  columns: GridColDef[]
-  totalRows: number
-  currentPage: number
-  rowsPerPage: number
-  loading: boolean
-  setCurrentPage: (value: number) => void
-  setRowsPerPage: (value: number) => void
-  onFilterChange: (filterModel: GridFilterModel) => void;
-  onSortChange?: (sortModel: GridSortModel) => void
-}
+import { ICustomDataGridType } from '../utils/interfaces/interfaces';
 
 export const DataTable = ({
   rows,
   columns,
   totalRows,
-  currentPage,
-  rowsPerPage,
+  currentPage = 0,
+  rowsPerPage = 10,
   loading,
   setCurrentPage,
   setRowsPerPage,
@@ -41,20 +29,22 @@ export const DataTable = ({
         pageSize: rowsPerPage,
       }}
       onPaginationModelChange={(newModel) => {
-        setCurrentPage(newModel.page);
-        setRowsPerPage(newModel.pageSize);
+        setCurrentPage?.(newModel.page);
+        setRowsPerPage?.(newModel.pageSize);
       }}
       loading={loading}
       getRowId={(row) => row.id}
       disableColumnResize
       density="compact"
-      checkboxSelection
       disableRowSelectionOnClick
       slots={{ noRowsOverlay: CustomNoRowsOverlay, toolbar: CustomToolbar }}
       slotProps={{
         toolbar: {
           showQuickFilter: true,
         },
+        pagination: {
+          labelRowsPerPage: "Linhas por página:"
+        }
       }}
       filterMode="server"
       onFilterModelChange={onFilterChange}

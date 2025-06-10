@@ -1,6 +1,7 @@
 import { alpha, Theme, Components } from '@mui/material/styles';
 import { gray } from '../themePrimitives';
 import createThemeWithVars from '@mui/material/styles/createThemeWithVars';
+
 const theme = createThemeWithVars();
 
 export const surfacesCustomizations: Components<Theme> = {

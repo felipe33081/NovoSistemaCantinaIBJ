@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Copyright from '../../../internals/components/Copyright';
-import { getUserList } from '../../../Services/User/user';
-import { userColumns } from './UserList';
+import { deleteUserById, getUserList } from '../../../Services/User/user';
 import { DataTable } from '../../../components/DataTable';
 import { IGetUserListFilter } from '../../../utils/interfaces/interfaces';
 import { GridFilterModel } from '@mui/x-data-grid';
+import UserCreateDrawer from '../CreateEdit/UserCreateDrawer';
+import { getUserColumns } from './UserList';
+import UserEditDrawer from '../CreateEdit/UserEditDrawer';
+import { PageHeader } from '../../../components/PageHeaderProps';
 
 export default function UserGrid() {
     const [loading, setLoading] = useState(false);
@@ -18,6 +20,9 @@ export default function UserGrid() {
     const paginationState = useRef<{ [key: number]: string | null }>({ 0: null });
     const [filterModel, setFilterModel] = useState<GridFilterModel>({ items: [] });
     const isLoading = useRef(false);
+    const [openCreateDrawer, setOpenCreateDrawer] = useState(false);
+    const [editUserId, setEditUserId] = useState<string | null>(null);
+    const [openEditDrawer, setOpenEditDrawer] = useState(false);
 
     const fetchUsers = async (page: number, size: number, filters: GridFilterModel) => {
         if (isLoading.current) return;
@@ -65,15 +70,53 @@ export default function UserGrid() {
         setCurrentPage(0);
     };
 
+    const handleDelete = async (id: string) => {
+        await deleteUserById(id);
+        fetchUsers(currentPage, rowsPerPage, filterModel);
+    };
+
+    const handleEdit = (id: string) => {
+        setEditUserId(id);
+        setOpenEditDrawer(true);
+    };
+
+    const handleRefresh = () => {
+        fetchUsers(currentPage, rowsPerPage, filterModel);
+    };
+
     return (
         <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1700px' } }}>
-            <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-                Usuários
-            </Typography>
+            <PageHeader
+                title="Usuários"
+                onRefresh={handleRefresh}
+                onCreate={() => setOpenCreateDrawer(true)}
+            />
+
+            <UserCreateDrawer
+                open={openCreateDrawer}
+                onClose={() => setOpenCreateDrawer(false)}
+                onSuccess={handleRefresh}
+            />
+
+            <UserEditDrawer
+                open={openEditDrawer}
+                onClose={() => {
+                    setOpenEditDrawer(false);
+                }}
+                onSuccess={() => {
+                    handleRefresh();
+                    setOpenEditDrawer(false);
+                    setEditUserId(null);
+                }}
+                id={editUserId ?? ''}
+            />
+
             <Grid>
                 <DataTable
                     rows={rows}
-                    columns={userColumns}
+                    columns={
+                        getUserColumns(handleDelete, handleEdit)
+                    }
                     totalRows={totalRows}
                     currentPage={currentPage}
                     rowsPerPage={rowsPerPage}

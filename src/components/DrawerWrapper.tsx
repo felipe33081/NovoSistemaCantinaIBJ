@@ -1,21 +1,15 @@
 import React from 'react';
 import { Drawer, Box, Typography, IconButton, Divider } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-
-interface DrawerWrapperProps {
-    open: boolean;
-    onClose: () => void;
-    title?: string;
-    children: React.ReactNode;
-    width?: number | string;
-}
+import { DrawerWrapperProps } from '../utils/interfaces/interfaces';
 
 export default function DrawerWrapper({
     open,
     onClose,
     title,
     children,
-    width = 400,
+    actions,
+    isWrapperChildren = false
 }: DrawerWrapperProps) {
     return (
         <Drawer
@@ -25,13 +19,25 @@ export default function DrawerWrapper({
         >
             <Box
                 sx={{
-                    width: typeof width === 'number' ? `${width}px` : width,
-                    p: 2,
+                    width: isWrapperChildren
+                        ? {
+                            xs: '85vw',
+                            sm: '70vw',
+                            md: 400,
+                            lg: 480,
+                        }
+                        : {
+                            xs: '100vw',
+                            sm: '80vw',
+                            md: 500,
+                            lg: 600,
+                        },
+                    maxWidth: '100vw',
                     display: 'flex',
                     flexDirection: 'column',
-                    height: '100%',
+                    height: '100vh',
+                    p: 3
                 }}
-                role="presentation"
             >
                 <Box
                     sx={{
@@ -53,8 +59,19 @@ export default function DrawerWrapper({
 
                 <Divider />
 
-                <Box sx={{ mt: 2, flexGrow: 1, overflowY: 'auto' }}>
+                <Box
+                    sx={{
+                        mt: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 2,
+                    }}
+                >
                     {children}
+                    {actions &&
+                        <Box>
+                            {actions}
+                        </Box>}
                 </Box>
             </Box>
         </Drawer>

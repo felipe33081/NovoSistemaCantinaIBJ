@@ -1,14 +1,8 @@
 import React from 'react';
 import {
-    FormControl,
-    FormLabel,
-    TextField,
-    TextFieldProps
+    TextField
 } from '@mui/material';
-
-interface FormTextFieldProps extends Omit<TextFieldProps, 'label'> {
-    label: string;
-}
+import { FormTextFieldProps } from '../utils/interfaces/interfaces';
 
 export default function FormTextField({
     label,
@@ -21,24 +15,22 @@ export default function FormTextField({
     variant = 'outlined',
     color,
     sx,
+    onChange,
     ...rest
 }: FormTextFieldProps) {
     return (
-        <FormControl fullWidth={fullWidth}>
-            <FormLabel htmlFor={id}>{label}</FormLabel>
-            <TextField
-                id={id}
-                name={name}
-                required={required}
-                error={error}
-                helperText={helperText}
-                variant={variant}
-                color={error ? 'error' : color ?? 'primary'}
-                aria-label={id}
-                sx={sx}
-                fullWidth={fullWidth}
-                {...rest}
-            />
-        </FormControl>
+        <TextField
+            id={id}
+            name={name}
+            label={label}
+            error={error}
+            helperText={helperText}
+            required={required}
+            fullWidth={fullWidth}
+            variant={variant}
+            color={error ? 'error' : color}
+            onChange={onChange}
+            {...rest}
+        />
     );
 }

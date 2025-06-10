@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { confirmSignIn } from 'aws-amplify/auth';
-import { TextField, Button, Typography, CssBaseline, styled, Stack } from "@mui/material";
+import { TextField, Button, Typography, CssBaseline } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import AppTheme from '../../theme/AppTheme';
 import ColorModeSelect from '../../theme/ColorModeSelect';
