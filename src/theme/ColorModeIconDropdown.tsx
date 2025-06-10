@@ -8,7 +8,6 @@ import MenuItem from '@mui/material/MenuItem';
 import { useColorScheme } from '@mui/material/styles';
 import createThemeWithVars from '@mui/material/styles/createThemeWithVars';
 
-
 export default function ColorModeIconDropdown() {
   const { mode, systemMode, setMode } = useColorScheme();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

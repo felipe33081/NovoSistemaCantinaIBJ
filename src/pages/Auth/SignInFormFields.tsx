@@ -7,8 +7,6 @@ import { SignInFormFieldsProps } from '../../utils/interfaces/interfaces';
 export default function SignInFormFields({
   emailError,
   emailErrorMessage,
-  passwordError,
-  passwordErrorMessage,
   validateInputs
 }: SignInFormFieldsProps) {
   return (
@@ -26,8 +24,6 @@ export default function SignInFormFields({
         id="password"
         name="password"
         label="Senha"
-        //value={password}
-        //onChange={(e) => setPassword(e.target.value)}
         required
       />
       <FormControlLabel

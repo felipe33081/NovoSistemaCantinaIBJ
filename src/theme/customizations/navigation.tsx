@@ -9,6 +9,7 @@ import { tabClasses } from '@mui/material/Tab';
 import UnfoldMoreRoundedIcon from '@mui/icons-material/UnfoldMoreRounded';
 import { gray, brand } from '../themePrimitives';
 import createThemeWithVars from '@mui/material/styles/createThemeWithVars';
+
 const theme = createThemeWithVars();
 
 export const navigationCustomizations: Components<Theme> = {

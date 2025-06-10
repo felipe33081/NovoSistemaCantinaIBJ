@@ -40,7 +40,8 @@ export default function UserAddGroupDrawer({
                     <Button onClick={onClose}>Cancelar</Button>
                     <Button variant="contained" onClick={handleSubmit}>Adicionar</Button>
                 </Box>
-            }   
+            }
+            isWrapperChildren={true}
         >
             <Box component="form" display="flex" flexDirection="column" mt={2}>
                 <InputLabel id="groupName">Grupos</InputLabel>

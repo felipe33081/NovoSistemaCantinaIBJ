@@ -1,18 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Copyright from '../../../internals/components/Copyright';
 import { deleteUserById, getUserList } from '../../../Services/User/user';
 import { DataTable } from '../../../components/DataTable';
 import { IGetUserListFilter } from '../../../utils/interfaces/interfaces';
 import { GridFilterModel } from '@mui/x-data-grid';
 import UserCreateDrawer from '../CreateEdit/UserCreateDrawer';
-import { Button } from '@mui/material';
 import { getUserColumns } from './UserList';
 import UserEditDrawer from '../CreateEdit/UserEditDrawer';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import AddIcon from '@mui/icons-material/Add';
+import { PageHeader } from '../../../components/PageHeaderProps';
 
 export default function UserGrid() {
     const [loading, setLoading] = useState(false);
@@ -89,36 +86,11 @@ export default function UserGrid() {
 
     return (
         <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1700px' } }}>
-
-            <Box
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    mb: 1
-                }}
-            >
-                <Typography component="h2" variant="h6">
-                    Usuários
-                </Typography>
-
-                <Box sx={{ display: 'flex', gap: 2 }}>
-                    <Button
-                        onClick={handleRefresh}
-                    >
-                        <RefreshIcon/>
-                        Atualizar
-                    </Button>
-
-                    <Button
-                        variant="contained"
-                        onClick={() => setOpenCreateDrawer(true)}
-                    >
-                        <AddIcon/>
-                        Novo
-                    </Button>
-                </Box>
-            </Box>
+            <PageHeader
+                title="Usuários"
+                onRefresh={handleRefresh}
+                onCreate={() => setOpenCreateDrawer(true)}
+            />
 
             <UserCreateDrawer
                 open={openCreateDrawer}

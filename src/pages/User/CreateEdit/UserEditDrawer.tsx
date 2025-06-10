@@ -21,7 +21,7 @@ export default function UserEditDrawer({
     const [phoneNumber, setPhone] = useState('');
     const [emailVerified, setEmailVerified] = useState(false);
     const [userStatus, setUserStatus] = useState('');
-    const { tabIndex, handleChangeTab, setTabIndex } = useTabs();
+    const { tabIndex, setTabIndex } = useTabs();
     const [loading, setLoading] = useState(false);
     const [openAddGroupDrawer, setOpenAddGroupDrawer] = useState(false);
     const { handleSubmit } = useSubmitUserForm({
@@ -127,7 +127,6 @@ export default function UserEditDrawer({
                 setName={setName}
                 setEmail={setEmail}
                 setPhone={setPhone}
-                setUserStatus={setUserStatus}
                 setEmailVerified={setEmailVerified}
                 handleRefresh={handleRefresh}
                 rows={rows}

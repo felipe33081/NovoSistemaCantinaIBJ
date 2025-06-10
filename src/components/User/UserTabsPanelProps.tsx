@@ -22,7 +22,6 @@ export const UserTabsPanel = ({
   setName,
   setEmail,
   setPhone,
-  setUserStatus,
   setEmailVerified,
   handleRefresh,
   rows,
@@ -100,7 +99,6 @@ export const UserTabsPanel = ({
               name="userStatus"
               label="Status"
               disabled
-              onChange={(e) => setUserStatus(e.target.value)}
               value={userStatus}
             />
           </Box>

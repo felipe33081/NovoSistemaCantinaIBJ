@@ -1,7 +1,9 @@
-import { TextFieldProps } from "@mui/material";
+import { PaletteMode, TextFieldProps, ThemeOptions } from "@mui/material";
 import { OrderStatusEnum, PaymentOfTypeEnum } from "../enums/enums";
-import { ChangeEvent } from "react";
+import { ChangeEvent, ReactNode } from "react";
 import { GridColDef, GridFilterModel, GridSortModel } from "@mui/x-data-grid";
+import { MenuButtonProps } from "../../components/MenuButton";
+import { MaskedInputProps } from "../../types/react-text-mask";
 
 export interface IUserListType {
     queryData: any
@@ -223,6 +225,7 @@ export interface DrawerWrapperProps {
     children: React.ReactNode;
     width?: number | string;
     actions?: React.ReactNode;
+    isWrapperChildren?: boolean;
 }
 
 export interface FormTextFieldProps extends Omit<TextFieldProps, 'label'> {
@@ -293,7 +296,6 @@ export interface UserTabsPanelProps {
     setName: (value: string) => void;
     setEmail: (value: string) => void;
     setPhone: (value: string) => void;
-    setUserStatus: (value: string) => void;
     setEmailVerified: (value: boolean) => void;
     handleRefresh: () => void;
     rows: any[];
@@ -302,4 +304,58 @@ export interface UserTabsPanelProps {
     columns: GridColDef[];
     openAddGroupDrawer: boolean;
     setOpenAddGroupDrawer: (value: boolean) => void;
+}
+
+export interface PageHeaderProps {
+    title: string;
+    onRefresh?: () => void;
+    onCreate?: () => void;
+    showRefresh?: boolean;
+    createLabel?: string;
+}
+
+export interface ToggleColorModeProps extends MenuButtonProps {
+    mode: PaletteMode;
+    toggleColorMode: () => void;
+}
+
+export interface PageLayoutProps {
+    children: ReactNode;
+}
+
+export interface PasswordInputProps extends Omit<TextFieldProps, 'type'> {
+    value?: string;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface CustomMaskedInputProps extends Omit<MaskedInputProps, 'ref'> {
+    inputRef?: (ref: HTMLInputElement | null) => void;
+}
+
+export interface PhoneMaskInputProps extends Omit<TextFieldProps, 'inputRef'> {
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface UseSubmitUserFormProps {
+    id: string;
+    name: string;
+    email: string;
+    phoneNumber: string;
+    emailVerified: boolean;
+    onSuccess: () => void;
+    onClose: () => void;
+}
+
+export interface ForgotPasswordProps {
+    open: boolean;
+    handleClose: () => void;
+}
+
+export interface AppThemeProps {
+    children: React.ReactNode;
+    /**
+     * This is for the docs site. You can ignore it or remove it.
+     */
+    disableCustomTheme?: boolean;
+    themeComponents?: ThemeOptions['components'];
 }

@@ -5,13 +5,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import FormTextField from '../../components/FormTextField';
-
-interface ForgotPasswordProps {
-  open: boolean;
-  handleClose: () => void;
-}
+import { ForgotPasswordProps } from '../../utils/interfaces/interfaces';
 
 export default function ForgotPassword({ open, handleClose }: ForgotPasswordProps) {
   return (

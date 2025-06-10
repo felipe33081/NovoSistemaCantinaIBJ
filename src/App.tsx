@@ -1,40 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import SignIn from './pages/Auth/SignIn';
 import Dashboard from './Dashboard';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
+import { AuthProvider } from './contexts/AuthContext';
 import ForceNewPassword from './pages/Auth/ForceNewPassword';
 import ProtectedLayout from './pages/ProtectedLayout';
 import ProductConteiner from './pages/Product/ConteinerList/ProductConteiner';
 import UserConteiner from './pages/User/ConteinerList/UserConteiner';
 import CustomerConteiner from './pages/Customer/ConteinerList/CustomerConteiner';
 import OrderConteiner from './pages/Order/ConteinerList/OrderConteiner';
+import PrivateRoutes from './components/PrivateRoutes';
 
 export default function App() {
-    // Função para proteger rotas
-    function PrivateRoute({ children }: { children: JSX.Element }) {
-        const { isAuthenticated } = useAuth();
-
-        if (isAuthenticated === null) {
-            return (
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100vh',
-                    }}
-                >
-                    <CircularProgress size="3rem" />
-                </Box>
-            );
-        }
-
-        return isAuthenticated ? children : <Navigate to="/signIn" />;
-    }
-
     return (
         <AuthProvider>
             <Router>
@@ -47,7 +24,7 @@ export default function App() {
                     <Route
                         path="/*"
                         element={
-                            <PrivateRoute>
+                            <PrivateRoutes>
                                 <Routes>
                                     <Route element={<ProtectedLayout />}>
                                         <Route path="/painel" element={<Dashboard />} />
@@ -57,7 +34,7 @@ export default function App() {
                                         <Route path="/usuario" element={<UserConteiner />} />
                                     </Route>
                                 </Routes>
-                            </PrivateRoute>
+                            </PrivateRoutes>
                         }
                     />
                     <Route path="/" element={<Navigate to="/signIn" />} />

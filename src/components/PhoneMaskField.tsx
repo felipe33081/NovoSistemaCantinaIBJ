@@ -2,16 +2,12 @@ import React, {
   useRef,
   useEffect,
   forwardRef,
-  ChangeEvent,
 } from "react";
-import { TextField, TextFieldProps } from "@mui/material";
-import MaskedInput, { MaskedInputProps } from "react-text-mask";
+import { TextField} from "@mui/material";
+import MaskedInput from "react-text-mask";
 import createTextMaskInputElement from "text-mask-core/dist/textMaskCore";
 import Helper from "../helpers/format.helpers";
-
-interface CustomMaskedInputProps extends Omit<MaskedInputProps, 'ref'> {
-  inputRef?: (ref: HTMLInputElement | null) => void;
-}
+import { CustomMaskedInputProps, PhoneMaskInputProps } from "../utils/interfaces/interfaces";
 
 const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomMaskedInputProps>(
   function TextMaskCustom(props, ref) {
@@ -34,10 +30,6 @@ const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomMaskedInputProps
     );
   }
 );
-
-interface PhoneMaskInputProps extends Omit<TextFieldProps, 'inputRef'> {
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-}
 
 export const PhoneMaskInput = forwardRef<HTMLInputElement, PhoneMaskInputProps>(
   ({ onChange, ...inputProps }, ref) => {

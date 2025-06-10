@@ -1,15 +1,6 @@
 import { useCallback } from "react";
 import { putUserEdit } from "../../Services/User/user";
-
-interface UseSubmitUserFormProps {
-    id: string;
-    name: string;
-    email: string;
-    phoneNumber: string;
-    emailVerified: boolean;
-    onSuccess: () => void;
-    onClose: () => void;
-}
+import { UseSubmitUserFormProps } from "../../utils/interfaces/interfaces";
 
 export function useSubmitUserForm({
     id,

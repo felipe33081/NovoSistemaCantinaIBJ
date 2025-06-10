@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
-import {
-  TextField,
-  TextFieldProps,
-  InputAdornment,
-  IconButton
+import { TextField, InputAdornment, IconButton
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-
-interface PasswordInputProps extends Omit<TextFieldProps, 'type'> {
-  value?: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+import { PasswordInputProps } from '../utils/interfaces/interfaces';
 
 const PasswordInput: React.FC<PasswordInputProps> = ({
   value,

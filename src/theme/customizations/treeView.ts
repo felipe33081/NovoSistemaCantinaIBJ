@@ -2,6 +2,7 @@ import { alpha, Theme } from '@mui/material/styles';
 import type { TreeViewComponents } from '@mui/x-tree-view/themeAugmentation';
 import { gray, brand } from '../.././theme/themePrimitives';
 import createThemeWithVars from '@mui/material/styles/createThemeWithVars';
+
 const theme = createThemeWithVars();
 
 export const treeViewCustomizations: TreeViewComponents<Theme> = {

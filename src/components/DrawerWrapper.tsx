@@ -8,7 +8,8 @@ export default function DrawerWrapper({
     onClose,
     title,
     children,
-    actions
+    actions,
+    isWrapperChildren = false
 }: DrawerWrapperProps) {
     return (
         <Drawer
@@ -18,12 +19,19 @@ export default function DrawerWrapper({
         >
             <Box
                 sx={{
-                    width: {
-                        xs: '100vw',     // telas pequenas (mobile): largura total
-                        sm: '80vw',      // telas pequenas/médias: 80%
-                        md: 500,         // telas médias pra cima: fixo 500px
-                        lg: 600          // telas grandes: fixo 600px
-                    },
+                    width: isWrapperChildren
+                        ? {
+                            xs: '85vw',
+                            sm: '70vw',
+                            md: 400,
+                            lg: 480,
+                        }
+                        : {
+                            xs: '100vw',
+                            sm: '80vw',
+                            md: 500,
+                            lg: 600,
+                        },
                     maxWidth: '100vw',
                     display: 'flex',
                     flexDirection: 'column',
@@ -49,7 +57,7 @@ export default function DrawerWrapper({
                     </IconButton>
                 </Box>
 
-                <Divider/>
+                <Divider />
 
                 <Box
                     sx={{
