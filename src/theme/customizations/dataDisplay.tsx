@@ -42,19 +42,30 @@ export const dataDisplayCustomizations: Components<Theme> = {
           opacity: 0.7,
           '&.Mui-selected': {
             opacity: 1,
-            backgroundColor: Environment.PRIMARY_LIGHT_COLOR,
-            ...theme.applyStyles('dark', {
-              backgroundColor: Environment.PRIMARY_DARK_COLOR
-            }),
+            color: Environment.LIGHT_COLOR_BUTTON_TEXT,
+            backgroundColor: Environment.MAIN_COLOR,
             [`& .${svgIconClasses.root}`]: {
-              color: '#000',
+              color: Environment.LIGHT_COLOR_BUTTON_TEXT,
             },
             '&:focus-visible': {
               backgroundColor: '#3b93ffff',
             },
             '&:hover': {
-              backgroundColor: Environment.PRIMARY_DARK_COLOR,
+              backgroundColor: Environment.PRIMARY_HOVER_COLOR,
             },
+            ...theme.applyStyles('dark', {
+              color: Environment.DARK_COLOR_BUTTON_TEXT,
+              backgroundColor: Environment.MAIN_COLOR,
+              [`& .${svgIconClasses.root}`]: {
+              color: Environment.DARK_COLOR_BUTTON_TEXT,
+            },
+            '&:focus-visible': {
+              backgroundColor: '#3b93ffff',
+            },
+            '&:hover': {
+              backgroundColor: Environment.PRIMARY_HOVER_COLOR,
+            },
+            }),
           },
           '&:focus-visible': {
             backgroundColor: 'transparent',

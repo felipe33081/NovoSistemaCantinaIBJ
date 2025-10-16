@@ -68,9 +68,6 @@ export default function MainGrid() {
           <PageViewsBarChart />
         </Grid>
       </Grid>
-      <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-        Detalhes
-      </Typography>
       <Grid container spacing={2} columns={12}>
         <Grid size={{ md: 12, lg: 9 }}>
           <OrderGrid />

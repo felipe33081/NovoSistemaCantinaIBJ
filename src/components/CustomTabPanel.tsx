@@ -43,7 +43,7 @@ export const CustomTabs: React.FC<CustomTabsProps> = ({ value, onChange, labels 
           top: 0,
           bottom: "unset",
           height: "3px",
-          backgroundColor: Environment.PRIMARY_DARK_COLOR,
+          backgroundColor: Environment.MAIN_COLOR,
         },
       }}
       sx={{
@@ -56,7 +56,7 @@ export const CustomTabs: React.FC<CustomTabsProps> = ({ value, onChange, labels 
         },
         "& .Mui-selected": {
           backgroundColor: 'background.paper',
-          color: Environment.PRIMARY_DARK_COLOR,
+          color: Environment.MAIN_COLOR,
         },
       }}
     >

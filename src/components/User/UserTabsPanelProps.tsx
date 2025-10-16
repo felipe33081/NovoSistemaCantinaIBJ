@@ -109,14 +109,6 @@ export const UserTabsPanel = ({
                 onChange={(e) => setEmailVerified(e.target.checked)}
                 icon={<CheckBoxOutlineBlankIcon />}
                 checkedIcon={<CheckBoxIcon />}
-                sx={{
-                  color: "#023e8a",
-                  "&.Mui-checked": {
-                    borderColor: "white",
-                    color: "#023e8a",
-                    backgroundColor: "white",
-                  },
-                }}
               />
             }
             label="E-mail verificado"

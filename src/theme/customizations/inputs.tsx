@@ -9,6 +9,7 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 import { gray, brand } from '../themePrimitives';
 import createThemeWithVars from '@mui/material/styles/createThemeWithVars';
+import { Environment } from '../../environments/Index';
 
 const theme = createThemeWithVars();
 
@@ -31,9 +32,9 @@ export const inputsCustomizations: Components<Theme> = {
   },
   MuiButton: {
     styleOverrides: {
-      root: () => ({
+      root: ({ theme }) => ({
         boxShadow: 'none',
-        borderRadius: (theme.vars || theme).shape.borderRadius,
+        borderRadius: '4px',
         textTransform: 'none',
         variants: [
           {
@@ -59,32 +60,26 @@ export const inputsCustomizations: Components<Theme> = {
               variant: 'contained',
             },
             style: {
-              color: 'white',
-              backgroundColor: brand[900],
-              backgroundImage: `linear-gradient(to bottom, ${brand[700]}, ${brand[800]})`,
-              boxShadow: `inset 0 1px 0 ${brand[600]}, inset 0 -1px 0 1px hsl(220, 0%, 0%)`,
-              border: `1px solid ${brand[700]}`,
+              color: Environment.LIGHT_COLOR_BUTTON_TEXT,
+              backgroundColor: Environment.MAIN_COLOR,
+              boxShadow: '3px 3px 3px rgba(0, 0, 0, 0.5)',
               '&:hover': {
                 backgroundImage: 'none',
-                backgroundColor: brand[700],
-                boxShadow: 'none',
+                backgroundColor: Environment.PRIMARY_HOVER_COLOR,
               },
               '&:active': {
-                backgroundColor: brand[800],
+                backgroundColor: gray[400],
               },
               ...theme.applyStyles('dark', {
-                color: 'black',
-                backgroundColor: brand[50],
-                backgroundImage: `linear-gradient(to bottom, ${brand[100]}, ${brand[50]})`,
-                boxShadow: 'inset 0 -1px 0  hsl(220, 30%, 80%)',
-                border: `1px solid ${brand[50]}`,
+                color: Environment.DARK_COLOR_BUTTON_TEXT,
+                backgroundColor: Environment.MAIN_COLOR,
+                boxShadow: '3px 3px 3px rgba(112, 112, 112, 0.5)',
                 '&:hover': {
                   backgroundImage: 'none',
-                  backgroundColor: brand[300],
-                  boxShadow: 'none',
+                  backgroundColor: Environment.PRIMARY_HOVER_COLOR,
                 },
                 '&:active': {
-                  backgroundColor: brand[400],
+                  backgroundColor: gray[400],
                 },
               }),
             },
@@ -115,7 +110,7 @@ export const inputsCustomizations: Components<Theme> = {
               variant: 'outlined',
             },
             style: {
-              color: (theme.vars || theme).palette.text.primary,
+              color: (theme || theme).palette.text.primary,
               border: '1px solid',
               borderColor: gray[200],
               backgroundColor: alpha(gray[50], 0.3),
@@ -322,42 +317,40 @@ export const inputsCustomizations: Components<Theme> = {
       indeterminateIcon: <RemoveRoundedIcon sx={{ height: 14, width: 14 }} />,
     },
     styleOverrides: {
-      root: () => ({
+      root: ({ theme }) => ({
         margin: 10,
         height: 16,
         width: 16,
         borderRadius: 5,
-        border: '1px solid ',
-        borderColor: alpha(gray[300], 0.8),
-        boxShadow: '0 0 0 1.5px hsla(210, 0%, 0%, 0.04) inset',
+        border: 'none',
+        color: Environment.MAIN_COLOR,
         backgroundColor: alpha(gray[100], 0.4),
         transition: 'border-color, background-color, 120ms ease-in',
         '&:hover': {
-          borderColor: brand[300],
+
         },
         '&.Mui-focusVisible': {
-          outline: `3px solid ${alpha(brand[500], 0.5)}`,
+          outline: `3px solid ${alpha(Environment.MAIN_COLOR, 0.5)}`,
           outlineOffset: '2px',
-          borderColor: brand[400],
         },
         '&.Mui-checked': {
-          color: 'white',
-          backgroundColor: brand[500],
-          borderColor: brand[500],
-          boxShadow: `none`,
+          color: Environment.MAIN_COLOR,
           '&:hover': {
-            backgroundColor: brand[600],
+            backgroundColor: Environment.LIGHT_COLOR_BUTTON_TEXT,
           },
         },
         ...theme.applyStyles('dark', {
-          borderColor: alpha(gray[700], 0.8),
-          boxShadow: '0 0 0 1.5px hsl(210, 0%, 0%) inset',
-          backgroundColor: alpha(gray[900], 0.8),
+          backgroundColor: '#e9e9e9ff',
           '&:hover': {
-            borderColor: brand[300],
+            
+          },
+          '&.Mui-checked': {
+            color: Environment.MAIN_COLOR,
+            '&:hover': {
+              backgroundColor: Environment.DARK_COLOR_BUTTON_TEXT,
+            },
           },
           '&.Mui-focusVisible': {
-            borderColor: brand[400],
             outline: `3px solid ${alpha(brand[500], 0.5)}`,
             outlineOffset: '2px',
           },
