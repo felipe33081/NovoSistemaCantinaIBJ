@@ -39,8 +39,6 @@ export const UserTabsPanel = ({
     <Paper
       elevation={0}
       sx={{
-        backgroundColor: "#fff",
-        border: "1px solid #E0E0E0",
         borderRadius: "8px",
         overflow: "hidden",
         mt: 2,

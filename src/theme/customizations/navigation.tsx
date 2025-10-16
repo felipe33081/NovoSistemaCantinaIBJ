@@ -121,8 +121,11 @@ export const navigationCustomizations: Components<Theme> = {
       underline: 'none',
     },
     styleOverrides: {
-      root: () => ({
-        color: (theme.vars || theme).palette.text.primary,
+      root: ({ theme }) => ({
+        color: '#0b0e14',
+        ...theme.applyStyles('dark', {
+          color: (theme || theme).palette.grey[300]
+        }),
         fontWeight: 500,
         position: 'relative',
         textDecoration: 'none',
@@ -134,7 +137,7 @@ export const navigationCustomizations: Components<Theme> = {
           height: '1px',
           bottom: 0,
           left: 0,
-          backgroundColor: (theme.vars || theme).palette.text.secondary,
+          backgroundColor: (theme || theme).palette.text.secondary,
           opacity: 0.3,
           transition: 'width 0.3s ease, opacity 0.3s ease',
         },
@@ -151,8 +154,14 @@ export const navigationCustomizations: Components<Theme> = {
   },
   MuiDrawer: {
     styleOverrides: {
-      paper: () => ({
-        backgroundColor: (theme.vars || theme).palette.background.default,
+      paper: ({ theme }) => ({
+        backgroundColor: theme.palette.background.paper,
+
+        ...theme.applyStyles('dark', {
+          backgroundColor: '#171a1c',
+
+          backgroundImage: 'none',
+        }),
       }),
     },
   },
@@ -185,32 +194,40 @@ export const navigationCustomizations: Components<Theme> = {
   },
   MuiTab: {
     styleOverrides: {
-      root: () => ({
-        padding: '6px 8px',
+      root: ({ theme }) => ({
+        // --- ESTILOS BASE (para ambos os modos) ---
+        padding: '7px 8px',
         marginBottom: '8px',
         textTransform: 'none',
         minWidth: 'fit-content',
         minHeight: 'fit-content',
-        color: (theme.vars || theme).palette.text.secondary,
-        borderRadius: (theme.vars || theme).shape.borderRadius,
-        border: '1px solid',
-        borderColor: 'transparent',
+        borderRadius: '2px',
+
+        // --- ESTILOS DO MODO CLARO ---
+        backgroundColor: '#f3f2f2ff',          // Fundo da aba não selecionada
+        color: theme.palette.text.secondary, // Texto da aba não selecionada
         ':hover': {
-          color: (theme.vars || theme).palette.text.primary,
-          backgroundColor: gray[100],
-          borderColor: gray[200],
+          backgroundColor: '#e0e0e0ff',          // Fundo do hover
         },
-        [`&.${tabClasses.selected}`]: {
-          color: gray[900],
+        '&.Mui-selected': {
+          backgroundColor: theme.palette.background.paper, // Fundo da aba selecionada
+          color: theme.palette.text.primary,             // Texto da aba selecionada
         },
+
+        // --- ESTILOS DO MODO ESCURO (TUDO EM UM LUGAR SÓ) ---
         ...theme.applyStyles('dark', {
+          // Aba não selecionada (agora mais escura)
+          backgroundColor: '#3d4143',
+          color: theme.palette.text.secondary,
+
+          // Hover (agora um cinza um pouco mais claro para se destacar)
           ':hover': {
-            color: (theme.vars || theme).palette.text.primary,
-            backgroundColor: gray[800],
-            borderColor: gray[700],
+            backgroundColor: '#2c3033ff',
           },
-          [`&.${tabClasses.selected}`]: {
-            color: '#fff',
+
+          // Aba selecionada (mantendo o destaque)
+          '&.Mui-selected': {
+            color: theme.palette.common.white,
           },
         }),
       }),

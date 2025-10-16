@@ -6,6 +6,7 @@ import { chipClasses } from '@mui/material/Chip';
 import { iconButtonClasses } from '@mui/material/IconButton';
 import { gray, red, green } from '../themePrimitives';
 import createThemeWithVars from '@mui/material/styles/createThemeWithVars';
+import { Environment } from '../../environments/Index';
 const theme = createThemeWithVars();
 
 export const dataDisplayCustomizations: Components<Theme> = {
@@ -21,11 +22,14 @@ export const dataDisplayCustomizations: Components<Theme> = {
   },
   MuiListItem: {
     styleOverrides: {
-      root: () => ({
+      root: ({ theme }) => ({
         [`& .${svgIconClasses.root}`]: {
           width: '1rem',
           height: '1rem',
-          color: (theme.vars || theme).palette.text.secondary,
+          color: '#000',
+          ...theme.applyStyles('dark', {
+            color: '#fff',
+          }),
         },
         [`& .${typographyClasses.root}`]: {
           fontWeight: 500,
@@ -34,19 +38,22 @@ export const dataDisplayCustomizations: Components<Theme> = {
           display: 'flex',
           gap: 8,
           padding: '2px 8px',
-          borderRadius: (theme.vars || theme).shape.borderRadius,
+          borderRadius: (theme || theme).shape.borderRadius,
           opacity: 0.7,
           '&.Mui-selected': {
             opacity: 1,
-            backgroundColor: alpha(theme.palette.action.selected, 0.3),
+            backgroundColor: Environment.PRIMARY_LIGHT_COLOR,
+            ...theme.applyStyles('dark', {
+              backgroundColor: Environment.PRIMARY_DARK_COLOR
+            }),
             [`& .${svgIconClasses.root}`]: {
-              color: (theme.vars || theme).palette.text.primary,
+              color: '#000',
             },
             '&:focus-visible': {
-              backgroundColor: alpha(theme.palette.action.selected, 0.3),
+              backgroundColor: '#3b93ffff',
             },
             '&:hover': {
-              backgroundColor: alpha(theme.palette.action.selected, 0.5),
+              backgroundColor: Environment.PRIMARY_DARK_COLOR,
             },
           },
           '&:focus-visible': {

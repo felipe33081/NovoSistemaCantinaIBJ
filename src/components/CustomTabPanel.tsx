@@ -1,6 +1,7 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import React from "react";
 import { CustomTabsProps } from "../utils/interfaces/interfaces";
+import { Environment } from "../environments/Index";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -42,22 +43,20 @@ export const CustomTabs: React.FC<CustomTabsProps> = ({ value, onChange, labels 
           top: 0,
           bottom: "unset",
           height: "3px",
-          backgroundColor: "#023e8a",
+          backgroundColor: Environment.PRIMARY_DARK_COLOR,
         },
       }}
       sx={{
-        "& .MuiTab-root": {
-          textTransform: "none",
+        "& .MuiTab-root": { 
           fontWeight: 500,
-          backgroundColor: "#f5f5f5",
           px: 4,
         },
         "& .MuiTab-root:last-of-type": {
           borderRight: "none",
         },
         "& .Mui-selected": {
-          backgroundColor: "#fff",
-          color: "#023e8a",
+          backgroundColor: 'background.paper',
+          color: Environment.PRIMARY_DARK_COLOR,
         },
       }}
     >

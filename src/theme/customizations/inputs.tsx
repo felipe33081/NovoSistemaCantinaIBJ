@@ -377,12 +377,15 @@ export const inputsCustomizations: Components<Theme> = {
         },
       },
     },
-  },
+  },//#22282a
   MuiOutlinedInput: {
     styleOverrides: {
       root: ({ theme }) => ({
         borderRadius: '4px',
-        backgroundColor: theme.palette.background.default,
+        backgroundColor: theme.palette.background.paper,
+        ...theme.applyStyles('dark', {
+          backgroundColor: '#3d4143'
+        }),
         '&:hover .MuiOutlinedInput-notchedOutline': {
           borderColor: theme.palette.grey[400],
         },

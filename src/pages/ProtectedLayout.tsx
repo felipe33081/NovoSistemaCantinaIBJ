@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { Box, alpha } from '@mui/material';
+import { Box } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Stack from '@mui/material/Stack';
 import SideMenu from '../components/SideMenu';
@@ -23,10 +23,8 @@ export default function ProtectedLayout() {
                     component="main"
                     sx={{
                         flexGrow: 1,
+                        bgcolor: 'background.default',
                         overflow: 'auto',
-                        backgroundColor: theme.vars
-                            ? `rgba(${theme.vars.palette.background.defaultChannel} / 1)`
-                            : alpha(theme.palette.background.default, 1),
                     }}
                 >
                     <Stack

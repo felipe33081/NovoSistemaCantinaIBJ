@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Copyright from '../../../internals/components/Copyright';
 import { DataTable } from '../../../components/DataTable';
 import { GridFilterModel, GridSortModel } from '@mui/x-data-grid';
 import { IGetOrderListAsync } from '../../../utils/interfaces/interfaces';
@@ -92,7 +91,6 @@ export default function OrderGrid () {
                     onSortChange={handleSortChange}
                 />
             </Grid>
-            <Copyright sx={{ my: 4 }} />
         </Box>
     );
 }
