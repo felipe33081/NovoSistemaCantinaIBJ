@@ -183,37 +183,27 @@ export const navigationCustomizations: Components<Theme> = {
   MuiTab: {
     styleOverrides: {
       root: ({ theme }) => ({
-        // --- ESTILOS BASE (para ambos os modos) ---
         padding: '7px 8px',
         marginBottom: '8px',
         textTransform: 'none',
         minWidth: 'fit-content',
         minHeight: 'fit-content',
         borderRadius: '2px',
-
-        // --- ESTILOS DO MODO CLARO ---
-        backgroundColor: '#f3f2f2ff',          // Fundo da aba não selecionada
-        color: theme.palette.text.secondary, // Texto da aba não selecionada
+        backgroundColor: '#f3f2f2ff',
+        color: theme.palette.text.secondary,
         ':hover': {
-          backgroundColor: '#e0e0e0ff',          // Fundo do hover
+          backgroundColor: '#e0e0e0ff',
         },
         '&.Mui-selected': {
-          backgroundColor: theme.palette.background.paper, // Fundo da aba selecionada
-          color: theme.palette.text.primary,             // Texto da aba selecionada
+          backgroundColor: theme.palette.background.paper,
+          color: theme.palette.text.primary,
         },
-
-        // --- ESTILOS DO MODO ESCURO (TUDO EM UM LUGAR SÓ) ---
         ...theme.applyStyles('dark', {
-          // Aba não selecionada (agora mais escura)
           backgroundColor: '#3d4143',
           color: theme.palette.text.secondary,
-
-          // Hover (agora um cinza um pouco mais claro para se destacar)
           ':hover': {
             backgroundColor: '#2c3033ff',
           },
-
-          // Aba selecionada (mantendo o destaque)
           '&.Mui-selected': {
             color: theme.palette.common.white,
           },

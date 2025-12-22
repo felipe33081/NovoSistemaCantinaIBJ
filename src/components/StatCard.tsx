@@ -64,7 +64,7 @@ export default function StatCard({
         : theme.palette.error.dark,
     neutral:
       theme.palette.mode === 'light'
-        ? theme.palette.grey[400]
+        ? theme.palette.grey[500]
         : theme.palette.grey[700],
   };
 

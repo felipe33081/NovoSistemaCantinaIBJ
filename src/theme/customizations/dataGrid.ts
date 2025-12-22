@@ -16,21 +16,14 @@ const theme = createThemeWithVars();
 export const dataGridCustomizations: DataGridProComponents<Theme> & DataGridComponents<Theme> = {
   MuiDataGrid: {
     styleOverrides: {
-      root: ({ theme }) => ({ // Adicione ({ theme }) para ter acesso ao tema
+      root: ({ theme }) => ({
         '--DataGrid-overlayHeight': '300px',
         overflow: 'clip',
         border: `1px solid ${theme.palette.divider}`,
-
-        // Cor de fundo para o MODO CLARO (usar 'paper' é mais apropriado para superfícies)
         backgroundColor: theme.palette.background.paper,
-
-        // Garante que o cabeçalho e rodapé combinem com o novo fundo
         [`& .${gridClasses.columnHeader}, & .${gridClasses.footerContainer}`]: {
-          // Deixa o fundo deles transparente para mostrar a cor do 'root'
           backgroundColor: 'transparent', 
         },
-        
-        // ... O resto dos seus estilos para checkbox, tablePagination, etc.
         [`& .${checkboxClasses.root}`]: {
           padding: theme.spacing(0.5),
           '& > svg': { fontSize: '1rem' },

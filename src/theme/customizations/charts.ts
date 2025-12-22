@@ -8,7 +8,7 @@ const theme = createThemeWithVars();
 export const chartsCustomizations: ChartsComponents<Theme> = {
   MuiChartsAxis: {
     styleOverrides: {
-      root: () => ({
+      root: ({ theme }) => ({
         [`& .${axisClasses.line}`]: {
           stroke: gray[300],
         },
@@ -23,7 +23,7 @@ export const chartsCustomizations: ChartsComponents<Theme> = {
           },
           [`& .${axisClasses.tick}`]: { stroke: gray[700] },
           [`& .${axisClasses.tickLabel}`]: {
-            fill: gray[300],
+            fill: gray[400],
             fontWeight: 500,
           },
         }),
@@ -58,7 +58,7 @@ export const chartsCustomizations: ChartsComponents<Theme> = {
   },
   MuiChartsGrid: {
     styleOverrides: {
-      root: () => ({
+      root: ({ theme }) => ({
         [`& .${chartsGridClasses.line}`]: {
           stroke: gray[200],
           strokeDasharray: '4 2',

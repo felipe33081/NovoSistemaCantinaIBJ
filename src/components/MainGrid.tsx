@@ -68,15 +68,8 @@ export default function MainGrid() {
           <PageViewsBarChart />
         </Grid>
       </Grid>
-      <Grid container spacing={2} columns={12}>
-        <Grid size={{ md: 12, lg: 9 }}>
-          <OrderGrid />
-        </Grid>
-        <Grid size={{ xs: 12, lg: 3 }}>
-          <Stack gap={2} direction={{ xs: 'column', sm: 'row', lg: 'column' }}>
-            <ChartUserByCountry />
-          </Stack>
-        </Grid>
+      <Grid size={{ md: 12, lg: 9 }}>
+        <OrderGrid />
       </Grid>
     </Box>
   );

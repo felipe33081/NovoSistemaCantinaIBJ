@@ -1,8 +1,12 @@
 export const Environment = {
-    BASE_URL: 'http://localhost:8080/v1',
-    //BASE_URL: 'https://web-cantina-ibj.azurewebsites.net/v1'
+    //BASE_URL: 'http://localhost:8080/v1',
+    BASE_URL: 'https://web-cantina-ibj.azurewebsites.net/v1',
     MAIN_COLOR: '#d04d27',
-    PRIMARY_HOVER_COLOR: '#a33c00ff',
+    //MAIN_COLOR: '#d62828',
+    //MAIN_COLOR: '#0668E1',
+    //MAIN_COLOR: '#004ca3',
+    //MAIN_COLOR: '#0a8d0a',
+    //MAIN_COLOR: '#006400',
 
     DARK_COLOR_BUTTON_TEXT: '#fff',
     LIGHT_COLOR_BUTTON_TEXT: '#fff',

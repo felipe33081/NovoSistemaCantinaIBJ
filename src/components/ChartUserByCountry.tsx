@@ -117,7 +117,7 @@ function PieCenterLabel({ primaryText, secondaryText }: PieCenterLabelProps) {
 }
 
 const colors = [
-  'hsl(220, 20%, 65%)',
+  'hsla(220, 100%, 50%, 1.00)',
   'hsl(220, 20%, 42%)',
   'hsl(220, 20%, 35%)',
   'hsl(220, 20%, 25%)',

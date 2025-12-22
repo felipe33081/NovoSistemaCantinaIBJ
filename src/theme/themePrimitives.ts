@@ -1,4 +1,6 @@
 import { createTheme, alpha, PaletteMode, Shadows } from '@mui/material/styles';
+import Helper from '../helpers/format.helpers';
+import { Environment } from '../environments/Index';
 
 declare module '@mui/material/Paper' {
   interface PaperPropsVariantOverrides {
@@ -19,7 +21,7 @@ declare module '@mui/material/styles/createPalette' {
     900: string;
   }
 
-  interface PaletteColor extends ColorRange {}
+  interface PaletteColor extends ColorRange { }
 
   interface Palette {
     baseShadow: string;
@@ -70,16 +72,31 @@ export const green = {
 };
 
 export const orange = {
-  50: 'hsl(45, 100%, 97%)',
-  100: 'hsl(45, 92%, 90%)',
-  200: 'hsl(45, 94%, 80%)',
-  300: 'hsl(45, 90%, 65%)',
-  400: 'hsl(45, 90%, 40%)',
-  500: 'hsl(45, 90%, 35%)',
-  600: 'hsl(45, 91%, 25%)',
-  700: 'hsl(45, 94%, 20%)',
-  800: 'hsl(45, 95%, 16%)',
-  900: 'hsl(45, 93%, 12%)',
+  50: 'hsl(29, 92%, 92%)',
+  100: 'hsl(29, 92%, 90%)',
+  200: 'hsl(29, 94%, 80%)',
+  300: 'hsl(29, 90%, 65%)',
+  400: 'hsl(29, 90%, 40%)',
+  500: 'hsl(29, 90%, 35%)',
+  600: 'hsl(29, 91%, 25%)',
+  700: 'hsl(29, 94%, 20%)',
+  800: 'hsl(29, 95%, 16%)',
+  900: 'hsl(29, 93%, 12%)',
+};
+
+const H_VALUE_MAIN_COLOR = Helper.hexToHsl(Environment.MAIN_COLOR);
+
+export const customPalette = {
+  50: `hsl(${H_VALUE_MAIN_COLOR}, 100%, 97%)`,
+  100: `hsl(${H_VALUE_MAIN_COLOR}, 92%, 90%)`,
+  200: `hsl(${H_VALUE_MAIN_COLOR}, 94%, 80%)`,
+  300: `hsl(${H_VALUE_MAIN_COLOR}, 90%, 65%)`,
+  400: `hsl(${H_VALUE_MAIN_COLOR}, 90%, 45%)`,
+  500: `hsl(${H_VALUE_MAIN_COLOR}, 90%, 35%)`,
+  600: `hsl(${H_VALUE_MAIN_COLOR}, 91%, 25%)`,
+  700: `hsl(${H_VALUE_MAIN_COLOR}, 94%, 20%)`,
+  800: `hsl(${H_VALUE_MAIN_COLOR}, 95%, 16%)`,
+  900: `hsl(${H_VALUE_MAIN_COLOR}, 93%, 12%)`,
 };
 
 export const red = {
@@ -242,10 +259,10 @@ export const colorSchemes = {
   light: {
     palette: {
       primary: {
-        light: brand[200],
-        main: brand[400],
-        dark: brand[700],
-        contrastText: brand[50],
+        light: customPalette[200],
+        main: customPalette[400],
+        dark: customPalette[700],
+        contrastText: customPalette[50],
       },
       info: {
         light: brand[100],
@@ -292,10 +309,10 @@ export const colorSchemes = {
   dark: {
     palette: {
       primary: {
-        contrastText: brand[50],
-        light: brand[300],
-        main: brand[400],
-        dark: brand[700],
+        contrastText: customPalette[50],
+        light: customPalette[300],
+        main: customPalette[400],
+        dark: customPalette[700],
       },
       info: {
         contrastText: brand[300],
@@ -328,7 +345,7 @@ export const colorSchemes = {
       },
       text: {
         primary: 'hsl(0, 0%, 100%)',
-        secondary: gray[400],
+        secondary: gray[300],
       },
       action: {
         hover: alpha(gray[600], 0.2),
