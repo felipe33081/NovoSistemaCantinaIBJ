@@ -4,8 +4,9 @@ import { typographyClasses } from '@mui/material/Typography';
 import { buttonBaseClasses } from '@mui/material/ButtonBase';
 import { chipClasses } from '@mui/material/Chip';
 import { iconButtonClasses } from '@mui/material/IconButton';
-import { gray, red, green } from '../themePrimitives';
+import { gray, red, green, customPalette } from '../themePrimitives';
 import createThemeWithVars from '@mui/material/styles/createThemeWithVars';
+import { Environment } from '../../environments/Index';
 const theme = createThemeWithVars();
 
 export const dataDisplayCustomizations: Components<Theme> = {
@@ -21,11 +22,14 @@ export const dataDisplayCustomizations: Components<Theme> = {
   },
   MuiListItem: {
     styleOverrides: {
-      root: () => ({
+      root: ({ theme }) => ({
         [`& .${svgIconClasses.root}`]: {
           width: '1rem',
           height: '1rem',
-          color: (theme.vars || theme).palette.text.secondary,
+          color: '#000',
+          ...theme.applyStyles('dark', {
+            color: '#fff',
+          }),
         },
         [`& .${typographyClasses.root}`]: {
           fontWeight: 500,
@@ -34,20 +38,34 @@ export const dataDisplayCustomizations: Components<Theme> = {
           display: 'flex',
           gap: 8,
           padding: '2px 8px',
-          borderRadius: (theme.vars || theme).shape.borderRadius,
+          borderRadius: (theme || theme).shape.borderRadius,
           opacity: 0.7,
           '&.Mui-selected': {
             opacity: 1,
-            backgroundColor: alpha(theme.palette.action.selected, 0.3),
+            color: Environment.LIGHT_COLOR_BUTTON_TEXT,
+            backgroundColor: customPalette[400],
             [`& .${svgIconClasses.root}`]: {
-              color: (theme.vars || theme).palette.text.primary,
+              color: Environment.LIGHT_COLOR_BUTTON_TEXT,
             },
             '&:focus-visible': {
-              backgroundColor: alpha(theme.palette.action.selected, 0.3),
+              backgroundColor: customPalette[200],
             },
             '&:hover': {
-              backgroundColor: alpha(theme.palette.action.selected, 0.5),
+              backgroundColor: customPalette[500],
             },
+            ...theme.applyStyles('dark', {
+              color: Environment.DARK_COLOR_BUTTON_TEXT,
+              backgroundColor: customPalette[600],
+              [`& .${svgIconClasses.root}`]: {
+              color: Environment.DARK_COLOR_BUTTON_TEXT,
+            },
+            '&:focus-visible': {
+              backgroundColor: customPalette[200],
+            },
+            '&:hover': {
+              backgroundColor: customPalette[700],
+            },
+            }),
           },
           '&:focus-visible': {
             backgroundColor: 'transparent',
@@ -85,6 +103,23 @@ export const dataDisplayCustomizations: Components<Theme> = {
       root: {
         minWidth: 0,
       },
+    },
+  },
+  MuiAvatar: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        width: 32,
+        height: 32,
+        fontSize: theme.typography.body2.fontSize,
+        backgroundColor: customPalette[100],
+        color: theme.palette.text.secondary,
+        border: `1px solid ${theme.palette.divider}`,
+        ...theme.applyStyles('dark', {
+          backgroundColor: customPalette[900],
+          color: theme.palette.text.secondary,
+          border: `1px solid ${theme.palette.divider}`,
+        }),
+      }),
     },
   },
   MuiChip: {

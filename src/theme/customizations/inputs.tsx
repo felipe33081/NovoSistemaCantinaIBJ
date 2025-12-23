@@ -7,8 +7,9 @@ import { toggleButtonClasses } from '@mui/material/ToggleButton';
 import CheckBoxOutlineBlankRoundedIcon from '@mui/icons-material/CheckBoxOutlineBlankRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
-import { gray, brand } from '../themePrimitives';
+import { gray, brand, customPalette } from '../themePrimitives';
 import createThemeWithVars from '@mui/material/styles/createThemeWithVars';
+import { Environment } from '../../environments/Index';
 
 const theme = createThemeWithVars();
 
@@ -31,9 +32,9 @@ export const inputsCustomizations: Components<Theme> = {
   },
   MuiButton: {
     styleOverrides: {
-      root: () => ({
+      root: ({ theme }) => ({
         boxShadow: 'none',
-        borderRadius: (theme.vars || theme).shape.borderRadius,
+        borderRadius: '4px',
         textTransform: 'none',
         variants: [
           {
@@ -59,32 +60,26 @@ export const inputsCustomizations: Components<Theme> = {
               variant: 'contained',
             },
             style: {
-              color: 'white',
-              backgroundColor: brand[900],
-              backgroundImage: `linear-gradient(to bottom, ${brand[700]}, ${brand[800]})`,
-              boxShadow: `inset 0 1px 0 ${brand[600]}, inset 0 -1px 0 1px hsl(220, 0%, 0%)`,
-              border: `1px solid ${brand[700]}`,
+              color: Environment.LIGHT_COLOR_BUTTON_TEXT,
+              backgroundColor: customPalette[400],
+              boxShadow: '3px 3px 3px rgba(0, 0, 0, 0.5)',
               '&:hover': {
                 backgroundImage: 'none',
-                backgroundColor: brand[700],
-                boxShadow: 'none',
+                backgroundColor: customPalette[500],
               },
               '&:active': {
-                backgroundColor: brand[800],
+                backgroundColor: customPalette[300],
               },
               ...theme.applyStyles('dark', {
-                color: 'black',
-                backgroundColor: brand[50],
-                backgroundImage: `linear-gradient(to bottom, ${brand[100]}, ${brand[50]})`,
-                boxShadow: 'inset 0 -1px 0  hsl(220, 30%, 80%)',
-                border: `1px solid ${brand[50]}`,
+                color: Environment.DARK_COLOR_BUTTON_TEXT,
+                backgroundColor: customPalette[600],
+                boxShadow: '3px 3px 3px rgba(112, 112, 112, 0.5)',
                 '&:hover': {
                   backgroundImage: 'none',
-                  backgroundColor: brand[300],
-                  boxShadow: 'none',
+                  backgroundColor: customPalette[700],
                 },
                 '&:active': {
-                  backgroundColor: brand[400],
+                  backgroundColor: customPalette[500],
                 },
               }),
             },
@@ -115,27 +110,27 @@ export const inputsCustomizations: Components<Theme> = {
               variant: 'outlined',
             },
             style: {
-              color: (theme.vars || theme).palette.text.primary,
+              color: (theme || theme).palette.text.primary,
               border: '1px solid',
-              borderColor: gray[200],
-              backgroundColor: alpha(gray[50], 0.3),
+              borderColor: customPalette[200],
+              backgroundColor: customPalette[50],
               '&:hover': {
-                backgroundColor: gray[100],
-                borderColor: gray[300],
+                backgroundColor: customPalette[100],
+                borderColor: customPalette[300],
               },
               '&:active': {
-                backgroundColor: gray[200],
+                backgroundColor: customPalette[200],
               },
               ...theme.applyStyles('dark', {
-                backgroundColor: gray[800],
-                borderColor: gray[700],
+                backgroundColor: customPalette[800],
+                borderColor: customPalette[700],
 
                 '&:hover': {
-                  backgroundColor: gray[900],
-                  borderColor: gray[600],
+                  backgroundColor: customPalette[900],
+                  borderColor: customPalette[600],
                 },
                 '&:active': {
-                  backgroundColor: gray[900],
+                  backgroundColor: customPalette[900],
                 },
               }),
             },
@@ -146,28 +141,28 @@ export const inputsCustomizations: Components<Theme> = {
               variant: 'outlined',
             },
             style: {
-              color: brand[700],
+              color: customPalette[700],
               border: '1px solid',
-              borderColor: brand[200],
-              backgroundColor: brand[50],
+              borderColor: customPalette[200],
+              backgroundColor: customPalette[50],
               '&:hover': {
-                backgroundColor: brand[100],
-                borderColor: brand[400],
+                backgroundColor: customPalette[100],
+                borderColor: customPalette[400],
               },
               '&:active': {
-                backgroundColor: alpha(brand[200], 0.7),
+                backgroundColor: alpha(customPalette[200], 0.7),
               },
               ...theme.applyStyles('dark', {
-                color: brand[50],
+                color: customPalette[50],
                 border: '1px solid',
-                borderColor: brand[900],
-                backgroundColor: alpha(brand[900], 0.3),
+                borderColor: customPalette[900],
+                backgroundColor: alpha(customPalette[900], 0.3),
                 '&:hover': {
-                  borderColor: brand[700],
-                  backgroundColor: alpha(brand[900], 0.6),
+                  borderColor: customPalette[700],
+                  backgroundColor: alpha(customPalette[900], 0.6),
                 },
                 '&:active': {
-                  backgroundColor: alpha(brand[900], 0.5),
+                  backgroundColor: alpha(customPalette[900], 0.5),
                 },
               }),
             },
@@ -225,32 +220,31 @@ export const inputsCustomizations: Components<Theme> = {
   },
   MuiIconButton: {
     styleOverrides: {
-      root: () => ({
+      root: ({theme}) => ({
         boxShadow: 'none',
-        borderRadius: (theme.vars || theme).shape.borderRadius,
+        borderRadius: (theme || theme).shape.borderRadius,
         textTransform: 'none',
         fontWeight: theme.typography.fontWeightMedium,
         letterSpacing: 0,
-        color: (theme.vars || theme).palette.text.primary,
         border: '1px solid ',
-        borderColor: gray[200],
-        backgroundColor: alpha(gray[50], 0.3),
+        borderColor: customPalette[200],
+        backgroundColor: customPalette[100],
         '&:hover': {
-          backgroundColor: gray[100],
-          borderColor: gray[300],
+          backgroundColor: customPalette[200],
+          borderColor: customPalette[200],
         },
         '&:active': {
-          backgroundColor: gray[200],
+          backgroundColor: customPalette[300],
         },
         ...theme.applyStyles('dark', {
-          backgroundColor: gray[800],
-          borderColor: gray[700],
+          backgroundColor: customPalette[900],
+          borderColor: gray[500],
           '&:hover': {
-            backgroundColor: gray[900],
-            borderColor: gray[600],
+            backgroundColor: customPalette[700],
+            borderColor: customPalette[100],
           },
           '&:active': {
-            backgroundColor: gray[900],
+            backgroundColor: customPalette[500],
           },
         }),
         variants: [
@@ -282,15 +276,15 @@ export const inputsCustomizations: Components<Theme> = {
     styleOverrides: {
       root: () => ({
         borderRadius: '10px',
-        boxShadow: `0 4px 16px ${alpha(gray[400], 0.2)}`,
+        boxShadow: `0 4px 16px ${alpha(customPalette[400], 0.2)}`,
         [`& .${toggleButtonGroupClasses.selected}`]: {
-          color: brand[500],
+          color: customPalette[500],
         },
         ...theme.applyStyles('dark', {
           [`& .${toggleButtonGroupClasses.selected}`]: {
             color: '#fff',
           },
-          boxShadow: `0 4px 16px ${alpha(brand[700], 0.5)}`,
+          boxShadow: `0 4px 16px ${alpha(customPalette[700], 0.5)}`,
         }),
       }),
     },
@@ -303,10 +297,10 @@ export const inputsCustomizations: Components<Theme> = {
         borderRadius: '10px',
         fontWeight: 500,
         ...theme.applyStyles('dark', {
-          color: gray[400],
+          color: customPalette[400],
           boxShadow: '0 4px 16px rgba(0, 0, 0, 0.5)',
           [`&.${toggleButtonClasses.selected}`]: {
-            color: brand[300],
+            color: customPalette[300],
           },
         }),
       }),
@@ -322,42 +316,40 @@ export const inputsCustomizations: Components<Theme> = {
       indeterminateIcon: <RemoveRoundedIcon sx={{ height: 14, width: 14 }} />,
     },
     styleOverrides: {
-      root: () => ({
+      root: ({ theme }) => ({
         margin: 10,
         height: 16,
         width: 16,
         borderRadius: 5,
-        border: '1px solid ',
-        borderColor: alpha(gray[300], 0.8),
-        boxShadow: '0 0 0 1.5px hsla(210, 0%, 0%, 0.04) inset',
-        backgroundColor: alpha(gray[100], 0.4),
+        border: 'none',
+        color: customPalette[300],
+        backgroundColor: alpha(customPalette[50], 0.4),
         transition: 'border-color, background-color, 120ms ease-in',
         '&:hover': {
-          borderColor: brand[300],
+          backgroundColor: alpha(customPalette[300], 0.5),
         },
         '&.Mui-focusVisible': {
-          outline: `3px solid ${alpha(brand[500], 0.5)}`,
+          outline: `3px solid ${alpha(customPalette[500], 0.5)}`,
           outlineOffset: '2px',
-          borderColor: brand[400],
         },
         '&.Mui-checked': {
-          color: 'white',
-          backgroundColor: brand[500],
-          borderColor: brand[500],
-          boxShadow: `none`,
+          color: customPalette[400],
           '&:hover': {
-            backgroundColor: brand[600],
+            backgroundColor: customPalette[600],
           },
         },
         ...theme.applyStyles('dark', {
-          borderColor: alpha(gray[700], 0.8),
-          boxShadow: '0 0 0 1.5px hsl(210, 0%, 0%) inset',
-          backgroundColor: alpha(gray[900], 0.8),
+          backgroundColor: alpha(customPalette[50], 0.7),
           '&:hover': {
-            borderColor: brand[300],
+              backgroundColor: alpha(customPalette[300], 0.3),
+          },
+          '&.Mui-checked': {
+            color: customPalette[600],
+            '&:hover': {
+              backgroundColor: customPalette[500],
+            },
           },
           '&.Mui-focusVisible': {
-            borderColor: brand[400],
             outline: `3px solid ${alpha(brand[500], 0.5)}`,
             outlineOffset: '2px',
           },
@@ -377,12 +369,15 @@ export const inputsCustomizations: Components<Theme> = {
         },
       },
     },
-  },
+  },//#22282a
   MuiOutlinedInput: {
     styleOverrides: {
       root: ({ theme }) => ({
         borderRadius: '4px',
-        backgroundColor: theme.palette.background.default,
+        backgroundColor: theme.palette.background.paper,
+        ...theme.applyStyles('dark', {
+          backgroundColor: '#3d4143'
+        }),
         '&:hover .MuiOutlinedInput-notchedOutline': {
           borderColor: theme.palette.grey[400],
         },

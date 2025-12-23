@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
-import Copyright from '../../../internals/components/Copyright';
 import { deleteUserById, getUserList } from '../../../Services/User/user';
 import { DataTable } from '../../../components/DataTable';
 import { IGetUserListFilter } from '../../../utils/interfaces/interfaces';
@@ -126,7 +125,6 @@ export default function UserGrid() {
                     onFilterChange={handleFilterChange}
                 />
             </Grid>
-            <Copyright sx={{ my: 4 }} />
         </Box>
     );
 }

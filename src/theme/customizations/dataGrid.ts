@@ -16,31 +16,24 @@ const theme = createThemeWithVars();
 export const dataGridCustomizations: DataGridProComponents<Theme> & DataGridComponents<Theme> = {
   MuiDataGrid: {
     styleOverrides: {
-      root: () => ({
+      root: ({ theme }) => ({
         '--DataGrid-overlayHeight': '300px',
         overflow: 'clip',
-        borderColor: (theme.vars || theme).palette.divider,
-        backgroundColor: (theme.vars || theme).palette.background.default,
-        [`& .${gridClasses.columnHeader}`]: {
-          backgroundColor: (theme.vars || theme).palette.background.paper,
-        },
-        [`& .${gridClasses.footerContainer}`]: {
-          backgroundColor: (theme.vars || theme).palette.background.paper,
+        border: `1px solid ${theme.palette.divider}`,
+        backgroundColor: theme.palette.background.paper,
+        [`& .${gridClasses.columnHeader}, & .${gridClasses.footerContainer}`]: {
+          backgroundColor: 'transparent', 
         },
         [`& .${checkboxClasses.root}`]: {
           padding: theme.spacing(0.5),
-          '& > svg': {
-            fontSize: '1rem',
-          },
+          '& > svg': { fontSize: '1rem' },
         },
         [`& .${tablePaginationClasses.root}`]: {
           marginRight: theme.spacing(1),
           '& .MuiIconButton-root': {
             maxHeight: 32,
             maxWidth: 32,
-            '& > svg': {
-              fontSize: '1rem',
-            },
+            '& > svg': { fontSize: '1rem' },
           },
         },
       }),
@@ -48,6 +41,7 @@ export const dataGridCustomizations: DataGridProComponents<Theme> & DataGridComp
       menu: () => ({
         borderRadius: theme.shape.borderRadius,
         backgroundImage: 'none',
+        bgcolor: 'background.paper',
         [`& .${paperClasses.root}`]: {
           border: `1px solid ${(theme.vars || theme).palette.divider}`,
         },
@@ -130,5 +124,5 @@ export const dataGridCustomizations: DataGridProComponents<Theme> & DataGridComp
       },
       columnHeaderDraggableContainer: { paddingRight: 2 },
     },
-  },
+  }
 };

@@ -27,7 +27,7 @@ export const feedbackCustomizations: Components<Theme> = {
         '& .MuiDialog-paper': {
           borderRadius: '10px',
           border: '1px solid',
-          borderColor: (theme.vars || theme).palette.divider,
+          borderColor: (theme.vars || theme).palette.divider
         },
       }),
     },

@@ -39,8 +39,6 @@ export const UserTabsPanel = ({
     <Paper
       elevation={0}
       sx={{
-        backgroundColor: "#fff",
-        border: "1px solid #E0E0E0",
         borderRadius: "8px",
         overflow: "hidden",
         mt: 2,
@@ -111,14 +109,6 @@ export const UserTabsPanel = ({
                 onChange={(e) => setEmailVerified(e.target.checked)}
                 icon={<CheckBoxOutlineBlankIcon />}
                 checkedIcon={<CheckBoxIcon />}
-                sx={{
-                  color: "#023e8a",
-                  "&.Mui-checked": {
-                    borderColor: "white",
-                    color: "#023e8a",
-                    backgroundColor: "white",
-                  },
-                }}
               />
             }
             label="E-mail verificado"

@@ -9,6 +9,7 @@ import { tabClasses } from '@mui/material/Tab';
 import UnfoldMoreRoundedIcon from '@mui/icons-material/UnfoldMoreRounded';
 import { gray, brand } from '../themePrimitives';
 import createThemeWithVars from '@mui/material/styles/createThemeWithVars';
+import { Environment } from '../../environments/Index';
 
 const theme = createThemeWithVars();
 
@@ -31,27 +32,15 @@ export const navigationCustomizations: Components<Theme> = {
   },
   MuiMenu: {
     styleOverrides: {
-      list: {
-        gap: '0px',
-        [`&.${dividerClasses.root}`]: {
-          margin: '0 -8px',
-        },
-      },
-      paper: () => ({
+      paper: ({ theme }) => ({
         marginTop: '4px',
-        borderRadius: (theme.vars || theme).shape.borderRadius,
-        border: `1px solid ${(theme.vars || theme).palette.divider}`,
+        borderRadius: theme.shape.borderRadius,
+        border: `1px solid ${theme.palette.divider}`,
         backgroundImage: 'none',
-        background: 'hsl(0, 0%, 100%)',
+        background: theme.palette.background.paper,
         boxShadow:
           'hsla(220, 30%, 5%, 0.07) 0px 4px 16px 0px, hsla(220, 25%, 10%, 0.07) 0px 8px 16px -5px',
-        [`& .${buttonBaseClasses.root}`]: {
-          '&.Mui-selected': {
-            backgroundColor: alpha(theme.palette.action.selected, 0.3),
-          },
-        },
         ...theme.applyStyles('dark', {
-          background: gray[900],
           boxShadow:
             'hsla(220, 30%, 5%, 0.7) 0px 4px 16px 0px, hsla(220, 25%, 10%, 0.8) 0px 8px 16px -5px',
         }),
@@ -65,33 +54,32 @@ export const navigationCustomizations: Components<Theme> = {
       )),
     },
     styleOverrides: {
-      root: () => ({
-        borderRadius: (theme.vars || theme).shape.borderRadius,
-        border: '1px solid',
-        borderColor: gray[200],
-        backgroundColor: (theme.vars || theme).palette.background.paper,
+      root: ({ theme }) => ({
+        borderRadius: (theme || theme).shape.borderRadius,
+        border: `1px solid`,
+        backgroundColor: theme.palette.background.paper,
         boxShadow: `inset 0 1px 0 1px hsla(220, 0%, 100%, 0.6), inset 0 -1px 0 1px hsla(220, 35%, 90%, 0.5)`,
         '&:hover': {
           borderColor: gray[300],
-          backgroundColor: (theme.vars || theme).palette.background.paper,
+          backgroundColor: theme.palette.background.paper,
           boxShadow: 'none',
         },
         [`&.${selectClasses.focused}`]: {
           outlineOffset: 0,
-          borderColor: gray[400],
+          borderColor: '#000',
         },
         '&:before, &:after': {
-          display: 'none',
+          display: 'none'
         },
 
         ...theme.applyStyles('dark', {
-          borderRadius: (theme.vars || theme).shape.borderRadius,
+          borderRadius: (theme || theme).shape.borderRadius,
           borderColor: gray[700],
-          backgroundColor: (theme.vars || theme).palette.background.paper,
+          backgroundColor: (theme || theme).palette.background.paper,
           boxShadow: `inset 0 1px 0 1px ${alpha(gray[700], 0.15)}, inset 0 -1px 0 1px hsla(220, 0%, 0%, 0.7)`,
           '&:hover': {
             borderColor: alpha(gray[700], 0.7),
-            backgroundColor: (theme.vars || theme).palette.background.paper,
+            backgroundColor: (theme || theme).palette.background.paper,
             boxShadow: 'none',
           },
           [`&.${selectClasses.focused}`]: {
@@ -103,7 +91,7 @@ export const navigationCustomizations: Components<Theme> = {
           },
         }),
       }),
-      select: () => ({
+      select: ({ theme }) => ({
         display: 'flex',
         alignItems: 'center',
         ...theme.applyStyles('dark', {
@@ -121,8 +109,11 @@ export const navigationCustomizations: Components<Theme> = {
       underline: 'none',
     },
     styleOverrides: {
-      root: () => ({
-        color: (theme.vars || theme).palette.text.primary,
+      root: ({ theme }) => ({
+        color: '#0b0e14',
+        ...theme.applyStyles('dark', {
+          color: (theme || theme).palette.grey[300]
+        }),
         fontWeight: 500,
         position: 'relative',
         textDecoration: 'none',
@@ -134,7 +125,7 @@ export const navigationCustomizations: Components<Theme> = {
           height: '1px',
           bottom: 0,
           left: 0,
-          backgroundColor: (theme.vars || theme).palette.text.secondary,
+          backgroundColor: (theme || theme).palette.text.secondary,
           opacity: 0.3,
           transition: 'width 0.3s ease, opacity 0.3s ease',
         },
@@ -151,8 +142,14 @@ export const navigationCustomizations: Components<Theme> = {
   },
   MuiDrawer: {
     styleOverrides: {
-      paper: () => ({
-        backgroundColor: (theme.vars || theme).palette.background.default,
+      paper: ({ theme }) => ({
+        backgroundColor: theme.palette.background.paper,
+
+        ...theme.applyStyles('dark', {
+          backgroundColor: '#171a1c',
+
+          backgroundImage: 'none',
+        }),
       }),
     },
   },
@@ -185,32 +182,30 @@ export const navigationCustomizations: Components<Theme> = {
   },
   MuiTab: {
     styleOverrides: {
-      root: () => ({
-        padding: '6px 8px',
+      root: ({ theme }) => ({
+        padding: '7px 8px',
         marginBottom: '8px',
         textTransform: 'none',
         minWidth: 'fit-content',
         minHeight: 'fit-content',
-        color: (theme.vars || theme).palette.text.secondary,
-        borderRadius: (theme.vars || theme).shape.borderRadius,
-        border: '1px solid',
-        borderColor: 'transparent',
+        borderRadius: '2px',
+        backgroundColor: '#f3f2f2ff',
+        color: theme.palette.text.secondary,
         ':hover': {
-          color: (theme.vars || theme).palette.text.primary,
-          backgroundColor: gray[100],
-          borderColor: gray[200],
+          backgroundColor: '#e0e0e0ff',
         },
-        [`&.${tabClasses.selected}`]: {
-          color: gray[900],
+        '&.Mui-selected': {
+          backgroundColor: theme.palette.background.paper,
+          color: theme.palette.text.primary,
         },
         ...theme.applyStyles('dark', {
+          backgroundColor: '#3d4143',
+          color: theme.palette.text.secondary,
           ':hover': {
-            color: (theme.vars || theme).palette.text.primary,
-            backgroundColor: gray[800],
-            borderColor: gray[700],
+            backgroundColor: '#2c3033ff',
           },
-          [`&.${tabClasses.selected}`]: {
-            color: '#fff',
+          '&.Mui-selected': {
+            color: theme.palette.common.white,
           },
         }),
       }),

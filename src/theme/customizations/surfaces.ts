@@ -14,7 +14,7 @@ export const surfacesCustomizations: Components<Theme> = {
       root: () => ({
         padding: 4,
         overflow: 'clip',
-        backgroundColor: (theme.vars || theme).palette.background.default,
+        backgroundColor: (theme.vars || theme).palette.background.paper,
         border: '1px solid',
         borderColor: (theme.vars || theme).palette.divider,
         ':before': {
@@ -53,41 +53,26 @@ export const surfacesCustomizations: Components<Theme> = {
     },
   },
   MuiPaper: {
-    defaultProps: {
-      elevation: 0,
+    styleOverrides: {
+      root: ({ theme }) => ({
+        backgroundColor: theme.palette.background.paper,
+        border: `1px solid ${theme.palette.divider}`,
+      }),
     },
   },
   MuiCard: {
     styleOverrides: {
-      root: () => {
-        return {
-          padding: 16,
-          gap: 16,
-          transition: 'all 100ms ease',
-          backgroundColor: gray[50],
-          borderRadius: (theme.vars || theme).shape.borderRadius,
-          border: `1px solid ${(theme.vars || theme).palette.divider}`,
-          boxShadow: 'none',
-          ...theme.applyStyles('dark', {
-            backgroundColor: gray[800],
-          }),
-          variants: [
-            {
-              props: {
-                variant: 'outlined',
-              },
-              style: {
-                border: `1px solid ${(theme.vars || theme).palette.divider}`,
-                boxShadow: 'none',
-                background: 'hsl(0, 0%, 100%)',
-                ...theme.applyStyles('dark', {
-                  background: alpha(gray[900], 0.4),
-                }),
-              },
-            },
-          ],
-        };
-      },
+      root: ({ theme }) => ({
+        padding: 16,
+        gap: 16,
+        backgroundColor: theme.palette.background.paper,
+        transition: 'all 100ms ease',
+        borderRadius: theme.shape.borderRadius,
+        border: `1px solid ${theme.palette.divider}`,
+        boxShadow: 'none',
+        '&.MuiCard-outlined': {
+        },
+      }),
     },
   },
   MuiCardContent: {
@@ -111,5 +96,5 @@ export const surfacesCustomizations: Components<Theme> = {
         padding: 0,
       },
     },
-  },
+  }
 };
