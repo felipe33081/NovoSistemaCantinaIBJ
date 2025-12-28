@@ -10,36 +10,14 @@ export const customerColumns: GridColDef[] = [
         headerName: 'Nome',
         flex: 1,
         minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => {
-            return (
-                <div
-                    style={{
-                        textAlign: 'left',
-                        marginLeft: '-8px'
-                    }}
-                >
-                    {cellValues.row?.name}
-                </div >
-            );
-        }
+        renderCell: (cellValues: GridRenderCellParams) => cellValues.row?.name
     },
     {
         field: 'phone',
         headerName: 'Telefone',
         flex: 1,
         minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => {
-            return (
-                <div
-                    style={{
-                        textAlign: 'left',
-                        marginLeft: '-8px'
-                    }}
-                >
-                    {Helper.formatPhoneNumber(cellValues.row?.phone)}
-                </div >
-            );
-        }
+        renderCell: (cellValues: GridRenderCellParams) => Helper.formatPhoneNumber(cellValues.row?.phone)
     },
     {
         filterable: false,
@@ -63,16 +41,7 @@ export const customerColumns: GridColDef[] = [
         headerName: 'Criado por',
         flex: 1,
         minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => (
-            <div
-                style={{
-                    textAlign: 'left',
-                    marginLeft: '-8px'
-                }}
-            >
-                {cellValues.row?.createdBy}
-            </div>
-        )
+        renderCell: (cellValues: GridRenderCellParams) => cellValues.row?.createdBy ?? "N/a"
     },
     {
         filterable: false,
@@ -88,15 +57,6 @@ export const customerColumns: GridColDef[] = [
         headerName: 'Atualizado por',
         flex: 1,
         minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => (
-            <div
-                style={{
-                    textAlign: 'left',
-                    marginLeft: '-8px'
-                }}
-            >
-                {cellValues.row?.updatedBy ?? "N/a"}
-            </div>
-        )
+        renderCell: (cellValues: GridRenderCellParams) => cellValues.row?.updatedBy ?? "N/a"
     }
 ];

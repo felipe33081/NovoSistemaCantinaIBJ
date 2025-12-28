@@ -10,36 +10,14 @@ export const productColumns: GridColDef[] = [
         headerName: 'Nome',
         flex: 1,
         minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => {
-            return (
-                <div
-                    style={{
-                        textAlign: 'left',
-                        marginLeft: '-8px'
-                    }}
-                >
-                    {cellValues.row?.name}
-                </div >
-            );
-        }
+        renderCell: (cellValues: GridRenderCellParams) => cellValues.row?.name
     },
     {
         field: 'description',
         headerName: 'Descrição',
         flex: 1,
         minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => {
-            return (
-                <div
-                    style={{
-                        textAlign: 'left',
-                        marginLeft: '-8px'
-                    }}
-                >
-                    {cellValues.row?.description}
-                </div >
-            );
-        }
+        renderCell: (cellValues: GridRenderCellParams) => cellValues.row?.description
     },
     {
         filterable: false,
@@ -55,18 +33,7 @@ export const productColumns: GridColDef[] = [
         headerName: 'Quantidade',
         flex: 1,
         minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => {
-            return (
-                <div
-                    style={{
-                        textAlign: 'left',
-                        marginLeft: '-8px'
-                    }}
-                >
-                    {cellValues.row?.quantity}
-                </div >
-            );
-        }
+        renderCell: (cellValues: GridRenderCellParams) => cellValues.row?.quantity
     },
     {
         filterable: false,
@@ -82,16 +49,7 @@ export const productColumns: GridColDef[] = [
         headerName: 'Criado por',
         flex: 1,
         minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => (
-            <div
-                style={{
-                    textAlign: 'left',
-                    marginLeft: '-8px'
-                }}
-            >
-                {cellValues.row?.createdBy}
-            </div>
-        )
+        renderCell: (cellValues: GridRenderCellParams) => (cellValues.row?.createdBy)
     },
     {
         filterable: false,
@@ -99,15 +57,6 @@ export const productColumns: GridColDef[] = [
         headerName: 'Atualizado por',
         flex: 1,
         minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => (
-            <div
-                style={{
-                    textAlign: 'left',
-                    marginLeft: '-8px'
-                }}
-            >
-                {cellValues.row?.updatedBy ?? "N/a"}
-            </div>
-        )
+        renderCell: (cellValues: GridRenderCellParams) => cellValues.row?.updatedBy ?? "N/a"
     }
 ];

@@ -14,7 +14,8 @@ export const DataTable = ({
   setCurrentPage,
   setRowsPerPage,
   onFilterChange,
-  onSortChange
+  onSortChange,
+  onEdit
 }: ICustomDataGridType) => {
   return (
     <DataGrid
@@ -45,6 +46,9 @@ export const DataTable = ({
         pagination: {
           labelRowsPerPage: "Linhas por página:"
         }
+      }}
+      onRowClick={(params) => {
+        if (onEdit) onEdit(params.row.id);
       }}
       filterMode="server"
       onFilterModelChange={onFilterChange}

@@ -116,6 +116,7 @@ export default function UserGrid() {
                     columns={
                         getUserColumns(handleDelete, handleEdit)
                     }
+                    onEdit={handleEdit}
                     totalRows={totalRows}
                     currentPage={currentPage}
                     rowsPerPage={rowsPerPage}

@@ -264,17 +264,18 @@ export interface UserFormTabsProps {
 }
 
 export interface ICustomDataGridType {
-    rows: any[]
-    columns: GridColDef[]
-    totalRows: number
-    currentPage?: number
-    rowsPerPage?: number
-    loading: boolean
-    setCurrentPage?: (value: number) => void
-    setRowsPerPage?: (value: number) => void
-    onFilterChange?: (filterModel: GridFilterModel) => void
-    onSortChange?: (sortModel: GridSortModel) => void
-    customRowId?: string
+    rows: any[];
+    columns: GridColDef[];
+    totalRows: number;
+    currentPage?: number;
+    rowsPerPage?: number;
+    loading: boolean;
+    setCurrentPage?: (value: number) => void;
+    setRowsPerPage?: (value: number) => void;
+    onFilterChange?: (filterModel: GridFilterModel) => void;
+    onSortChange?: (sortModel: GridSortModel) => void;
+    onEdit?: (id: string) => void;
+    customRowId?: string;
 }
 
 export interface UserAddGroupDrawerProps {
