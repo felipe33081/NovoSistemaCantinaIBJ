@@ -4,7 +4,7 @@ import { CustomNoRowsOverlay } from '../internals/components/CustomIcons';
 import CustomToolbar from './CustomToolBar';
 import { ICustomDataGridType } from '../utils/interfaces/interfaces';
 
-export const DataTable = ({
+export const DataTable = <T,>({
   rows,
   columns,
   totalRows,
@@ -16,7 +16,7 @@ export const DataTable = ({
   onFilterChange,
   onSortChange,
   onEdit
-}: ICustomDataGridType) => {
+}: ICustomDataGridType<T>) => {
   return (
     <DataGrid
       autoHeight
@@ -48,7 +48,9 @@ export const DataTable = ({
         }
       }}
       onRowClick={(params) => {
-        if (onEdit) onEdit(params.row.id);
+        if (onEdit) {
+          onEdit(params.id as T);
+        }
       }}
       filterMode="server"
       onFilterModelChange={onFilterChange}

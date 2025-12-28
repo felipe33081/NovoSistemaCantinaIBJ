@@ -30,13 +30,7 @@ export const getUserColumns = (
             headerName: 'Telefone',
             flex: 1.5,
             minWidth: 200,
-            renderCell: (cellValues: GridRenderCellParams) => {
-                return (
-                    <div>
-                        {Helper.formatPhoneNumber(cellValues.row?.phoneNumber)}
-                    </div >
-                );
-            }
+            renderCell: (cellValues: GridRenderCellParams) => Helper.formatPhoneNumber(cellValues.row?.phoneNumber)
         },
         {
             filterable: false,
@@ -64,7 +58,10 @@ export const getUserColumns = (
                     </Button>
                     <Button
                         color="error"
-                        onClick={() => handleDelete(params.row.id)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete(params.row.id);
+                        }}
                     >
                         <DeleteOutlineIcon />
                     </Button>
