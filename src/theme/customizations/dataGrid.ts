@@ -5,10 +5,8 @@ import type { DataGridComponents } from '@mui/x-data-grid/themeAugmentation';
 import { menuItemClasses } from '@mui/material/MenuItem';
 import { listItemIconClasses } from '@mui/material/ListItemIcon';
 import { iconButtonClasses } from '@mui/material/IconButton';
-import { checkboxClasses } from '@mui/material/Checkbox';
 import { listClasses } from '@mui/material/List';
 import { gridClasses } from '@mui/x-data-grid';
-import { tablePaginationClasses } from '@mui/material/TablePagination';
 import { gray } from '../.././theme/themePrimitives';
 import createThemeWithVars from '@mui/material/styles/createThemeWithVars';
 const theme = createThemeWithVars();
@@ -17,27 +15,19 @@ export const dataGridCustomizations: DataGridProComponents<Theme> & DataGridComp
   MuiDataGrid: {
     styleOverrides: {
       root: ({ theme }) => ({
-        '--DataGrid-overlayHeight': '300px',
-        overflow: 'clip',
-        border: `1px solid ${theme.palette.divider}`,
+        border: 'none',
         backgroundColor: theme.palette.background.paper,
-        [`& .${gridClasses.columnHeader}, & .${gridClasses.footerContainer}`]: {
-          backgroundColor: 'transparent', 
-        },
-        [`& .${checkboxClasses.root}`]: {
-          padding: theme.spacing(0.5),
-          '& > svg': { fontSize: '1rem' },
-        },
-        [`& .${tablePaginationClasses.root}`]: {
-          marginRight: theme.spacing(1),
-          '& .MuiIconButton-root': {
-            maxHeight: 32,
-            maxWidth: 32,
-            '& > svg': { fontSize: '1rem' },
-          },
+        
+        [`& .${gridClasses.columnHeader}:first-of-type, & .${gridClasses.cell}:first-of-type`]: {
+          paddingLeft: '24px',
         },
       }),
-      cell: () => ({ borderTopColor: (theme.vars || theme).palette.divider }),
+      cell: {
+        borderBottom: 'none',
+        padding: '0 16px',
+        alignItems: 'center',
+        display: 'flex',
+      },
       menu: () => ({
         borderRadius: theme.shape.borderRadius,
         backgroundImage: 'none',
@@ -58,16 +48,17 @@ export const dataGridCustomizations: DataGridProComponents<Theme> & DataGridComp
         },
       }),
 
-      row: () => ({
-        '&:last-of-type': { borderBottom: `1px solid ${(theme.vars || theme).palette.divider}` },
-        '&:hover': {
-          backgroundColor: (theme.vars || theme).palette.action.hover,
+      row: ({ theme }) => ({
+        cursor: 'pointer',
+        
+        '&:nth-of-type(even)': {
+          backgroundColor: theme.palette.mode === 'light' 
+            ? '#f9f9f9' 
+            : 'rgba(255, 255, 255, 0.03)',
         },
-        '&.Mui-selected': {
-          background: (theme.vars || theme).palette.action.selected,
-          '&:hover': {
-            backgroundColor: (theme.vars || theme).palette.action.hover,
-          },
+
+        '&:hover': {
+          backgroundColor: theme.palette.action.hover,
         },
       }),
       iconButtonContainer: () => ({

@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { DataTable } from '../../../components/DataTable';
 import { GridFilterModel, GridSortModel } from '@mui/x-data-grid';
 import { IGetCustomerPersonListFilter } from '../../../utils/interfaces/interfaces';
-import { getCustomerList } from '../../../Services/Customer/customer';
-import { customerColumns } from './CustomerList';
+import { deleteCustomerById, getCustomerList } from '../../../Services/Customer/customer';
+import { getCustomerColumns } from './CustomerList';
+import { PageHeader } from '../../../components/PageHeaderProps';
+import CustomerEditDrawer from '../CreateEdit/CustomerEditDrawer';
+import CustomerCreateDrawer from '../CreateEdit/CustomerCreateDrawer';
 
 export default function CustomerGrid() {
     const [loading, setLoading] = useState(false);
@@ -17,6 +19,9 @@ export default function CustomerGrid() {
     const [filterModel, setFilterModel] = useState<GridFilterModel>({ items: [] });
     const isLoading = useRef(false);
     const [sortModel, setSortModel] = useState<GridSortModel>([]);
+    const [openCreateDrawer, setOpenCreateDrawer] = useState(false);
+    const [openEditDrawer, setOpenEditDrawer] = useState(false);
+    const [editCustomerId, setEditCustomerId] = useState<number | null>(null);
 
     const fetchCustomers = async (page: number, size: number, filters: GridFilterModel, sort: GridSortModel) => {
         if (isLoading.current) return;
@@ -67,20 +72,59 @@ export default function CustomerGrid() {
         setCurrentPage(0);
     };
 
+    const handleDelete = async (id: number) => {
+        await deleteCustomerById(id);
+        fetchCustomers(currentPage, rowsPerPage, filterModel, sortModel);
+    };
+
     const handleSortChange = (newSortModel: GridSortModel) => {
         setSortModel(newSortModel);
         setCurrentPage(0);
     };
 
+    const handleEdit = (id: number) => {
+        setEditCustomerId(id);
+        setOpenEditDrawer(true);
+    };
+
+    const handleRefresh = () => {
+        fetchCustomers(currentPage, rowsPerPage, filterModel, sortModel);
+    };
+
     return (
         <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1700px' } }}>
-            <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-                Clientes
-            </Typography>
+            <PageHeader
+                title="Clientes"
+                onRefresh={handleRefresh}
+                onCreate={() => setOpenCreateDrawer(true)}
+            />
+
+            <CustomerCreateDrawer
+                open={openCreateDrawer}
+                onClose={() => setOpenCreateDrawer(false)}
+                onSuccess={handleRefresh}
+            />
+
+            <CustomerEditDrawer
+                open={openEditDrawer}
+                onClose={() => {
+                    setOpenEditDrawer(false);
+                }}
+                onSuccess={() => {
+                    handleRefresh();
+                    setOpenEditDrawer(false);
+                    setEditCustomerId(null);
+                }}
+                id={editCustomerId ?? 0}
+            />
+
             <Grid>
                 <DataTable
                     rows={rows}
-                    columns={customerColumns}
+                    columns={
+                        getCustomerColumns(handleDelete, handleEdit)
+                    }
+                    onEdit={handleEdit}
                     totalRows={totalRows}
                     currentPage={currentPage}
                     rowsPerPage={rowsPerPage}

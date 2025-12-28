@@ -16,37 +16,13 @@ export const getUserColumns = (
             field: 'name',
             headerName: 'Nome',
             flex: 1.5,
-            minWidth: 200,
-            renderCell: (cellValues: GridRenderCellParams) => {
-                return (
-                    <div
-                        style={{
-                            textAlign: 'left',
-                            marginLeft: '-8px'
-                        }}
-                    >
-                        {cellValues.row?.name}
-                    </div >
-                );
-            }
+            minWidth: 200
         },
         {
             field: 'email',
             headerName: 'E-mail',
             flex: 1.5,
-            minWidth: 200,
-            renderCell: (cellValues: GridRenderCellParams) => {
-                return (
-                    <div
-                        style={{
-                            textAlign: 'left',
-                            marginLeft: '-8px'
-                        }}
-                    >
-                        {cellValues.row?.email}
-                    </div >
-                );
-            }
+            minWidth: 200
         },
         {
             filterable: false,
@@ -54,18 +30,7 @@ export const getUserColumns = (
             headerName: 'Telefone',
             flex: 1.5,
             minWidth: 200,
-            renderCell: (cellValues: GridRenderCellParams) => {
-                return (
-                    <div
-                        style={{
-                            textAlign: 'left',
-                            marginLeft: '-8px'
-                        }}
-                    >
-                        {Helper.formatPhoneNumber(cellValues.row?.phoneNumber)}
-                    </div >
-                );
-            }
+            renderCell: (cellValues: GridRenderCellParams) => Helper.formatPhoneNumber(cellValues.row?.phoneNumber)
         },
         {
             filterable: false,
@@ -93,7 +58,10 @@ export const getUserColumns = (
                     </Button>
                     <Button
                         color="error"
-                        onClick={() => handleDelete(params.row.id)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete(params.row.id);
+                        }}
                     >
                         <DeleteOutlineIcon />
                     </Button>

@@ -10,18 +10,7 @@ export const orderColumns: GridColDef[] = [
         headerName: 'Número do Pedido',
         flex: 0.7,
         minWidth: 150,
-        renderCell: (cellValues: GridRenderCellParams) => {
-            return (
-                <div
-                    style={{
-                        textAlign: 'left',
-                        marginLeft: '-8px'
-                    }}
-                >
-                    {cellValues.row?.id}
-                </div >
-            );
-        }
+        renderCell: (cellValues: GridRenderCellParams) => cellValues.row?.id
     },
     {
         filterable: false,
@@ -29,18 +18,7 @@ export const orderColumns: GridColDef[] = [
         headerName: 'Nome do Cliente',
         flex: 1,
         minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => {
-            return (
-                <div
-                    style={{
-                        textAlign: 'left',
-                        marginLeft: '-8px'
-                    }}
-                >
-                    {cellValues.row?.customerPersonDisplay || cellValues.row?.customerName}
-                </div >
-            );
-        }
+        renderCell: (cellValues: GridRenderCellParams) => cellValues.row?.customerPersonDisplay || cellValues.row?.customerName
     },
     {
         filterable: false,
@@ -72,15 +50,6 @@ export const orderColumns: GridColDef[] = [
         headerName: 'Criado por',
         flex: 1,
         minWidth: 200,
-        renderCell: (cellValues: GridRenderCellParams) => (
-            <div
-                style={{
-                    textAlign: 'left',
-                    marginLeft: '-8px'
-                }}
-            >
-                {cellValues.row?.createdBy}
-            </div>
-        )
+        renderCell: (cellValues: GridRenderCellParams) => cellValues.row?.createdBy ?? "N/a"
     }
 ];

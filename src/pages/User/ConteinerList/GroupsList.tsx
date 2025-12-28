@@ -14,18 +14,7 @@ export const getGroupsColumns = (
             minWidth: 200,
             sortable: false,
             filterable: false,
-            renderCell: (cellValues: GridRenderCellParams) => {
-                return (
-                    <div
-                        style={{
-                            textAlign: 'left',
-                            marginLeft: '-8px'
-                        }}
-                    >
-                        {cellValues.row?.groupName}
-                    </div >
-                );
-            }
+            renderCell: (cellValues: GridRenderCellParams) => cellValues.row?.groupName
         },
         {
             field: 'actions',

@@ -4,7 +4,7 @@ import { CustomNoRowsOverlay } from '../internals/components/CustomIcons';
 import CustomToolbar from './CustomToolBar';
 import { ICustomDataGridType } from '../utils/interfaces/interfaces';
 
-export const DataTable = ({
+export const DataTable = <T,>({
   rows,
   columns,
   totalRows,
@@ -14,8 +14,9 @@ export const DataTable = ({
   setCurrentPage,
   setRowsPerPage,
   onFilterChange,
-  onSortChange
-}: ICustomDataGridType) => {
+  onSortChange,
+  onEdit
+}: ICustomDataGridType<T>) => {
   return (
     <DataGrid
       autoHeight
@@ -44,6 +45,11 @@ export const DataTable = ({
         },
         pagination: {
           labelRowsPerPage: "Linhas por página:"
+        }
+      }}
+      onRowClick={(params) => {
+        if (onEdit) {
+          onEdit(params.id as T);
         }
       }}
       filterMode="server"

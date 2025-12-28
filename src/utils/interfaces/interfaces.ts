@@ -218,6 +218,12 @@ export interface UserCreateDrawerProps {
     onSuccess: () => void;
 }
 
+export interface CustomerCreateDrawerProps {
+    open: boolean;
+    onClose: () => void;
+    onSuccess: () => void;
+}
+
 export interface DrawerWrapperProps {
     open: boolean;
     onClose: () => void;
@@ -239,6 +245,24 @@ export interface SignInFormFieldsProps {
     passwordError: boolean;
     passwordErrorMessage: string;
     validateInputs: () => boolean;
+}
+
+export interface CustomerEditDrawerProps {
+    id: number;
+    open: boolean;
+    onClose: () => void;
+    onSuccess: () => void;
+}
+
+export interface CustomerFormTabsProps {
+    tabIndex: number;
+    handleChangeTab: (event: React.SyntheticEvent, newValue: number) => void;
+    name: string;
+    setName: (val: string) => void;
+    phoneNumber: string;
+    setPhone: (val: string) => void;
+    balance: number;
+    setBalance: (val: number) => void;
 }
 
 export interface UserEditDrawerProps {
@@ -263,18 +287,19 @@ export interface UserFormTabsProps {
     setEmailVerified: (val: boolean) => void;
 }
 
-export interface ICustomDataGridType {
-    rows: any[]
-    columns: GridColDef[]
-    totalRows: number
-    currentPage?: number
-    rowsPerPage?: number
-    loading: boolean
-    setCurrentPage?: (value: number) => void
-    setRowsPerPage?: (value: number) => void
-    onFilterChange?: (filterModel: GridFilterModel) => void
-    onSortChange?: (sortModel: GridSortModel) => void
-    customRowId?: string
+export interface ICustomDataGridType<T = any> {
+    rows: any[];
+    columns: GridColDef[];
+    totalRows: number;
+    currentPage?: number;
+    rowsPerPage?: number;
+    loading: boolean;
+    setCurrentPage?: (value: number) => void;
+    setRowsPerPage?: (value: number) => void;
+    onFilterChange?: (filterModel: GridFilterModel) => void;
+    onSortChange?: (sortModel: GridSortModel) => void;
+    onEdit?: (id: T) => void;
+    customRowId?: string;
 }
 
 export interface UserAddGroupDrawerProps {
@@ -304,6 +329,23 @@ export interface UserTabsPanelProps {
     columns: GridColDef[];
     openAddGroupDrawer: boolean;
     setOpenAddGroupDrawer: (value: boolean) => void;
+}
+
+export interface CustomerTabsPanelProps {
+    id: number;
+    tabIndex: number;
+    setTabIndex: (value: number) => void;
+    name: string;
+    phoneNumber: string;
+    balance: number;
+    setName: (value: string) => void;
+    setPhone: (value: string) => void;
+    setBalance: (value: number) => void;
+    handleRefresh?: () => void;
+    rows: any[];
+    totalRows: number;
+    loading?: boolean | null;
+    columns?: GridColDef[];
 }
 
 export interface PageHeaderProps {
@@ -342,6 +384,15 @@ export interface UseSubmitUserFormProps {
     email: string;
     phoneNumber: string;
     emailVerified: boolean;
+    onSuccess: () => void;
+    onClose: () => void;
+}
+
+export interface UseSubmitCustomerFormProps {
+    id: number;
+    name: string;
+    phoneNumber: string;
+    balance: number;
     onSuccess: () => void;
     onClose: () => void;
 }
