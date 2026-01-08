@@ -84,17 +84,6 @@ export interface IGetOrderListAsync {
     status?: OrderStatusEnum | null
 }
 
-export interface IOrderCreateModel {
-    customerPersonId?: number | null
-    customerName?: string | null
-    products: IOrderProductCreateModel[]
-}
-
-export interface IOrderProductCreateModel {
-    productId: number
-    quantity: number
-}
-
 export interface IOrderUpdateModel {
     customerPersonId?: number | null
     customerName?: string | null
@@ -315,6 +304,12 @@ export interface IUserAddGroupDrawerProps {
     onSuccess: () => void;
 }
 
+export interface IOrderAddProductDrawerProps {
+    open: boolean;
+    onClose: () => void;
+    onAddProduct: (item: any) => void;
+}
+
 export interface IUserTabsPanelProps {
     id: string;
     tabIndex: number;
@@ -384,6 +379,26 @@ export interface PhoneMaskInputProps extends Omit<TextFieldProps, 'inputRef'> {
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
+export interface IOrderCreateModel {
+    customerPersonId?: number | null
+    customerName?: string | null
+    products: IOrderProductItem[]
+}
+
+export interface IOrderProductItem {
+    productId: number
+    quantity: number
+}
+
+export interface IUseSubmitOrderFormProps {
+    id: number;
+    customerName: string | null;
+    customerPersonId: number | null;
+    data: any[];
+    onSuccess: () => void;
+    onClose: () => void;
+}
+
 export interface IUseSubmitUserFormProps {
     id: string;
     name: string;
@@ -422,4 +437,18 @@ export interface AppThemeProps {
     children: React.ReactNode;
     disableCustomTheme?: boolean;
     themeComponents?: ThemeOptions['components'];
+}
+
+export interface IOrderTabsPanelProps {
+    id: number;
+    tabIndex: number;
+    setTabIndex: (value: number) => void;
+    customerName?: string;
+    customerPersonId?: string | number;
+    customerPersonDisplay?: string;
+    rows: any[];
+    totalRows?: number;
+    loading: boolean;
+    columns: GridColDef[];
+    onAddProductDrawer: () => void;
 }

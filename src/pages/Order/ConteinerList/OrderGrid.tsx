@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { DataTable } from '../../../components/DataTable';
 import { GridFilterModel, GridSortModel } from '@mui/x-data-grid';
 import { IGetOrderListAsync } from '../../../utils/interfaces/interfaces';
 import { deleteOrderById, getOrderList } from '../../../Services/Order/order';
 import { getOrderColumns } from './OrderList';
 import { PageHeader } from '../../../components/PageHeaderProps';
+import OrderCreateDrawer from '../CreateEdit/OrderCreateDrawer';
+import OrderEditDrawer from '../CreateEdit/OrderEditDrawer';
 
 export default function OrderGrid() {
     const [loading, setLoading] = useState(false);
@@ -96,6 +97,25 @@ export default function OrderGrid() {
                 title="Pedidos"
                 onRefresh={handleRefresh}
                 onCreate={() => setOpenCreateDrawer(true)}
+            />
+
+            <OrderCreateDrawer
+                open={openCreateDrawer}
+                onClose={() => setOpenCreateDrawer(false)}
+                onSuccess={handleRefresh}
+            />
+
+            <OrderEditDrawer
+                open={openEditDrawer}
+                onClose={() => {
+                    setOpenEditDrawer(false);
+                }}
+                onSuccess={() => {
+                    handleRefresh();
+                    setOpenEditDrawer(false);
+                    setEditOrderId(null);
+                }}
+                id={editOrderId ?? 0}
             />
 
             <Grid>

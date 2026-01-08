@@ -7,7 +7,8 @@ export const DataTableShort = ({
   rows,
   columns,
   totalRows,
-  loading
+  loading,
+  customRowId
 }: ICustomDataGridType) => {
   return (
     <DataGrid
@@ -16,7 +17,12 @@ export const DataTableShort = ({
       rowCount={totalRows}
       loading={loading}
       slots={{ noRowsOverlay: CustomNoRowsOverlay }}
-      getRowId={(row: any) => row.id ??  row.groupName}
+      getRowId={(row) => {
+        if (customRowId && row[customRowId] != null) {
+          return row[customRowId];
+        }
+        return row.id;
+      }}
       disableColumnResize
       density="compact"
       disableRowSelectionOnClick
