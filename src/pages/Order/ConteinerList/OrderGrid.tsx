@@ -5,10 +5,11 @@ import Typography from '@mui/material/Typography';
 import { DataTable } from '../../../components/DataTable';
 import { GridFilterModel, GridSortModel } from '@mui/x-data-grid';
 import { IGetOrderListAsync } from '../../../utils/interfaces/interfaces';
-import { getOrderList } from '../../../Services/Order/order';
-import { orderColumns } from './OrderList';
+import { deleteOrderById, getOrderList } from '../../../Services/Order/order';
+import { getOrderColumns } from './OrderList';
+import { PageHeader } from '../../../components/PageHeaderProps';
 
-export default function OrderGrid () {
+export default function OrderGrid() {
     const [loading, setLoading] = useState(false);
     const [rows, setRows] = useState([]);
     const [totalRows, setTotalRows] = useState(0);
@@ -17,6 +18,9 @@ export default function OrderGrid () {
     const [filterModel, setFilterModel] = useState<GridFilterModel>({ items: [] });
     const isLoading = useRef(false);
     const [sortModel, setSortModel] = useState<GridSortModel>([]);
+    const [openCreateDrawer, setOpenCreateDrawer] = useState(false);
+    const [openEditDrawer, setOpenEditDrawer] = useState(false);
+    const [editOrderId, setEditOrderId] = useState<number | null>(null);
 
     const fetchOrders = async (page: number, size: number, filters: GridFilterModel, sort: GridSortModel) => {
         if (isLoading.current) return;
@@ -67,20 +71,40 @@ export default function OrderGrid () {
         setCurrentPage(0);
     };
 
+    const handleDelete = async (id: number) => {
+        await deleteOrderById(id);
+        fetchOrders(currentPage, rowsPerPage, filterModel, sortModel);
+    };
+
     const handleSortChange = (newSortModel: GridSortModel) => {
         setSortModel(newSortModel);
         setCurrentPage(0);
     };
 
+    const handleEdit = (id: number) => {
+        setEditOrderId(id);
+        setOpenEditDrawer(true);
+    };
+
+    const handleRefresh = () => {
+        fetchOrders(currentPage, rowsPerPage, filterModel, sortModel);
+    };
+
     return (
         <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1700px' } }}>
-            <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-                Pedidos
-            </Typography>
+            <PageHeader
+                title="Pedidos"
+                onRefresh={handleRefresh}
+                onCreate={() => setOpenCreateDrawer(true)}
+            />
+
             <Grid>
                 <DataTable
                     rows={rows}
-                    columns={orderColumns}
+                    columns={
+                        getOrderColumns(handleDelete, handleEdit)
+                    }
+                    onEdit={handleEdit}
                     totalRows={totalRows}
                     currentPage={currentPage}
                     rowsPerPage={rowsPerPage}
