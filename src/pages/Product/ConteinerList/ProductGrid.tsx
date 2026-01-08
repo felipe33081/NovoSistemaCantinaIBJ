@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { DataTable } from '../../../components/DataTable';
 import { GridFilterModel, GridSortModel } from '@mui/x-data-grid';
 import { IGetProductListAsync } from '../../../utils/interfaces/interfaces';
-import { getProductList } from '../../../Services/Product/product';
-import { productColumns } from './ProductList';
+import { deleteProductById, getProductList } from '../../../Services/Product/product';
+import { getProductColumns } from './ProductList';
+import { PageHeader } from '../../../components/PageHeaderProps';
+import ProductCreateDrawer from '../CreateEdit/ProductCreateDrawer';
+import ProductEditDrawer from '../CreateEdit/ProductEditDrawer';
 
 export default function ProductGrid() {
     const [loading, setLoading] = useState(false);
@@ -17,6 +19,9 @@ export default function ProductGrid() {
     const [filterModel, setFilterModel] = useState<GridFilterModel>({ items: [] });
     const [sortModel, setSortModel] = useState<GridSortModel>([]);
     const isLoading = useRef(false);
+    const [openCreateDrawer, setOpenCreateDrawer] = useState(false);
+    const [openEditDrawer, setOpenEditDrawer] = useState(false);
+    const [editProductId, setEditProductId] = useState<number | null>(null);
 
     const fetchProducts = async (page: number, size: number, filters: GridFilterModel, sort: GridSortModel) => {
         if (isLoading.current) return;
@@ -44,6 +49,7 @@ export default function ProductGrid() {
                 searchString: quickFilterValue,
                 orderBy: `${orderBy}_${orderByDirection}`
             };
+
             const response = await getProductList(params);
             setRows(response.data || []);
             setTotalRows(response.totalItems || 0);
@@ -61,6 +67,11 @@ export default function ProductGrid() {
         fetchProducts(currentPage, rowsPerPage, filterModel, sortModel);
     }, [currentPage, rowsPerPage, filterModel, sortModel]);
 
+    const handleDelete = async (id: number) => {
+        await deleteProductById(id);
+        fetchProducts(currentPage, rowsPerPage, filterModel, sortModel);
+    };
+
     const handleFilterChange = (newFilterModel: GridFilterModel) => {
         setFilterModel(newFilterModel);
         setCurrentPage(0);
@@ -71,15 +82,49 @@ export default function ProductGrid() {
         setCurrentPage(0);
     };
 
+    const handleEdit = (id: number) => {
+        setEditProductId(id);
+        setOpenEditDrawer(true);
+    };
+
+    const handleRefresh = () => {
+        fetchProducts(currentPage, rowsPerPage, filterModel, sortModel);
+    };
+
     return (
         <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1700px' } }}>
-            <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-                Produtos
-            </Typography>
+            <PageHeader
+                title="Produtos"
+                onRefresh={handleRefresh}
+                onCreate={() => setOpenCreateDrawer(true)}
+            />
+
+            <ProductCreateDrawer
+                open={openCreateDrawer}
+                onClose={() => setOpenCreateDrawer(false)}
+                onSuccess={handleRefresh}
+            />
+
+            <ProductEditDrawer
+                open={openEditDrawer}
+                onClose={() => {
+                    setOpenEditDrawer(false);
+                }}
+                onSuccess={() => {
+                    handleRefresh();
+                    setOpenEditDrawer(false);
+                    setEditProductId(null);
+                }}
+                id={editProductId ?? 0}
+            />
+
             <Grid>
                 <DataTable
                     rows={rows}
-                    columns={productColumns}
+                    columns={
+                        getProductColumns(handleDelete, handleEdit)
+                    }
+                    onEdit={handleEdit}
                     totalRows={totalRows}
                     currentPage={currentPage}
                     rowsPerPage={rowsPerPage}

@@ -6,14 +6,14 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { UserAddGroupDrawerProps } from '../../../utils/interfaces/interfaces';
+import { IUserAddGroupDrawerProps } from '../../../utils/interfaces/interfaces';
 
 export default function UserAddGroupDrawer({
     id,
     open,
     onClose,
     onSuccess
-}: UserAddGroupDrawerProps) {
+}: IUserAddGroupDrawerProps) {
     const [groupName, setGroupName] = useState("");
 
     const handleSubmit = async (event: React.FormEvent) => {

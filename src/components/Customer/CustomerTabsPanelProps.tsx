@@ -3,7 +3,7 @@ import React from "react";
 import { CustomTabPanel, CustomTabs } from "../CustomTabPanel";
 import FormTextField from "../FormTextField";
 import { PhoneMaskInput } from "../PhoneMaskField";
-import { CustomerTabsPanelProps } from "../../utils/interfaces/interfaces";
+import { ICustomerTabsPanelProps } from "../../utils/interfaces/interfaces";
 import { renderBalanceCustomer } from "../../hooks/renderBalanceCustomer";
 import Helper from "../../helpers/format.helpers";
 
@@ -16,7 +16,7 @@ export const CustomerTabsPanel = ({
   balance,
   setName,
   setPhone
-}: CustomerTabsPanelProps) => {
+}: ICustomerTabsPanelProps) => {
   const handleChangeTab = (_event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };

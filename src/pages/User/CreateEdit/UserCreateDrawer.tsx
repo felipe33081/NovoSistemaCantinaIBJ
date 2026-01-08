@@ -5,13 +5,13 @@ import FormTextField from '../../../components/FormTextField';
 import { PhoneMaskInput } from '../../../components/PhoneMaskField';
 import PasswordInput from '../../../components/PasswordField';
 import { postUserCreate } from '../../../Services/User/user';
-import { UserCreateDrawerProps } from '../../../utils/interfaces/interfaces';
+import { ICreateDrawerProps } from '../../../utils/interfaces/interfaces';
 
 export default function UserCreateDrawer({
     open,
     onClose,
     onSuccess
-}: UserCreateDrawerProps) {
+}: ICreateDrawerProps) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhone] = useState("");

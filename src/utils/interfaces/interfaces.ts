@@ -137,6 +137,19 @@ export interface IProductReadModel {
     disponibility: boolean
 }
 
+export interface CustomProps {
+    onChange: (event: { target: { name: string; value: string } }) => void;
+    name: string;
+}
+
+export interface PriceInputProps {
+    label: string;
+    value?: string | number;
+    required?: boolean;
+    name?: string;
+    onChange: (e: any) => void;
+}
+
 export interface IProductCreateModel {
     name: string
     description?: string | null
@@ -149,7 +162,6 @@ export interface IProductUpdateModel {
     description?: string | null
     price: number
     quantity: number
-    disponibility: boolean
 }
 
 export interface IProductModel {
@@ -206,25 +218,19 @@ export interface IUserGetResponseModel {
     emailVerified: boolean
 }
 
-export interface CustomTabsProps {
+export interface ICustomTabsProps {
     value: number;
     onChange: (event: React.SyntheticEvent, newValue: number) => void;
     labels: string[];
 }
 
-export interface UserCreateDrawerProps {
+export interface ICreateDrawerProps {
     open: boolean;
     onClose: () => void;
     onSuccess: () => void;
 }
 
-export interface CustomerCreateDrawerProps {
-    open: boolean;
-    onClose: () => void;
-    onSuccess: () => void;
-}
-
-export interface DrawerWrapperProps {
+export interface IDrawerWrapperProps {
     open: boolean;
     onClose: () => void;
     title?: string;
@@ -239,7 +245,7 @@ export interface FormTextFieldProps extends Omit<TextFieldProps, 'label'> {
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export interface SignInFormFieldsProps {
+export interface ISignInFormFieldsProps {
     emailError: boolean;
     emailErrorMessage: string;
     passwordError: boolean;
@@ -247,14 +253,14 @@ export interface SignInFormFieldsProps {
     validateInputs: () => boolean;
 }
 
-export interface CustomerEditDrawerProps {
+export interface IEditDrawerProps {
     id: number;
     open: boolean;
     onClose: () => void;
     onSuccess: () => void;
 }
 
-export interface CustomerFormTabsProps {
+export interface ICustomerFormTabsProps {
     tabIndex: number;
     handleChangeTab: (event: React.SyntheticEvent, newValue: number) => void;
     name: string;
@@ -265,14 +271,14 @@ export interface CustomerFormTabsProps {
     setBalance: (val: number) => void;
 }
 
-export interface UserEditDrawerProps {
+export interface IUserEditDrawerProps {
     id: string;
     open: boolean;
     onClose: () => void;
     onSuccess: () => void;
 }
 
-export interface UserFormTabsProps {
+export interface IUserFormTabsProps {
     tabIndex: number;
     handleChangeTab: (event: React.SyntheticEvent, newValue: number) => void;
     name: string;
@@ -302,14 +308,14 @@ export interface ICustomDataGridType<T = any> {
     customRowId?: string;
 }
 
-export interface UserAddGroupDrawerProps {
+export interface IUserAddGroupDrawerProps {
     id?: string;
     open: boolean;
     onClose: () => void;
     onSuccess: () => void;
 }
 
-export interface UserTabsPanelProps {
+export interface IUserTabsPanelProps {
     id: string;
     tabIndex: number;
     setTabIndex: (value: number) => void;
@@ -331,7 +337,7 @@ export interface UserTabsPanelProps {
     setOpenAddGroupDrawer: (value: boolean) => void;
 }
 
-export interface CustomerTabsPanelProps {
+export interface ICustomerTabsPanelProps {
     id: number;
     tabIndex: number;
     setTabIndex: (value: number) => void;
@@ -378,7 +384,7 @@ export interface PhoneMaskInputProps extends Omit<TextFieldProps, 'inputRef'> {
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export interface UseSubmitUserFormProps {
+export interface IUseSubmitUserFormProps {
     id: string;
     name: string;
     email: string;
@@ -388,11 +394,21 @@ export interface UseSubmitUserFormProps {
     onClose: () => void;
 }
 
-export interface UseSubmitCustomerFormProps {
+export interface IUseSubmitCustomerFormProps {
     id: number;
     name: string;
     phoneNumber: string;
     balance: number;
+    onSuccess: () => void;
+    onClose: () => void;
+}
+
+export interface IUseSubmitProductFormProps {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    quantity: number;
     onSuccess: () => void;
     onClose: () => void;
 }
@@ -404,9 +420,6 @@ export interface ForgotPasswordProps {
 
 export interface AppThemeProps {
     children: React.ReactNode;
-    /**
-     * This is for the docs site. You can ignore it or remove it.
-     */
     disableCustomTheme?: boolean;
     themeComponents?: ThemeOptions['components'];
 }

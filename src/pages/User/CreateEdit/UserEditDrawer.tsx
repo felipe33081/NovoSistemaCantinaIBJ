@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DrawerWrapper from '../../../components/DrawerWrapper';
 import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { getUserById, getUserGroupsList, removeUserGroupEdit } from '../../../Services/User/user';
-import { UserEditDrawerProps } from '../../../utils/interfaces/interfaces';
+import { IUserEditDrawerProps } from '../../../utils/interfaces/interfaces';
 import { useTabs } from '../../../hooks/useTabs';
 import { useSubmitUserForm } from '../../../hooks/User/useSubmitUserForm';
 import { getGroupsColumns } from '../ConteinerList/GroupsList';
@@ -14,7 +14,7 @@ export default function UserEditDrawer({
     open,
     onClose,
     onSuccess
-}: UserEditDrawerProps) {
+}: IUserEditDrawerProps) {
     const [rows, setRows] = useState([]);
     const [totalRows, setTotalRows] = useState(0);
     const [name, setName] = useState('');

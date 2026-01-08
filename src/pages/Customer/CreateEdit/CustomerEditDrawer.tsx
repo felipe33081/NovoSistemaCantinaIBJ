@@ -4,7 +4,7 @@ import { Box, Button } from '@mui/material';
 import { useTabs } from '../../../hooks/useTabs';
 import { useSubmitCustomerForm } from '../../../hooks/Customer/useSubmitCustomerForm';
 import { CustomerTabsPanel } from '../../../components/Customer/CustomerTabsPanelProps';
-import { CustomerEditDrawerProps } from '../../../utils/interfaces/interfaces';
+import { IEditDrawerProps } from '../../../utils/interfaces/interfaces';
 import { getCustomerById } from '../../../Services/Customer/customer';
 import { DrawerContentLoader } from '../../../components/DrawerContentLoader';
 
@@ -13,7 +13,7 @@ export default function CustomerEditDrawer({
     open,
     onClose,
     onSuccess
-}: CustomerEditDrawerProps) {
+}: IEditDrawerProps) {
     const [rows, setRows] = useState([]);
     const [totalRows, setTotalRows] = useState(0);
     const [name, setName] = useState('');

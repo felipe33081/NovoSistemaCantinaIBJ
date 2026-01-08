@@ -2,13 +2,13 @@ import { FormControl, FormControlLabel, FormLabel, Checkbox, TextField, Button }
 import React from 'react';
 import FormTextField from '../../components/FormTextField';
 import PasswordInput from '../../components/PasswordField';
-import { SignInFormFieldsProps } from '../../utils/interfaces/interfaces';
+import { ISignInFormFieldsProps } from '../../utils/interfaces/interfaces';
 
 export default function SignInFormFields({
   emailError,
   emailErrorMessage,
   validateInputs
-}: SignInFormFieldsProps) {
+}: ISignInFormFieldsProps) {
   return (
     <>
       <FormTextField

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Drawer, Box, Typography, IconButton, Divider } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { DrawerWrapperProps } from '../utils/interfaces/interfaces';
+import { IDrawerWrapperProps } from '../utils/interfaces/interfaces';
 
 export default function DrawerWrapper({
     open,
@@ -10,7 +10,7 @@ export default function DrawerWrapper({
     children,
     actions,
     isWrapperChildren = false
-}: DrawerWrapperProps) {
+}: IDrawerWrapperProps) {
     return (
         <Drawer
             anchor="right"

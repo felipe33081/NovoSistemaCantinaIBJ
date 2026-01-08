@@ -8,7 +8,7 @@ import UserAddGroupDrawer from "../../pages/User/CreateEdit/UserAddGroupDrawer";
 import FormTextField from "../FormTextField";
 import { PhoneMaskInput } from "../PhoneMaskField";
 import { DataTableShort } from "../DataTableShort";
-import { UserTabsPanelProps } from "../../utils/interfaces/interfaces";
+import { IUserTabsPanelProps } from "../../utils/interfaces/interfaces";
 
 export const UserTabsPanel = ({
   id,
@@ -30,7 +30,7 @@ export const UserTabsPanel = ({
   columns,
   openAddGroupDrawer,
   setOpenAddGroupDrawer,
-}: UserTabsPanelProps) => {
+}: IUserTabsPanelProps) => {
   const handleChangeTab = (_event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };

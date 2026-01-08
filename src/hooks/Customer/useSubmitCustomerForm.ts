@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { putCustomerEdit } from "../../Services/Customer/customer";
-import { ICustomerPersonUpdateModel, UseSubmitCustomerFormProps } from "../../utils/interfaces/interfaces";
+import { ICustomerPersonUpdateModel, IUseSubmitCustomerFormProps } from "../../utils/interfaces/interfaces";
 
 export function useSubmitCustomerForm({
     id,
@@ -9,7 +9,7 @@ export function useSubmitCustomerForm({
     balance,
     onSuccess,
     onClose,
-}: UseSubmitCustomerFormProps) {
+}: IUseSubmitCustomerFormProps) {
     const handleSubmit = useCallback(
         async (event: React.FormEvent) => {
             event.preventDefault();

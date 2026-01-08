@@ -1,6 +1,6 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import React from "react";
-import { CustomTabsProps } from "../utils/interfaces/interfaces";
+import { ICustomTabsProps } from "../utils/interfaces/interfaces";
 import { Environment } from "../environments/Index";
 
 interface TabPanelProps {
@@ -32,7 +32,7 @@ export function a11yProps(index: number) {
   };
 }
 
-export const CustomTabs: React.FC<CustomTabsProps> = ({ value, onChange, labels }) => {
+export const CustomTabs: React.FC<ICustomTabsProps> = ({ value, onChange, labels }) => {
   return (
     <Tabs
       value={value}

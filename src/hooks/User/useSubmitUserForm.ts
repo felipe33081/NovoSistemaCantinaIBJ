@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { putUserEdit } from "../../Services/User/user";
-import { UseSubmitUserFormProps } from "../../utils/interfaces/interfaces";
+import { IUseSubmitUserFormProps } from "../../utils/interfaces/interfaces";
 
 export function useSubmitUserForm({
     id,
@@ -10,7 +10,7 @@ export function useSubmitUserForm({
     emailVerified,
     onSuccess,
     onClose,
-}: UseSubmitUserFormProps) {
+}: IUseSubmitUserFormProps) {
     const handleSubmit = useCallback(
         async (event: React.FormEvent) => {
             event.preventDefault();

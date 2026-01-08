@@ -4,13 +4,13 @@ import { Box, Button } from '@mui/material';
 import FormTextField from '../../../components/FormTextField';
 import { PhoneMaskInput } from '../../../components/PhoneMaskField';
 import { postCustomerCreate } from '../../../Services/Customer/customer';
-import { CustomerCreateDrawerProps, ICustomerPersonCreateModel } from '../../../utils/interfaces/interfaces';
+import { ICreateDrawerProps, ICustomerPersonCreateModel } from '../../../utils/interfaces/interfaces';
 
 export default function CustomerCreateDrawer({
     open,
     onClose,
     onSuccess
-}: CustomerCreateDrawerProps) {
+}: ICreateDrawerProps) {
     const [name, setName] = useState("");
     const [phoneNumber, setPhone] = useState("");
 
