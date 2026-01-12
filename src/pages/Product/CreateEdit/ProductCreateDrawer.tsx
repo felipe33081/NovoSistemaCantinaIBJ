@@ -19,15 +19,19 @@ export default function ProductCreateDrawer({
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const product: IProductCreateModel = {
-            name,
-            description: description || null,
-            price: Number(price),
-            quantity: Number(quantity)
-        };
-        await postProductCreate(product);
-        onSuccess();
-        onClose();
+        try {
+            const product: IProductCreateModel = {
+                name,
+                description: description || null,
+                price: Number(price),
+                quantity: Number(quantity)
+            };
+            await postProductCreate(product);
+            onSuccess();
+            onClose();
+        } catch (error) {
+            console.error('Erro ao criar produto:', error);
+        }
     };
 
     return (

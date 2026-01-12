@@ -37,10 +37,10 @@ export default function ProductEditDrawer({
             setLoading(true);
             try {
                 const response = await getProductById(id);
-                setName(response.name || '');
-                setDescription(response.description || '');
-                setPrice(response.price || 0);
-                setQuantity(response.quantity || 0);
+                setName(response?.name || '');
+                setDescription(response?.description || '');
+                setPrice(response?.price || 0);
+                setQuantity(response?.quantity || 0);
             } catch (error) {
                 console.error('Erro ao buscar cliente:', error);
             } finally {

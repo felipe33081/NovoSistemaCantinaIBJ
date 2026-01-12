@@ -50,6 +50,11 @@ export interface ICustomerPersonReadModel {
     orders?: IOrderReadModel[] | null
 }
 
+export interface IOrderFinishModel {
+    paymentOfType: number;
+    paymentValue: number;
+}
+
 export interface ICustomerPersonCreateModel {
     name: string
     email?: string | null
@@ -457,4 +462,11 @@ export interface IOrderTabsPanelProps {
     loading: boolean;
     columns: GridColDef[];
     onAddProductDrawer: () => void;
+}
+
+export interface IToastContextData {
+    showSuccess: (message: string) => void;
+    showError: (message: string) => void;
+    showInfo: (message: string) => void;
+    showWarning: (message: string) => void;
 }

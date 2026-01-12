@@ -10,6 +10,9 @@ import { getOrderById } from '../../../Services/Order/order';
 import { OrderTabsPanel } from '../../../components/Order/OrderTabsPanel';
 import OrderAddProductDrawer from './OrderAddProductDrawer';
 import { useOrderProducts } from '../../../hooks/Order/useOrderProducts';
+import { OrderStatusEnum } from '../../../utils/enums/enums';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import OrderFinishDialog from '../../../components/Order/OrderFinishDialog';
 
 export default function OrderEditDrawer({
     id,
@@ -23,6 +26,9 @@ export default function OrderEditDrawer({
     const [loading, setLoading] = useState(true);
     const { tabIndex, setTabIndex } = useTabs();
     const [openAddProductDrawer, setOpenAddProductDrawer] = useState(false);
+    const [orderStatus, setOrderStatus] = useState<number>(0);
+    const [orderTotalValue, setOrderTotalValue] = useState<number>(0);
+    const [openFinishDialog, setOpenFinishDialog] = useState(false);
     const { productsData, setProductsData, addProduct, removeProduct } = useOrderProducts([]);
     const { handleSubmit } = useSubmitOrderForm({
         id,
@@ -40,11 +46,13 @@ export default function OrderEditDrawer({
         try {
             const orderRes = await getOrderById(id);
 
-            setCustomerName(orderRes.customerName || '');
-            setCustomerPersonId(orderRes.customerPersonId || 0);
-            setCustomerPersonDisplay(orderRes.customerPersonDisplay || '');
+            setCustomerName(orderRes?.customerName || '');
+            setCustomerPersonId(orderRes?.customerPersonId || 0);
+            setCustomerPersonDisplay(orderRes?.customerPersonDisplay || '');
+            setOrderStatus(orderRes?.status || 0);
+            setOrderTotalValue(orderRes?.totalValue || 0);
 
-            const formattedProducts = (orderRes.products || []).map((item: any) => ({
+            const formattedProducts = (orderRes?.products || []).map((item: any) => ({
                 productId: item.productId,
                 id: item.productId,
                 name: item.description ? `${item.name} - ${item.description}` : item.name,
@@ -69,22 +77,50 @@ export default function OrderEditDrawer({
             setCustomerName('');
             setCustomerPersonId(0);
             setCustomerPersonDisplay('');
+            setOrderStatus(0);
+            setOrderTotalValue(0);
             setProductsData([]);
             setLoading(true);
             setTabIndex(0);
         }
     }, [id, open]);
 
+    const handleFinishSuccess = () => {
+        onSuccess(); // Atualiza a grid principal
+        // Opção A: Fecha o drawer
+        onClose(); 
+
+        // Opção B: Recarrega os dados do drawer para mostrar que finalizou (se preferir manter aberto)
+        //fetchOrders();
+    };
+
     return (
         <DrawerWrapper
             open={open}
             onClose={onClose}
-            title="Editar pedido"
+            title={`Editar Pedido #${id}`}
             actions={
                 !loading && (
-                    <Box display="flex" justifyContent="flex-end" gap={2}>
-                        <Button onClick={onClose}>Cancelar</Button>
-                        <Button variant="contained" onClick={handleSubmit}>Salvar</Button>
+                    <Box display="flex" justifyContent="space-between" width="100%">
+                        {/* LADO ESQUERDO: Botão de Finalizar */}
+                        <Box>
+                            {orderStatus === OrderStatusEnum.InProgress && (
+                                <Button
+                                    variant="contained"
+                                    color="success" // Cor verde para destaque
+                                    onClick={() => setOpenFinishDialog(true)}
+                                    startIcon={<CheckCircleOutlineIcon />}
+                                >
+                                    Finalizar
+                                </Button>
+                            )}
+                        </Box>
+
+                        {/* LADO DIREITO: Ações normais */}
+                        <Box display="flex" gap={2}>
+                            <Button onClick={onClose}>Cancelar</Button>
+                            <Button variant="contained" onClick={handleSubmit}>Salvar</Button>
+                        </Box>
                     </Box>
                 )
             }
@@ -93,6 +129,14 @@ export default function OrderEditDrawer({
                 open={openAddProductDrawer}
                 onClose={() => setOpenAddProductDrawer(false)}
                 onAddProduct={addProduct}
+            />
+
+            <OrderFinishDialog
+                open={openFinishDialog}
+                onClose={() => setOpenFinishDialog(false)}
+                onSuccess={handleFinishSuccess}
+                orderId={id || 0}
+                totalValue={orderTotalValue}
             />
 
             <DrawerContentLoader loading={loading}>

@@ -2,14 +2,15 @@ import axios from 'axios';
 import { pickBy } from 'lodash';
 import { Environment } from '../../environments/Index';
 import { getToken } from '../Auth/getToken';
+import { Toast } from '../../utils/ToastUtils';
 import {
     IFinalizeOrderRequestModel,
     IGetOrderListAsync,
-    IListDataPagination,
     IOrderCreateModel,
     IOrderReadModel,
     IOrderUpdateModel
 } from '../../utils/interfaces/interfaces';
+import { handleApiError } from '../../utils/handleApiError';
 
 export const getOrderList = async (filters: IGetOrderListAsync) => {
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
@@ -27,12 +28,7 @@ export const getOrderList = async (filters: IGetOrderListAsync) => {
         return result.data;
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível obter a lista de pedidos");
-        }
-        throw err;
+        handleApiError(err);
     }
 }
 
@@ -49,12 +45,7 @@ export const getOrderById = async (id: number) => {
         return result.data;
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível obter os dados do pedido");
-        }
-        throw err;
+        handleApiError(err);
     }
 }
 
@@ -68,16 +59,11 @@ export const postOrderCreate = async (data: IOrderCreateModel) => {
 
     try {
         const result = await axios.post(url, data, config);
-        //Toast.showSuccessMessage(`Pedido adicionado com sucesso! Número do Pedido: ${result.data}`);
+        Toast.success(`Pedido adicionado com sucesso! Número do Pedido: ${result.data}`);
         return result.data;
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível cadastrar o pedido");
-        }
-        throw err;
+        handleApiError(err);
     }
 }
 
@@ -91,15 +77,10 @@ export const putOrderEdit = async (id: number, data: IOrderUpdateModel) => {
 
     try {
         await axios.put<IOrderReadModel>(url, data, config);
-        //Toast.showSuccessMessage("Pedido atualizado com sucesso!");
+        Toast.success("Pedido atualizado com sucesso!");
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível atualizar o pedido");
-        }
-        throw err;
+        handleApiError(err);
     }
 }
 
@@ -113,15 +94,10 @@ export const postOrderFinish = async (id: number, data: IFinalizeOrderRequestMod
 
     try {
         await axios.post(url, data, config);
-        //Toast.showSuccessMessage("Pedido finalizado com sucesso!");
+        Toast.success("Pedido finalizado com sucesso!");
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível finalizar o pedido");
-        }
-        throw err;
+        handleApiError(err);
     }
 }
 
@@ -135,14 +111,9 @@ export const deleteOrderById = async (id: number) => {
 
     try {
         await axios.delete(url, config);
-        //Toast.showSuccessMessage("Pedido excluído com sucesso!");
+        Toast.success("Pedido excluído com sucesso!");
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível excluir o pedido");
-        }
-        throw err;
+        handleApiError(err);
     }
 }

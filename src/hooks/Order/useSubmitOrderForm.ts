@@ -14,22 +14,21 @@ export const useSubmitOrderForm = ({
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        const order: IOrderUpdateModel = {
-            customerName: customerName,
-            customerPersonId: customerPersonId,
-            products: data.map((item) => ({
-                productId: item.id,
-                quantity: parseInt(item.quantity) || 0,
-            })),
-        };
-
         try {
+            const order: IOrderUpdateModel = {
+                customerName: customerName,
+                customerPersonId: customerPersonId,
+                products: data.map((item) => ({
+                    productId: item.id,
+                    quantity: parseInt(item.quantity) || 0,
+                })),
+            };
+
             await putOrderEdit(id, order);
             onSuccess();
             onClose();
         } catch (error) {
             console.error("Erro ao processar pedido:", error);
-            // Aqui você poderia disparar um Toast de erro
         }
     };
 

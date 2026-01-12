@@ -13,15 +13,20 @@ export function useSubmitCustomerForm({
     const handleSubmit = useCallback(
         async (event: React.FormEvent) => {
             event.preventDefault();
-            const customer: ICustomerPersonUpdateModel = {
-                name,
-                phone: phoneNumber,
-                email: null,
-                balance
-            };
-            await putCustomerEdit(id ?? "", customer);
-            onSuccess();
-            onClose();
+
+            try {
+                const customer: ICustomerPersonUpdateModel = {
+                    name,
+                    phone: phoneNumber,
+                    email: null,
+                    balance
+                };
+                await putCustomerEdit(id ?? "", customer);
+                onSuccess();
+                onClose();
+            } catch (error) {
+                console.error("Erro na atualização do cliente:", error);
+            }
         },
         [id, name, phoneNumber, onSuccess, onClose]
     );

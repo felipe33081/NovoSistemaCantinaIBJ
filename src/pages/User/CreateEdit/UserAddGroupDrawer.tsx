@@ -26,7 +26,7 @@ export default function UserAddGroupDrawer({
             onSuccess();
             onClose();
         } catch (error) {
-            console.log(error);
+            console.error('Erro ao adicionar grupo ao usuário:', error);
         }
     };
 

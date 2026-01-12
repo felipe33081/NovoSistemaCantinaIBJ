@@ -16,14 +16,18 @@ export default function CustomerCreateDrawer({
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const customer: ICustomerPersonCreateModel = {
-            name,
-            phone: phoneNumber,
-            email: null
-        };
-        await postCustomerCreate(customer);
-        onSuccess();
-        onClose();
+        try {
+            const customer: ICustomerPersonCreateModel = {
+                name,
+                phone: phoneNumber,
+                email: null
+            };
+            await postCustomerCreate(customer);
+            onSuccess();
+            onClose();
+        } catch (error) {
+            console.error('Erro ao criar cliente:', error);
+        }
     };
 
     return (

@@ -18,11 +18,15 @@ export default function UserCreateDrawer({
     const [password, setPassword] = useState("");
 
     const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
-        const user = { name, email, phoneNumber, password };
-        await postUserCreate(user);
-        onSuccess();
-        onClose();
+        try {
+            event.preventDefault();
+            const user = { name, email, phoneNumber, password };
+            await postUserCreate(user);
+            onSuccess();
+            onClose();
+        } catch (error) {
+            console.error('Erro ao criar usuário:', error);
+        }
     };
 
     return (

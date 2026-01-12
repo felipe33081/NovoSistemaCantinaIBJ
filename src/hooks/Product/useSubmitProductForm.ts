@@ -14,15 +14,21 @@ export function useSubmitProductForm({
     const handleSubmit = useCallback(
         async (event: React.FormEvent) => {
             event.preventDefault();
-            const product: IProductUpdateModel = {
-                name,
-                description,
-                price,
-                quantity
-            };
-            await putProductEdit(id ?? "", product);
-            onSuccess();
-            onClose();
+            try {
+                const product: IProductUpdateModel = {
+                    name,
+                    description,
+                    price,
+                    quantity
+                };
+
+                await putProductEdit(id ?? "", product);
+
+                onSuccess();
+                onClose();
+            } catch (error) {
+                console.error("Erro no submit do produto:", error);
+            }
         },
 
         [id, name, description, price, quantity, onSuccess, onClose]

@@ -37,9 +37,9 @@ export default function CustomerEditDrawer({
             setLoading(true);
             try {
                 const response = await getCustomerById(id);
-                setName(response.name || '');
-                setPhone(response.phone || '');
-                setBalance(response.balance || 0);
+                setName(response?.name || '');
+                setPhone(response?.phone || '');
+                setBalance(response?.balance || 0);
             } catch (error) {
                 console.error('Erro ao buscar cliente:', error);
             } finally {

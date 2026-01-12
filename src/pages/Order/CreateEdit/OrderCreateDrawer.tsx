@@ -8,6 +8,7 @@ import { getCustomerList } from '../../../Services/Customer/customer';
 import { OrderTabsPanel } from '../../../components/Order/OrderTabsPanel';
 import { getProductsColumns } from '../ConteinerList/ProductsList';
 import OrderAddProductDrawer from './OrderAddProductDrawer';
+import { useToast } from '../../../components/ToastContext';
 
 export default function OrderCreateDrawer({
     open,
@@ -22,6 +23,7 @@ export default function OrderCreateDrawer({
     const [loadingCustomers, setLoadingCustomers] = useState(false);
     const { productsData, setProductsData, addProduct, removeProduct } = useOrderProducts([]);
     const [openAddProduct, setOpenAddProduct] = useState(false);
+    const { showSuccess, showError } = useToast();
 
     useEffect(() => {
         if (open) {
@@ -50,8 +52,13 @@ export default function OrderCreateDrawer({
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
+        if (selectedCustomer === null && customerName.trim() === '') {
+            showError("Preencha o nome do cliente ou selecione um cliente cadastrado.");
+            return;
+        }
+
         if (productsData.length === 0) {
-            alert("Adicione pelo menos um produto.");
+            showError("Adicione pelo menos um produto ao pedido.");
             return;
         }
 
