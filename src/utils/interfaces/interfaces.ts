@@ -440,12 +440,18 @@ export interface AppThemeProps {
 }
 
 export interface IOrderTabsPanelProps {
-    id: number;
     tabIndex: number;
     setTabIndex: (value: number) => void;
-    customerName?: string;
-    customerPersonId?: string | number;
-    customerPersonDisplay?: string;
+    isCreating?: boolean;
+    id?: number;
+    customerType?: 'registered' | 'avulso';
+    setCustomerType?: (type: 'registered' | 'avulso') => void;
+    customerName: string;
+    setCustomerName: (value: string) => void;
+    selectedCustomer?: any;
+    setSelectedCustomer?: (value: any) => void;
+    customerOptions?: any[];
+    loadingCustomers?: boolean;
     rows: any[];
     totalRows?: number;
     loading: boolean;
