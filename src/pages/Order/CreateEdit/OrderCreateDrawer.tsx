@@ -23,7 +23,7 @@ export default function OrderCreateDrawer({
     const [loadingCustomers, setLoadingCustomers] = useState(false);
     const { productsData, setProductsData, addProduct, removeProduct } = useOrderProducts([]);
     const [openAddProduct, setOpenAddProduct] = useState(false);
-    const { showSuccess, showError } = useToast();
+    const { showError } = useToast();
 
     useEffect(() => {
         if (open) {

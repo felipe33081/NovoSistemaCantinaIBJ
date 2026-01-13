@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DrawerWrapper from '../../../components/DrawerWrapper';
 import { Box, Button } from '@mui/material';
 import FormTextField from '../../../components/FormTextField';
@@ -12,10 +12,19 @@ export default function UserCreateDrawer({
     onClose,
     onSuccess
 }: ICreateDrawerProps) {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phoneNumber, setPhone] = useState("");
-    const [password, setPassword] = useState("");
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phoneNumber, setPhone] = useState('');
+    const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        if (open) {
+            setName('');
+            setEmail('');
+            setPhone('');
+            setPassword('');
+        }
+    }, [open]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         try {

@@ -9,28 +9,24 @@ import UserCreateDrawer from '../CreateEdit/UserCreateDrawer';
 import { getUserColumns } from './UserList';
 import UserEditDrawer from '../CreateEdit/UserEditDrawer';
 import { PageHeader } from '../../../components/PageHeaderProps';
+import { useFetchList } from '../../../hooks/useFetchList';
 
 export default function UserGrid() {
-    const [loading, setLoading] = useState(false);
-    const [rows, setRows] = useState([]);
-    const [totalRows, setTotalRows] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const paginationState = useRef<{ [key: number]: string | null }>({ 0: null });
     const [filterModel, setFilterModel] = useState<GridFilterModel>({ items: [] });
-    const isLoading = useRef(false);
     const [openCreateDrawer, setOpenCreateDrawer] = useState(false);
     const [editUserId, setEditUserId] = useState<string | null>(null);
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
+    const paginationState = useRef<Record<number, string>>({});
 
-    const fetchUsers = async (page: number, size: number, filters: GridFilterModel) => {
-        if (isLoading.current) return;
-
-        setLoading(true);
-        isLoading.current = true;
-
-        try {
-            const quickFilterValue = filters.quickFilterValues?.[0] ?? "";
+    const { rows, totalRows, loading, fetchData } = useFetchList({
+        fetchService: getUserList,
+        onSuccess: (response: any, page: number) => {
+            paginationState.current[page + 1] = response.paginationToken || null;
+        },
+        buildParams: (page, size, filters) => {
+            const quickFilter = filters.quickFilterValues?.[0] ?? "";
 
             const mappedFilters = filters.items.reduce((acc, filter) => {
                 if (filter.field === "name") acc.name = filter.value;
@@ -38,30 +34,18 @@ export default function UserGrid() {
                 return acc;
             }, {} as IGetUserListFilter);
 
-            const params: IGetUserListFilter = {
+            return {
                 page,
                 size,
                 paginationToken: paginationState.current[page],
-                name: mappedFilters.name ?? quickFilterValue,
+                name: mappedFilters.name ?? quickFilter,
                 email: mappedFilters.email ?? ""
             };
-            const response = await getUserList(params);
-            setRows(response.data || []);
-            setTotalRows(response.totalItems || 0);
-
-            paginationState.current[page + 1] = response.paginationToken || null;
-
-            setCurrentPage(page);
-        } catch (error) {
-            console.error('Erro ao buscar lista de usuários:', error);
-        } finally {
-            setLoading(false);
-            isLoading.current = false;
         }
-    };
+    });
 
     useEffect(() => {
-        fetchUsers(currentPage, rowsPerPage, filterModel);
+        fetchData(currentPage, rowsPerPage, filterModel);
     }, [currentPage, rowsPerPage, filterModel]);
 
     const handleFilterChange = (newFilterModel: GridFilterModel) => {
@@ -71,7 +55,7 @@ export default function UserGrid() {
 
     const handleDelete = async (id: string) => {
         await deleteUserById(id);
-        fetchUsers(currentPage, rowsPerPage, filterModel);
+        fetchData(currentPage, rowsPerPage, filterModel);
     };
 
     const handleEdit = (id: string) => {
@@ -80,7 +64,7 @@ export default function UserGrid() {
     };
 
     const handleRefresh = () => {
-        fetchUsers(currentPage, rowsPerPage, filterModel);
+        fetchData(currentPage, rowsPerPage, filterModel);
     };
 
     return (

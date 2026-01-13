@@ -470,3 +470,9 @@ export interface IToastContextData {
     showInfo: (message: string) => void;
     showWarning: (message: string) => void;
 }
+
+export interface IUseFetchListProps<TParams, TResponse> {
+    fetchService: (params: TParams) => Promise<TResponse>;
+    buildParams: (page: number, size: number, filters: GridFilterModel, sort?: GridSortModel) => TParams;
+    onSuccess?: (response: TResponse, page: number) => void;
+}

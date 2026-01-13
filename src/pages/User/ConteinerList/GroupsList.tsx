@@ -6,6 +6,13 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 export const getGroupsColumns = (
     handleDelete: (id: string) => void
 ): GridColDef[] => {
+
+    const groupNamesPT: Record<string, string> = {
+        MasterAdmin: 'Administrador Master',
+        Admin: 'Administrador',
+        User: 'Usuário'
+    };
+
     return [
         {
             field: 'groupName',
@@ -14,7 +21,10 @@ export const getGroupsColumns = (
             minWidth: 200,
             sortable: false,
             filterable: false,
-            renderCell: (cellValues: GridRenderCellParams) => cellValues.row?.groupName
+            renderCell: (params: GridRenderCellParams) => {
+                const originalValue = params.row?.groupName;
+                return groupNamesPT[originalValue] || originalValue;
+            }
         },
         {
             field: 'actions',
@@ -28,7 +38,10 @@ export const getGroupsColumns = (
                 <Box display="flex">
                     <Button
                         color="error"
-                        onClick={() => handleDelete(params.row.groupName)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete(params.row.groupName);
+                        }}
                     >
                         <DeleteOutlineIcon />
                     </Button>

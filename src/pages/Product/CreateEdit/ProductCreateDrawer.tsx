@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DrawerWrapper from '../../../components/DrawerWrapper';
 import { Box, Button } from '@mui/material';
 import FormTextField from '../../../components/FormTextField';
@@ -16,6 +16,15 @@ export default function ProductCreateDrawer({
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState<number>(0);
     const [quantity, setQuantity] = useState<number>(0);
+
+    useEffect(() => {
+        if (open) {
+            setName('');
+            setDescription('');
+            setPrice(0);
+            setQuantity(0);
+        }
+    }, [open]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();

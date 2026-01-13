@@ -9,27 +9,21 @@ import { getCustomerColumns } from './CustomerList';
 import { PageHeader } from '../../../components/PageHeaderProps';
 import CustomerEditDrawer from '../CreateEdit/CustomerEditDrawer';
 import CustomerCreateDrawer from '../CreateEdit/CustomerCreateDrawer';
+import { useFetchList } from '../../../hooks/useFetchList';
+import { buildOrderBy } from '../../../utils/gridHelpers';
 
 export default function CustomerGrid() {
-    const [loading, setLoading] = useState(false);
-    const [rows, setRows] = useState([]);
-    const [totalRows, setTotalRows] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [filterModel, setFilterModel] = useState<GridFilterModel>({ items: [] });
-    const isLoading = useRef(false);
     const [sortModel, setSortModel] = useState<GridSortModel>([]);
     const [openCreateDrawer, setOpenCreateDrawer] = useState(false);
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
     const [editCustomerId, setEditCustomerId] = useState<number | null>(null);
 
-    const fetchCustomers = async (page: number, size: number, filters: GridFilterModel, sort: GridSortModel) => {
-        if (isLoading.current) return;
-
-        setLoading(true);
-        isLoading.current = true;
-
-        try {
+    const { rows, totalRows, loading, fetchData } = useFetchList({
+        fetchService: getCustomerList,
+        buildParams: (page, size, filters, sort) => {
             const quickFilterValue = filters.quickFilterValues?.[0] ?? "";
 
             const mappedFilters = filters.items.reduce((acc, filter) => {
@@ -38,33 +32,19 @@ export default function CustomerGrid() {
                 return acc;
             }, {} as IGetCustomerPersonListFilter);
 
-            const orderBy = sort[0]?.field || "CreatedAt";
-            const orderByDirection = sort[0]?.sort?.toUpperCase() || "DESC";
-
-            const params: IGetCustomerPersonListFilter = {
+            return {
                 page,
                 size,
                 name: mappedFilters.name,
                 phone: mappedFilters.phone,
                 searchString: quickFilterValue,
-                orderBy: `${orderBy}_${orderByDirection}`
+                orderBy: buildOrderBy(sort || [])
             };
-
-            const response = await getCustomerList(params);
-            setRows(response.data || []);
-            setTotalRows(response.totalItems || 0);
-
-            setCurrentPage(page);
-        } catch (error) {
-            console.error('Erro ao buscar lista de clientes:', error);
-        } finally {
-            setLoading(false);
-            isLoading.current = false;
         }
-    };
+    });
 
     useEffect(() => {
-        fetchCustomers(currentPage, rowsPerPage, filterModel, sortModel);
+        fetchData(currentPage, rowsPerPage, filterModel, sortModel);
     }, [currentPage, rowsPerPage, filterModel, sortModel]);
 
     const handleFilterChange = (newFilterModel: GridFilterModel) => {
@@ -74,7 +54,7 @@ export default function CustomerGrid() {
 
     const handleDelete = async (id: number) => {
         await deleteCustomerById(id);
-        fetchCustomers(currentPage, rowsPerPage, filterModel, sortModel);
+        fetchData(currentPage, rowsPerPage, filterModel, sortModel);
     };
 
     const handleSortChange = (newSortModel: GridSortModel) => {
@@ -88,7 +68,7 @@ export default function CustomerGrid() {
     };
 
     const handleRefresh = () => {
-        fetchCustomers(currentPage, rowsPerPage, filterModel, sortModel);
+        fetchData(currentPage, rowsPerPage, filterModel, sortModel);
     };
 
     return (

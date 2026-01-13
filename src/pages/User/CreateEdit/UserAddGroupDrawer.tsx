@@ -14,7 +14,7 @@ export default function UserAddGroupDrawer({
     onClose,
     onSuccess
 }: IUserAddGroupDrawerProps) {
-    const [groupName, setGroupName] = useState("");
+    const [groupName, setGroupName] = useState('');
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
