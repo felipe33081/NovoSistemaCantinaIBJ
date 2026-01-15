@@ -28,7 +28,7 @@ export function useSubmitCustomerForm({
                 console.error("Erro na atualização do cliente:", error);
             }
         },
-        [id, name, phoneNumber, onSuccess, onClose]
+        [id, name, phoneNumber, balance, onSuccess, onClose]
     );
 
     return { handleSubmit };

@@ -11,6 +11,8 @@ import ProductCreateDrawer from '../CreateEdit/ProductCreateDrawer';
 import ProductEditDrawer from '../CreateEdit/ProductEditDrawer';
 import { useFetchList } from '../../../hooks/useFetchList';
 import { buildOrderBy } from '../../../utils/gridHelpers';
+import ConfirmDialog from '../../../components/Shared/ConfirmDialog';
+import { useDelete } from '../../../hooks/useDelete';
 
 export default function ProductGrid() {
     const [currentPage, setCurrentPage] = useState(0);
@@ -20,6 +22,17 @@ export default function ProductGrid() {
     const [openCreateDrawer, setOpenCreateDrawer] = useState(false);
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
     const [editProductId, setEditProductId] = useState<number | null>(null);
+    const {
+        deleteId,
+        loading: loadingDelete,
+        handleDeleteClick,
+        handleConfirmDelete,
+        handleClose
+    } = useDelete({
+        apiDeleteFunction: deleteProductById,
+        successMessage: "Produto excluído com sucesso!",
+        onSuccess: () => fetchData(currentPage, rowsPerPage, filterModel, sortModel)
+    });
 
     const { rows, totalRows, loading, fetchData } = useFetchList({
         fetchService: getProductList,
@@ -46,11 +59,6 @@ export default function ProductGrid() {
     useEffect(() => {
         fetchData(currentPage, rowsPerPage, filterModel, sortModel);
     }, [currentPage, rowsPerPage, filterModel, sortModel]);
-
-    const handleDelete = async (id: number) => {
-        await deleteProductById(id);
-        fetchData(currentPage, rowsPerPage, filterModel, sortModel);
-    };
 
     const handleFilterChange = (newFilterModel: GridFilterModel) => {
         setFilterModel(newFilterModel);
@@ -102,7 +110,7 @@ export default function ProductGrid() {
                 <DataTable
                     rows={rows}
                     columns={
-                        getProductColumns(handleDelete, handleEdit)
+                        getProductColumns(handleDeleteClick, handleEdit)
                     }
                     onEdit={handleEdit}
                     totalRows={totalRows}
@@ -113,6 +121,15 @@ export default function ProductGrid() {
                     setRowsPerPage={setRowsPerPage}
                     onFilterChange={handleFilterChange}
                     onSortChange={handleSortChange}
+                />
+
+                <ConfirmDialog
+                    open={deleteId !== null}
+                    onClose={handleClose}
+                    onConfirm={handleConfirmDelete}
+                    title="Excluir Produto"
+                    message="Tem certeza que deseja excluir este produto? Essa ação não pode ser desfeita."
+                    loading={loadingDelete}
                 />
             </Grid>
         </Box>

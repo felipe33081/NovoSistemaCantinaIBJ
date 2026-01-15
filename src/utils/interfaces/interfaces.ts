@@ -101,6 +101,7 @@ export interface IOrderProductUpdateModel {
 }
 
 export interface IOrderReadModel {
+    id: number
     customerPersonId?: number | null
     customerPersonDisplay: string
     customerName: string
@@ -112,6 +113,11 @@ export interface IOrderReadModel {
     statusDisplay?: string | null
     paymentOfType?: PaymentOfTypeEnum | null
     paymentOfTypeDisplay?: string | null
+    createdAt: string;
+}
+
+export interface ICustomerOrderHistoryProps {
+    orders?: IOrderReadModel[];
 }
 
 export interface IOrderProductReadModel {
@@ -348,10 +354,11 @@ export interface ICustomerTabsPanelProps {
     setPhone: (value: string) => void;
     setBalance: (value: number) => void;
     handleRefresh?: () => void;
-    rows: any[];
-    totalRows: number;
+    rows?: any[];
+    totalRows?: number;
     loading?: boolean | null;
     columns?: GridColDef[];
+    orders?: IOrderReadModel[];
 }
 
 export interface PageHeaderProps {
@@ -475,4 +482,35 @@ export interface IUseFetchListProps<TParams, TResponse> {
     fetchService: (params: TParams) => Promise<TResponse>;
     buildParams: (page: number, size: number, filters: GridFilterModel, sort?: GridSortModel) => TParams;
     onSuccess?: (response: TResponse, page: number) => void;
+}
+
+export interface IUseDeleteProps {
+    apiDeleteFunction: (id: number) => Promise<any>;
+    onSuccess: () => void;
+    successMessage?: string;
+}
+
+export interface IProductFormProps {
+    name: string;
+    setName: (value: string) => void;
+
+    description: string;
+    setDescription: (value: string) => void;
+
+    price: number | string;
+    setPrice: (value: any) => void;
+
+    quantity: number | string;
+    setQuantity: (value: number) => void;
+}
+
+export interface ICustomerOrderEmbedded {
+    id: number;
+    totalValue: number;
+    status: number;
+    statusDisplay: string;
+    paymentOfType: number;
+    paymentOfTypeDisplay: string;
+    createdAt: string;
+    products: any[];
 }

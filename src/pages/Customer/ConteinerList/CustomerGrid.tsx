@@ -11,6 +11,8 @@ import CustomerEditDrawer from '../CreateEdit/CustomerEditDrawer';
 import CustomerCreateDrawer from '../CreateEdit/CustomerCreateDrawer';
 import { useFetchList } from '../../../hooks/useFetchList';
 import { buildOrderBy } from '../../../utils/gridHelpers';
+import ConfirmDialog from '../../../components/Shared/ConfirmDialog';
+import { useDelete } from '../../../hooks/useDelete';
 
 export default function CustomerGrid() {
     const [currentPage, setCurrentPage] = useState(0);
@@ -20,6 +22,17 @@ export default function CustomerGrid() {
     const [openCreateDrawer, setOpenCreateDrawer] = useState(false);
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
     const [editCustomerId, setEditCustomerId] = useState<number | null>(null);
+    const {
+        deleteId,
+        loading: loadingDelete,
+        handleDeleteClick,
+        handleConfirmDelete,
+        handleClose
+    } = useDelete({
+        apiDeleteFunction: deleteCustomerById,
+        successMessage: "Cliente excluído com sucesso!",
+        onSuccess: () => fetchData(currentPage, rowsPerPage, filterModel, sortModel)
+    });
 
     const { rows, totalRows, loading, fetchData } = useFetchList({
         fetchService: getCustomerList,
@@ -50,11 +63,6 @@ export default function CustomerGrid() {
     const handleFilterChange = (newFilterModel: GridFilterModel) => {
         setFilterModel(newFilterModel);
         setCurrentPage(0);
-    };
-
-    const handleDelete = async (id: number) => {
-        await deleteCustomerById(id);
-        fetchData(currentPage, rowsPerPage, filterModel, sortModel);
     };
 
     const handleSortChange = (newSortModel: GridSortModel) => {
@@ -102,7 +110,7 @@ export default function CustomerGrid() {
                 <DataTable
                     rows={rows}
                     columns={
-                        getCustomerColumns(handleDelete, handleEdit)
+                        getCustomerColumns(handleDeleteClick, handleEdit)
                     }
                     onEdit={handleEdit}
                     totalRows={totalRows}
@@ -113,6 +121,15 @@ export default function CustomerGrid() {
                     setRowsPerPage={setRowsPerPage}
                     onFilterChange={handleFilterChange}
                     onSortChange={handleSortChange}
+                />
+
+                <ConfirmDialog
+                    open={deleteId !== null}
+                    onClose={handleClose}
+                    onConfirm={handleConfirmDelete}
+                    title="Excluir Cliente"
+                    message="Tem certeza que deseja excluir este cliente? Essa ação não pode ser desfeita."
+                    loading={loadingDelete}
                 />
             </Grid>
         </Box>

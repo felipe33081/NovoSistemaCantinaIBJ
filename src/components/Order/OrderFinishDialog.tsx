@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Dialog, DialogTitle, DialogContent, DialogActions,
     Button, FormControl, InputLabel, Select, MenuItem, Box,
@@ -28,8 +28,13 @@ export default function OrderFinishDialog({
     const [paymentOfType, setPaymentOfType] = useState<number | string>(4);
     const [paymentValue, setPaymentValue] = useState<number>(totalValue || 0);
     const [loading, setLoading] = useState(false);
+    const [showPaymentValue, setShowPaymentValue] = useState(false);
 
-    const showPaymentValue = true;
+    useEffect(() => {
+        setShowPaymentValue(
+            paymentOfType === 0 || paymentOfType === 4 || paymentOfType === 5
+        );
+    }, [paymentOfType]);
 
     const handleFinish = async () => {
         if (paymentOfType === '') return;
@@ -87,7 +92,7 @@ export default function OrderFinishDialog({
                             label="Tipo de Pagamento"
                             onChange={(e) => setPaymentOfType(e.target.value)}
                         >
-                            <MenuItem value={PaymentOfTypeEnum.Debitor}>Fiado (Em conta)</MenuItem>
+                            <MenuItem value={PaymentOfTypeEnum.Debitor}>Débito em Conta</MenuItem>
                             <MenuItem value={PaymentOfTypeEnum.Money}>Dinheiro</MenuItem>
                             <MenuItem value={PaymentOfTypeEnum.PIX}>PIX</MenuItem>
                             <MenuItem value={PaymentOfTypeEnum.ExtraMoney}>Saldo em Conta</MenuItem>

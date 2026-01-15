@@ -123,6 +123,24 @@ export const putResetAccountCustomer = async (id: number) => {
     }
 }
 
+export const putBalanceCustomer = async (id: number, data: number) => {
+
+    const token = await getToken();
+    const url = Environment.BASE_URL + `/CustomerPerson/${id}/updateBalance`;
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    }
+
+    try {
+        await axios.put(url, data, config);
+        Toast.success("Saldo atualizado com sucesso!");
+    }
+    catch (err: any) {
+        handleApiError(err);
+    }
+}
+
 export const deleteCustomerById = async (id: number) => {
 
     const token = await getToken();

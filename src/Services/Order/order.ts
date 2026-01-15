@@ -117,3 +117,20 @@ export const deleteOrderById = async (id: number) => {
         handleApiError(err);
     }
 }
+
+export const postOrderPrinted = async (id: number) => {
+    const token = await getToken();
+    const url = Environment.BASE_URL + `/Order/${id}/orderPrinted`;
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    }
+
+    try {
+        await axios.post(url, null, config);
+        Toast.success("Pedido impresso com sucesso!");
+    }
+    catch (err: any) {
+        handleApiError(err);
+    }
+}

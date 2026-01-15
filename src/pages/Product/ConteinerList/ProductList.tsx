@@ -23,7 +23,7 @@ export const getProductColumns = (
             field: 'description',
             headerName: 'Descrição',
             flex: 1,
-            minWidth: 200,
+            minWidth: 300,
             renderCell: (cellValues: GridRenderCellParams) => cellValues.row?.description
         },
         {
@@ -31,7 +31,7 @@ export const getProductColumns = (
             field: 'price',
             headerName: 'Preço',
             flex: 1,
-            minWidth: 200,
+            minWidth: 100,
             renderCell: (cellValues: GridRenderCellParams) => renderCurrencyValue(cellValues.value as any)
         },
         {

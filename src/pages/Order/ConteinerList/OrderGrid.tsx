@@ -11,6 +11,8 @@ import OrderCreateDrawer from '../CreateEdit/OrderCreateDrawer';
 import OrderEditDrawer from '../CreateEdit/OrderEditDrawer';
 import { buildOrderBy } from '../../../utils/gridHelpers';
 import { useFetchList } from '../../../hooks/useFetchList';
+import ConfirmDialog from '../../../components/Shared/ConfirmDialog';
+import { useDelete } from '../../../hooks/useDelete';
 
 export default function OrderGrid() {
     const [currentPage, setCurrentPage] = useState(0);
@@ -20,6 +22,17 @@ export default function OrderGrid() {
     const [openCreateDrawer, setOpenCreateDrawer] = useState(false);
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
     const [editOrderId, setEditOrderId] = useState<number | null>(null);
+    const {
+        deleteId,
+        loading: loadingDelete,
+        handleDeleteClick,
+        handleConfirmDelete,
+        handleClose
+    } = useDelete({
+        apiDeleteFunction: deleteOrderById,
+        successMessage: "Pedido excluído com sucesso!",
+        onSuccess: () => fetchData(currentPage, rowsPerPage, filterModel, sortModel)
+    });
 
     const { rows, totalRows, loading, fetchData } = useFetchList({
         fetchService: getOrderList,
@@ -50,15 +63,6 @@ export default function OrderGrid() {
     const handleFilterChange = (newFilterModel: GridFilterModel) => {
         setFilterModel(newFilterModel);
         setCurrentPage(0);
-    };
-
-    const handleDelete = async (id: number) => {
-        try {
-            await deleteOrderById(id);
-        } catch (error) {
-            console.error('Erro ao deletar o pedido:', error);
-        }
-        fetchData(currentPage, rowsPerPage, filterModel, sortModel);
     };
 
     const handleSortChange = (newSortModel: GridSortModel) => {
@@ -106,7 +110,7 @@ export default function OrderGrid() {
                 <DataTable
                     rows={rows}
                     columns={
-                        getOrderColumns(handleDelete, handleEdit)
+                        getOrderColumns(handleDeleteClick, handleEdit)
                     }
                     onEdit={handleEdit}
                     totalRows={totalRows}
@@ -117,6 +121,15 @@ export default function OrderGrid() {
                     setRowsPerPage={setRowsPerPage}
                     onFilterChange={handleFilterChange}
                     onSortChange={handleSortChange}
+                />
+
+                <ConfirmDialog
+                    open={deleteId !== null}
+                    onClose={handleClose}
+                    onConfirm={handleConfirmDelete}
+                    title="Excluir Pedido"
+                    message="Tem certeza que deseja excluir este pedido? Essa ação não pode ser desfeita."
+                    loading={loadingDelete}
                 />
             </Grid>
         </Box>
