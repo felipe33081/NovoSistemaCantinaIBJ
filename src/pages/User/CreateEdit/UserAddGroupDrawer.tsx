@@ -14,7 +14,7 @@ export default function UserAddGroupDrawer({
     onClose,
     onSuccess
 }: IUserAddGroupDrawerProps) {
-    const [groupName, setGroupName] = useState("");
+    const [groupName, setGroupName] = useState('');
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -26,7 +26,7 @@ export default function UserAddGroupDrawer({
             onSuccess();
             onClose();
         } catch (error) {
-            console.log(error);
+            console.error('Erro ao adicionar grupo ao usuário:', error);
         }
     };
 

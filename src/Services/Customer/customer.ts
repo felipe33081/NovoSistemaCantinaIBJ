@@ -2,6 +2,7 @@ import axios from 'axios';
 import { pickBy } from 'lodash';
 import { Environment } from '../../environments/Index';
 import { getToken } from '../Auth/getToken';
+import { Toast } from '../../utils/ToastUtils';
 import {
     ICustomerPersonCreateModel,
     ICustomerPersonReadModel,
@@ -9,6 +10,7 @@ import {
     IGetCustomerPersonListFilter,
     IListDataPagination
 } from '../../utils/interfaces/interfaces';
+import { handleApiError } from '../../utils/handleApiError';
 
 export const getCustomerList = async (filters: IGetCustomerPersonListFilter) => {
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
@@ -25,12 +27,7 @@ export const getCustomerList = async (filters: IGetCustomerPersonListFilter) => 
         return result.data;
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível obter a lista de clientes");
-        }
-        throw err;
+        handleApiError(err);
     }
 }
 
@@ -49,12 +46,7 @@ export const fetchCustomerList = async (filters: IGetCustomerPersonListFilter) =
         return result.data;
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível obter a lista de clientes");
-        }
-        throw err;
+        handleApiError(err);
     }
 }
 
@@ -72,12 +64,7 @@ export const getCustomerById = async (id: number) => {
         return result.data;
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível obter os dados do cliente");
-        }
-        throw err;
+        handleApiError(err);
     }
 }
 
@@ -92,16 +79,11 @@ export const postCustomerCreate = async (data: ICustomerPersonCreateModel) => {
 
     try {
         const result = await axios.post(url, data, config);
-        //Toast.showSuccessMessage("Cliente adicionado com sucesso!");
+        Toast.success("Cliente adicionado com sucesso!");
         return result.data;
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível cadastrar um cliente");
-        }
-        throw err;
+        handleApiError(err);
     }
 }
 
@@ -116,15 +98,10 @@ export const putCustomerEdit = async (id: number, data: ICustomerPersonUpdateMod
 
     try {
         await axios.put(url, data, config);
-        //Toast.showSuccessMessage("Cliente atualizado com sucesso!");
+        Toast.success("Cliente atualizado com sucesso!");
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível atualizar um cliente");
-        }
-        throw err;
+        handleApiError(err);
     }
 }
 
@@ -139,15 +116,28 @@ export const putResetAccountCustomer = async (id: number) => {
 
     try {
         await axios.put(url, null, config);
-        //Toast.showSuccessMessage("Cliente atualizado com sucesso!");
+        Toast.success("Cliente atualizado com sucesso!");
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível atualizar um cliente");
-        }
-        throw err;
+        handleApiError(err);
+    }
+}
+
+export const putBalanceCustomer = async (id: number, data: number) => {
+
+    const token = await getToken();
+    const url = Environment.BASE_URL + `/CustomerPerson/${id}/updateBalance`;
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    }
+
+    try {
+        await axios.put(url, data, config);
+        Toast.success("Saldo atualizado com sucesso!");
+    }
+    catch (err: any) {
+        handleApiError(err);
     }
 }
 
@@ -162,15 +152,10 @@ export const deleteCustomerById = async (id: number) => {
 
     try {
         const result = await axios.delete(url, config);
-        //Toast.showSuccessMessage("Cliente excluído com sucesso!");
+        Toast.success("Cliente excluído com sucesso!");
         return result.data;
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível excluir um cliente");
-        }
-        throw err;
+        handleApiError(err);
     }
 }

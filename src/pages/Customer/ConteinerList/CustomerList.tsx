@@ -51,14 +51,14 @@ export const getCustomerColumns = (
             minWidth: 200,
             renderCell: (cellValues: GridRenderCellParams) => cellValues.row?.createdBy ?? "N/a"
         },
-        {
-            filterable: false,
-            field: "updatedAt",
-            headerName: "Atualizado em",
-            flex: 1,
-            minWidth: 200,
-            renderCell: (cellValues: GridRenderCellParams) => renderDate(cellValues.row?.updatedAt) ?? "N/a"
-        },
+        // {
+        //     filterable: false,
+        //     field: "updatedAt",
+        //     headerName: "Atualizado em",
+        //     flex: 1,
+        //     minWidth: 200,
+        //     renderCell: (cellValues: GridRenderCellParams) => renderDate(cellValues.row?.updatedAt) ?? "N/a"
+        // },
         {
             filterable: false,
             field: 'updatedBy',

@@ -9,7 +9,6 @@ const xThemeComponents = {
   ...dataGridCustomizations
 };
 
-
 export default function UserConteiner() {
     return (
         <AppTheme themeComponents={xThemeComponents}>

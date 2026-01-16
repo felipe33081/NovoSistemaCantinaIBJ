@@ -49,12 +49,12 @@ export const gray = {
   50: 'hsl(220, 35%, 97%)',
   100: 'hsl(220, 30%, 94%)',
   200: 'hsl(220, 20%, 88%)',
-  300: 'hsl(220, 20%, 80%)',
-  400: 'hsl(220, 20%, 65%)',
-  500: 'hsl(220, 20%, 42%)',
-  600: 'hsl(220, 20%, 35%)',
-  700: 'hsl(220, 20%, 25%)',
-  800: 'hsl(220, 30%, 6%)',
+  300: 'hsl(220, 4%, 84%)',
+  400: 'hsl(220, 4%, 70%)',
+  500: 'hsl(217, 9%, 47%)',
+  600: 'hsl(210, 11%, 38%)',
+  700: 'hsl(225, 3%, 31%)',
+  800: '#22282a',
   900: 'hsl(220, 35%, 3%)',
 };
 
@@ -181,6 +181,7 @@ export const getDesignTokens = (mode: PaletteMode) => {
       divider: mode === 'dark' ? alpha(gray[700], 0.6) : alpha(gray[300], 0.4),
       background: {
         default: 'hsl(0, 0%, 99%)',
+        
         paper: 'hsl(220, 35%, 97%)',
         ...(mode === 'dark' && { default: gray[900], paper: 'hsl(220, 30%, 7%)' }),
       },
@@ -284,6 +285,7 @@ export const colorSchemes = {
         light: green[300],
         main: green[400],
         dark: green[800],
+        contrastText: '#ffffff',
       },
       grey: {
         ...gray,

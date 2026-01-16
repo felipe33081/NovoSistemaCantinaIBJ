@@ -9,6 +9,9 @@ import {
     IProductReadModel,
     IProductUpdateModel
 } from '../../utils/interfaces/interfaces';
+import { Toast } from '../../utils/ToastUtils';
+import { handleApiError } from '../../utils/handleApiError';
+
 
 export const getProductList = async (filters: IGetProductListAsync) => {
     const params = pickBy(filters, v => (v !== undefined && v !== '' && v !== false));
@@ -25,12 +28,7 @@ export const getProductList = async (filters: IGetProductListAsync) => {
         return result.data;
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível obter a lista de produtos");
-        }
-        throw err;
+        handleApiError(err);
     }
 }
 
@@ -49,12 +47,7 @@ export const fetchProductList = async (filters: IGetProductListAsync) => {
         return result.data;
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível obter a lista de produtos");
-        }
-        throw err;
+        handleApiError(err);
     }
 }
 
@@ -71,12 +64,7 @@ export const getProductById = async (id: number) => {
         return result.data;
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível excluir o produto");
-        }
-        throw err;
+        handleApiError(err);
     }
 }
 
@@ -90,16 +78,11 @@ export const postProductCreate = async (data: IProductCreateModel) => {
 
     try {
         const result = await axios.post(url, data, config);
-        //Toast.showSuccessMessage("Produto adicionado com sucesso!");
+        Toast.success("Produto adicionado com sucesso!");
         return result.data;
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível cadastrar o produto");
-        }
-        throw err;
+        handleApiError(err);
     }
 }
 
@@ -113,15 +96,10 @@ export const putProductEdit = async (id: number, data: IProductUpdateModel) => {
 
     try {
         await axios.put(url, data, config);
-        //Toast.showSuccessMessage("Produto atualizado com sucesso!");
+        Toast.success("Produto atualizado com sucesso!");
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível atualizar um produto");
-        }
-        throw err;
+        handleApiError(err);
     }
 }
 
@@ -136,14 +114,9 @@ export const deleteProductById = async (id: number) => {
 
     try {
         await axios.delete(url, config);
-        //Toast.showSuccessMessage("Produto excluído com sucesso!");
+        Toast.success("Produto excluído com sucesso!");
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível excluir um produto");
-        }
-        throw err;
+        handleApiError(err);
     }
 }

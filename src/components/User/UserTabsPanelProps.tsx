@@ -122,6 +122,7 @@ export const UserTabsPanel = ({
           columns={columns}
           totalRows={totalRows}
           loading={loading}
+          customRowId={"groupName"}
         />
 
         <Button

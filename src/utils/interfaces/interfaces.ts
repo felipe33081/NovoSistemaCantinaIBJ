@@ -50,6 +50,11 @@ export interface ICustomerPersonReadModel {
     orders?: IOrderReadModel[] | null
 }
 
+export interface IOrderFinishModel {
+    paymentOfType: number;
+    paymentValue: number;
+}
+
 export interface ICustomerPersonCreateModel {
     name: string
     email?: string | null
@@ -84,17 +89,6 @@ export interface IGetOrderListAsync {
     status?: OrderStatusEnum | null
 }
 
-export interface IOrderCreateModel {
-    customerPersonId?: number | null
-    customerName?: string | null
-    products: IOrderProductCreateModel[]
-}
-
-export interface IOrderProductCreateModel {
-    productId: number
-    quantity: number
-}
-
 export interface IOrderUpdateModel {
     customerPersonId?: number | null
     customerName?: string | null
@@ -107,6 +101,7 @@ export interface IOrderProductUpdateModel {
 }
 
 export interface IOrderReadModel {
+    id: number
     customerPersonId?: number | null
     customerPersonDisplay: string
     customerName: string
@@ -118,6 +113,11 @@ export interface IOrderReadModel {
     statusDisplay?: string | null
     paymentOfType?: PaymentOfTypeEnum | null
     paymentOfTypeDisplay?: string | null
+    createdAt: string;
+}
+
+export interface ICustomerOrderHistoryProps {
+    orders?: IOrderReadModel[];
 }
 
 export interface IOrderProductReadModel {
@@ -315,6 +315,12 @@ export interface IUserAddGroupDrawerProps {
     onSuccess: () => void;
 }
 
+export interface IOrderAddProductDrawerProps {
+    open: boolean;
+    onClose: () => void;
+    onAddProduct: (item: any) => void;
+}
+
 export interface IUserTabsPanelProps {
     id: string;
     tabIndex: number;
@@ -348,10 +354,11 @@ export interface ICustomerTabsPanelProps {
     setPhone: (value: string) => void;
     setBalance: (value: number) => void;
     handleRefresh?: () => void;
-    rows: any[];
-    totalRows: number;
+    rows?: any[];
+    totalRows?: number;
     loading?: boolean | null;
     columns?: GridColDef[];
+    orders?: IOrderReadModel[];
 }
 
 export interface PageHeaderProps {
@@ -382,6 +389,26 @@ export interface CustomMaskedInputProps extends Omit<MaskedInputProps, 'ref'> {
 
 export interface PhoneMaskInputProps extends Omit<TextFieldProps, 'inputRef'> {
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface IOrderCreateModel {
+    customerPersonId?: number | null
+    customerName?: string | null
+    products: IOrderProductItem[]
+}
+
+export interface IOrderProductItem {
+    productId: number
+    quantity: number
+}
+
+export interface IUseSubmitOrderFormProps {
+    id: number;
+    customerName: string | null;
+    customerPersonId: number | null;
+    data: any[];
+    onSuccess: () => void;
+    onClose: () => void;
 }
 
 export interface IUseSubmitUserFormProps {
@@ -422,4 +449,68 @@ export interface AppThemeProps {
     children: React.ReactNode;
     disableCustomTheme?: boolean;
     themeComponents?: ThemeOptions['components'];
+}
+
+export interface IOrderTabsPanelProps {
+    tabIndex: number;
+    setTabIndex: (value: number) => void;
+    isCreating?: boolean;
+    id?: number;
+    customerType?: 'registered' | 'avulso';
+    setCustomerType?: (type: 'registered' | 'avulso') => void;
+    customerName: string;
+    setCustomerName: (value: string) => void;
+    selectedCustomer?: any;
+    setSelectedCustomer?: (value: any) => void;
+    customerOptions?: any[];
+    loadingCustomers?: boolean;
+    rows: any[];
+    totalRows?: number;
+    loading: boolean;
+    columns: GridColDef[];
+    onAddProductDrawer: () => void;
+}
+
+export interface IToastContextData {
+    showSuccess: (message: string) => void;
+    showError: (message: string) => void;
+    showInfo: (message: string) => void;
+    showWarning: (message: string) => void;
+}
+
+export interface IUseFetchListProps<TParams, TResponse> {
+    fetchService: (params: TParams) => Promise<TResponse>;
+    buildParams: (page: number, size: number, filters: GridFilterModel, sort?: GridSortModel) => TParams;
+    onSuccess?: (response: TResponse, page: number) => void;
+}
+
+export interface IUseDeleteProps {
+    apiDeleteFunction: (id: number) => Promise<any>;
+    onSuccess: () => void;
+    successMessage?: string;
+}
+
+export interface IProductFormProps {
+    name: string;
+    setName: (value: string) => void;
+
+    description: string;
+    setDescription: (value: string) => void;
+
+    price: number | string;
+    setPrice: (value: any) => void;
+
+    quantity: number | string;
+    setQuantity: (value: number) => void;
+}
+
+export interface ICustomerOrderEmbedded {
+    id: number;
+    totalValue: number;
+    status: number;
+    statusDisplay: string;
+    paymentOfType: number;
+    paymentOfTypeDisplay: string;
+    createdAt: string;
+    products: any[];
 }

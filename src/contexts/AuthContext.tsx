@@ -65,8 +65,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       if (userId !== null) {
         const result = await getUserByIdWithouPermission(userId ?? "");
-        setNameUser(result?.name);
-        setEmailUser(result?.email);
+        setNameUser(result?.name || "");
+        setEmailUser(result?.email || "");
       }
     } catch (err) {
       console.log('Erro ao buscar informações de usuário');

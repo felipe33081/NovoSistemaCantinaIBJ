@@ -4,7 +4,7 @@ import { Box, Button } from '@mui/material';
 import { useTabs } from '../../../hooks/useTabs';
 import { useSubmitCustomerForm } from '../../../hooks/Customer/useSubmitCustomerForm';
 import { CustomerTabsPanel } from '../../../components/Customer/CustomerTabsPanelProps';
-import { IEditDrawerProps } from '../../../utils/interfaces/interfaces';
+import { IEditDrawerProps, IOrderReadModel } from '../../../utils/interfaces/interfaces';
 import { getCustomerById } from '../../../Services/Customer/customer';
 import { DrawerContentLoader } from '../../../components/DrawerContentLoader';
 
@@ -14,11 +14,10 @@ export default function CustomerEditDrawer({
     onClose,
     onSuccess
 }: IEditDrawerProps) {
-    const [rows, setRows] = useState([]);
-    const [totalRows, setTotalRows] = useState(0);
     const [name, setName] = useState('');
     const [phoneNumber, setPhone] = useState('');
     const [balance, setBalance] = useState(0);
+    const [orders, setOrders] = useState<IOrderReadModel[]>();
     const { tabIndex, setTabIndex } = useTabs();
     const [loading, setLoading] = useState(true);
     const { handleSubmit } = useSubmitCustomerForm({
@@ -35,11 +34,13 @@ export default function CustomerEditDrawer({
             if (!id || !open) return;
 
             setLoading(true);
+            setTabIndex(0);
             try {
                 const response = await getCustomerById(id);
-                setName(response.name || '');
-                setPhone(response.phone || '');
-                setBalance(response.balance || 0);
+                setName(response?.name || '');
+                setPhone(response?.phone || '');
+                setBalance(response?.balance || 0);
+                setOrders(response?.orders || []);
             } catch (error) {
                 console.error('Erro ao buscar cliente:', error);
             } finally {
@@ -71,11 +72,10 @@ export default function CustomerEditDrawer({
                     name={name}
                     phoneNumber={phoneNumber}
                     balance={balance}
+                    orders={orders}
                     setName={setName}
                     setPhone={setPhone}
                     setBalance={setBalance}
-                    rows={rows}
-                    totalRows={totalRows}
                     loading={loading}
                 />
             </DrawerContentLoader>

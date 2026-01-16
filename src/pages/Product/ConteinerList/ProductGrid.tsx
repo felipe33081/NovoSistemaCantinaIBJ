@@ -9,28 +9,35 @@ import { getProductColumns } from './ProductList';
 import { PageHeader } from '../../../components/PageHeaderProps';
 import ProductCreateDrawer from '../CreateEdit/ProductCreateDrawer';
 import ProductEditDrawer from '../CreateEdit/ProductEditDrawer';
+import { useFetchList } from '../../../hooks/useFetchList';
+import { buildOrderBy } from '../../../utils/gridHelpers';
+import ConfirmDialog from '../../../components/Shared/ConfirmDialog';
+import { useDelete } from '../../../hooks/useDelete';
 
 export default function ProductGrid() {
-    const [loading, setLoading] = useState(false);
-    const [rows, setRows] = useState([]);
-    const [totalRows, setTotalRows] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [filterModel, setFilterModel] = useState<GridFilterModel>({ items: [] });
     const [sortModel, setSortModel] = useState<GridSortModel>([]);
-    const isLoading = useRef(false);
     const [openCreateDrawer, setOpenCreateDrawer] = useState(false);
     const [openEditDrawer, setOpenEditDrawer] = useState(false);
     const [editProductId, setEditProductId] = useState<number | null>(null);
+    const {
+        deleteId,
+        loading: loadingDelete,
+        handleDeleteClick,
+        handleConfirmDelete,
+        handleClose
+    } = useDelete({
+        apiDeleteFunction: deleteProductById,
+        successMessage: "Produto excluído com sucesso!",
+        onSuccess: () => fetchData(currentPage, rowsPerPage, filterModel, sortModel)
+    });
 
-    const fetchProducts = async (page: number, size: number, filters: GridFilterModel, sort: GridSortModel) => {
-        if (isLoading.current) return;
-
-        setLoading(true);
-        isLoading.current = true;
-
-        try {
-            const quickFilterValue = filters.quickFilterValues?.[0] ?? "";
+    const { rows, totalRows, loading, fetchData } = useFetchList({
+        fetchService: getProductList,
+        buildParams: (page, size, filters, sort) => {
+            const quickFilter = filters.quickFilterValues?.[0] ?? "";
 
             const mappedFilters = filters.items.reduce((acc, filter) => {
                 if (filter.field === "name") acc.name = filter.value;
@@ -38,39 +45,20 @@ export default function ProductGrid() {
                 return acc;
             }, {} as IGetProductListAsync);
 
-            const orderBy = sort[0]?.field || "CreatedAt";
-            const orderByDirection = sort[0]?.sort?.toUpperCase() || "DESC";
-
-            const params: IGetProductListAsync = {
+            return {
                 page,
                 size,
                 name: mappedFilters.name,
                 description: mappedFilters.description,
-                searchString: quickFilterValue,
-                orderBy: `${orderBy}_${orderByDirection}`
+                searchString: quickFilter,
+                orderBy: buildOrderBy(sort || [])
             };
-
-            const response = await getProductList(params);
-            setRows(response.data || []);
-            setTotalRows(response.totalItems || 0);
-
-            setCurrentPage(page);
-        } catch (error) {
-            console.error('Erro ao buscar lista de clientes:', error);
-        } finally {
-            setLoading(false);
-            isLoading.current = false;
         }
-    };
+    });
 
     useEffect(() => {
-        fetchProducts(currentPage, rowsPerPage, filterModel, sortModel);
+        fetchData(currentPage, rowsPerPage, filterModel, sortModel);
     }, [currentPage, rowsPerPage, filterModel, sortModel]);
-
-    const handleDelete = async (id: number) => {
-        await deleteProductById(id);
-        fetchProducts(currentPage, rowsPerPage, filterModel, sortModel);
-    };
 
     const handleFilterChange = (newFilterModel: GridFilterModel) => {
         setFilterModel(newFilterModel);
@@ -88,7 +76,7 @@ export default function ProductGrid() {
     };
 
     const handleRefresh = () => {
-        fetchProducts(currentPage, rowsPerPage, filterModel, sortModel);
+        fetchData(currentPage, rowsPerPage, filterModel, sortModel);
     };
 
     return (
@@ -122,7 +110,7 @@ export default function ProductGrid() {
                 <DataTable
                     rows={rows}
                     columns={
-                        getProductColumns(handleDelete, handleEdit)
+                        getProductColumns(handleDeleteClick, handleEdit)
                     }
                     onEdit={handleEdit}
                     totalRows={totalRows}
@@ -133,6 +121,15 @@ export default function ProductGrid() {
                     setRowsPerPage={setRowsPerPage}
                     onFilterChange={handleFilterChange}
                     onSortChange={handleSortChange}
+                />
+
+                <ConfirmDialog
+                    open={deleteId !== null}
+                    onClose={handleClose}
+                    onConfirm={handleConfirmDelete}
+                    title="Excluir Produto"
+                    message="Tem certeza que deseja excluir este produto? Essa ação não pode ser desfeita."
+                    loading={loadingDelete}
                 />
             </Grid>
         </Box>

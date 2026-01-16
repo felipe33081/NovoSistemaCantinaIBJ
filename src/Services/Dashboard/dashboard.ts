@@ -2,6 +2,8 @@ import axios from 'axios';
 import { Environment } from '../../environments/Index';
 import { getToken } from '../Auth/getToken';
 import { IDashboardData, IGetDashboardDataModel } from '../../utils/interfaces/interfaces';
+import { Toast } from '../../utils/ToastUtils';
+import { handleApiError } from '../../utils/handleApiError';
 
 export const getDashboardData = async (params: IGetDashboardDataModel) => {
     const token = await getToken();
@@ -17,11 +19,6 @@ export const getDashboardData = async (params: IGetDashboardDataModel) => {
         return result.data;
     }
     catch (err: any) {
-        if (err?.response?.data?.errors) {
-            //Toast.showErrorMessage(err.response.data.errors);
-        } else {
-            //Toast.showErrorMessage("Não foi possível obter os dados do dashboard");
-        }
-        throw err;
+        handleApiError(err);
     }
 }

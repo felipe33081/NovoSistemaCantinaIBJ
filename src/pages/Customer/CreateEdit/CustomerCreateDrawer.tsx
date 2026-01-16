@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DrawerWrapper from '../../../components/DrawerWrapper';
 import { Box, Button } from '@mui/material';
 import FormTextField from '../../../components/FormTextField';
@@ -11,19 +11,30 @@ export default function CustomerCreateDrawer({
     onClose,
     onSuccess
 }: ICreateDrawerProps) {
-    const [name, setName] = useState("");
-    const [phoneNumber, setPhone] = useState("");
+    const [name, setName] = useState('');
+    const [phoneNumber, setPhone] = useState('');
+
+    useEffect(() => {
+        if (open) {
+            setName('');
+            setPhone('');
+        }
+    }, [open]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const customer: ICustomerPersonCreateModel = {
-            name,
-            phone: phoneNumber,
-            email: null
-        };
-        await postCustomerCreate(customer);
-        onSuccess();
-        onClose();
+        try {
+            const customer: ICustomerPersonCreateModel = {
+                name,
+                phone: phoneNumber,
+                email: null
+            };
+            await postCustomerCreate(customer);
+            onSuccess();
+            onClose();
+        } catch (error) {
+            console.error('Erro ao criar cliente:', error);
+        }
     };
 
     return (

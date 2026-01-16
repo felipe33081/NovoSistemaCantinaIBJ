@@ -45,11 +45,11 @@ export default function UserEditDrawer({
                 getUserGroupsList(id)
             ]);
 
-            setName(userRes.name || '');
-            setEmail(userRes.email || '');
-            setPhone(userRes.phoneNumber || '');
-            setEmailVerified(userRes.emailVerified ?? false);
-            setUserStatus(userRes.userStatus || '');
+            setName(userRes?.name || '');
+            setEmail(userRes?.email || '');
+            setPhone(userRes?.phoneNumber || '');
+            setEmailVerified(userRes?.emailVerified ?? false);
+            setUserStatus(userRes?.userStatus || '');
             setRows(groupsRes.data || []);
             setTotalRows(groupsRes.totalItems || 0);
 
@@ -70,10 +70,16 @@ export default function UserEditDrawer({
     }, [id, open]);
 
     const handleDelete = async (groupName: string) => {
-        const data = { groupName };
-        await removeUserGroupEdit(id ?? '', data);
-        const response = await getUserGroupsList(id ?? '');
-        setRows(response.data);
+        try {
+            setLoading(true);
+            await removeUserGroupEdit(id ?? '', { groupName });
+            const response = await getUserGroupsList(id ?? '');
+            setRows(response.data);
+        } catch (error) {
+            console.error('Erro ao remover grupo do usuário:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleRefresh = () => {
