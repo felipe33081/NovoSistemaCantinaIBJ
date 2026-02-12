@@ -17,7 +17,7 @@ export const useSubmitOrderForm = ({
         try {
             const order: IOrderUpdateModel = {
                 customerName: customerName,
-                customerPersonId: customerPersonId,
+                customerPersonId: customerPersonId !== null && customerPersonId > 0 ? customerPersonId : null,
                 products: data.map((item) => ({
                     productId: item.id,
                     quantity: parseInt(item.quantity) || 0,

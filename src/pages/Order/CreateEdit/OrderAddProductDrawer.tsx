@@ -71,7 +71,7 @@ export default function OrderAddProductDrawer({
                 <Autocomplete
                     id="product-select"
                     options={productOptions}
-                    getOptionLabel={(option) => option.name || ""}
+                    getOptionLabel={(option) => `${option.name} - ${option.description}` || ""}
                     value={selectedProduct}
                     onChange={(event: any, newValue: any) => {
                         setSelectedProduct(newValue);

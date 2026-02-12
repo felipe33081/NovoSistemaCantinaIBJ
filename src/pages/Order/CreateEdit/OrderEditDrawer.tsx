@@ -37,7 +37,7 @@ export default function OrderEditDrawer({
     const { handleSubmit } = useSubmitOrderForm({
         id,
         customerName,
-        customerPersonId: customerPersonId,
+        customerPersonId: customerPersonId ?? null,
         data: productsData,
         onSuccess,
         onClose,
