@@ -26,7 +26,7 @@ export default function CustomerCreateDrawer({
         try {
             const customer: ICustomerPersonCreateModel = {
                 name,
-                phone: phoneNumber,
+                phone: null,
                 email: null
             };
             await postCustomerCreate(customer);
@@ -59,7 +59,7 @@ export default function CustomerCreateDrawer({
                     type="name"
                     onChange={(e) => setName(e.target.value)}
                 />
-                <Box component="form" display="flex" gap={3}>
+                {/* <Box component="form" display="flex" gap={3}>
                     <PhoneMaskInput
                         id="phoneNumber"
                         label="Telefone"
@@ -69,7 +69,7 @@ export default function CustomerCreateDrawer({
                         onChange={(e) => setPhone(e.target.value)}
                         sx={{ mb: 3 }}
                     />
-                </Box>
+                </Box> */}
             </Box>
 
         </DrawerWrapper>

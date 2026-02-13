@@ -48,7 +48,7 @@ export const CustomerTabsPanel = ({
                         value={name}
                     />
                     <Box component="form" display="flex" gap={3}>
-                        <PhoneMaskInput
+                        {/* <PhoneMaskInput
                             id="phoneNumber"
                             label="Telefone"
                             fullWidth
@@ -57,7 +57,7 @@ export const CustomerTabsPanel = ({
                             onChange={(e) => setPhone(e.target.value)}
                             sx={{ mb: 3 }}
                             value={phoneNumber}
-                        />
+                        /> */}
                         <CurrencyInput
                             name="balance"
                             label="Saldo"

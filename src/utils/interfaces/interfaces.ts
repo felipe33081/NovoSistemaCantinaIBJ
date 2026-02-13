@@ -58,13 +58,13 @@ export interface IOrderFinishModel {
 export interface ICustomerPersonCreateModel {
     name: string
     email?: string | null
-    phone: string
+    phone?: string | null
 }
 
 export interface ICustomerPersonUpdateModel {
     name: string
     email?: string | null
-    phone: string
+    phone?: string | null
     balance: number
 }
 

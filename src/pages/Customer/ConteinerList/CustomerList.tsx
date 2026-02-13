@@ -20,13 +20,13 @@ export const getCustomerColumns = (
             minWidth: 200,
             renderCell: (cellValues: GridRenderCellParams) => cellValues.row?.name
         },
-        {
-            field: 'phone',
-            headerName: 'Telefone',
-            flex: 1,
-            minWidth: 200,
-            renderCell: (cellValues: GridRenderCellParams) => Helper.formatPhoneNumber(cellValues.row?.phone)
-        },
+        // {
+        //     field: 'phone',
+        //     headerName: 'Telefone',
+        //     flex: 1,
+        //     minWidth: 200,
+        //     renderCell: (cellValues: GridRenderCellParams) => Helper.formatPhoneNumber(cellValues.row?.phone)
+        // },
         {
             filterable: false,
             field: 'balance',
