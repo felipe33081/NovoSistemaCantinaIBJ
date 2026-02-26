@@ -9,6 +9,7 @@ import { OrderTabsPanel } from '../../../components/Order/OrderTabsPanel';
 import { getProductsColumns } from '../ConteinerList/ProductsList';
 import OrderAddProductDrawer from './OrderAddProductDrawer';
 import { useToast } from '../../../components/ToastContext';
+import { CircularProgress } from '@mui/material'; // Para dar um feedback visual legal
 
 export default function OrderCreateDrawer({
     open,
@@ -24,6 +25,15 @@ export default function OrderCreateDrawer({
     const { productsData, setProductsData, addProduct, removeProduct } = useOrderProducts([]);
     const [openAddProduct, setOpenAddProduct] = useState(false);
     const { showError } = useToast();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // Resetar o isSubmitting quando o drawer fechar/abrir
+    useEffect(() => {
+        if (open) {
+            // ... seus resets existentes
+            setIsSubmitting(false);
+        }
+    }, [open]);
 
     useEffect(() => {
         if (open) {
@@ -52,6 +62,9 @@ export default function OrderCreateDrawer({
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
+        // TRAVA 1: Se já estiver enviando, não deixa entrar de novo
+        if (isSubmitting) return;
+
         if (selectedCustomer === null && customerName.trim() === '') {
             showError("Preencha o nome do cliente ou selecione um cliente cadastrado.");
             return;
@@ -65,19 +78,20 @@ export default function OrderCreateDrawer({
         const orderPayload: IOrderCreateModel = {
             customerPersonId: customerType === 'registered' ? selectedCustomer?.id : null,
             customerName: customerType === 'avulso' ? customerName : null,
-
             products: productsData.map(p => ({
                 productId: p.productId,
                 quantity: Number(p.quantity)
             }))
         };
 
+        setIsSubmitting(true); // ATIVA O LOCK AQUI
         try {
             await postOrderCreate(orderPayload);
             onSuccess();
             onClose();
         } catch (error) {
             console.error("Erro ao criar pedido", error);
+            setIsSubmitting(false); // SÓ LIBERA SE DER ERRO, para o usuário tentar de novo
         }
     };
 
@@ -88,8 +102,16 @@ export default function OrderCreateDrawer({
             title="Novo Pedido"
             actions={
                 <Box display="flex" justifyContent="flex-end" gap={2}>
-                    <Button onClick={onClose}>Cancelar</Button>
-                    <Button variant="contained" onClick={handleSubmit}>Criar</Button>
+                    <Button onClick={onClose} disabled={isSubmitting}>Cancelar</Button>
+                    <Button 
+                        variant="contained" 
+                        onClick={handleSubmit}
+                        // TRAVA 2: Desabilita visualmente o botão
+                        disabled={isSubmitting}
+                        startIcon={isSubmitting ? <CircularProgress size={16} color="inherit" /> : null}
+                    >
+                        {isSubmitting ? "Criando..." : "Criar"}
+                    </Button>
                 </Box>
             }
         >

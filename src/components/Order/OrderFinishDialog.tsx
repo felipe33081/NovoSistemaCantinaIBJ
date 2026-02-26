@@ -25,24 +25,47 @@ export default function OrderFinishDialog({
     orderId,
     totalValue
 }: IOrderFinishDialogProps) {
-    const [paymentOfType, setPaymentOfType] = useState<number | string>(4);
-    const [paymentValue, setPaymentValue] = useState<number>(totalValue || 0);
+    const [paymentOfType, setPaymentOfType] = useState<number | string>(PaymentOfTypeEnum.Debitor);
+    // 1. Começa com 0 para não sujar o saldo do cliente se for Fiado
+    const [paymentValue, setPaymentValue] = useState<number>(0); 
     const [loading, setLoading] = useState(false);
     const [showPaymentValue, setShowPaymentValue] = useState(false);
 
+    // 2. Limpa tudo ao abrir o modal
     useEffect(() => {
-        setShowPaymentValue(
-            paymentOfType === 0 || paymentOfType === 4 || paymentOfType === 5
-        );
-    }, [paymentOfType]);
+        if (open) {
+            setPaymentOfType(PaymentOfTypeEnum.Debitor);
+            setPaymentValue(0); // Garante que começa zerado
+        }
+    }, [open]);
+
+    // 3. Gerencia a exibição e o reset do valor
+    useEffect(() => {
+        const isManualValue = paymentOfType === PaymentOfTypeEnum.Money || 
+                              paymentOfType === PaymentOfTypeEnum.ExtraMoney;
+        
+        setShowPaymentValue(isManualValue);
+
+        // Se mudar para Fiado (Debitor), PIX ou Cartão, zera o valor
+        // Assim o Back-end recebe 0 e sabe que tem que calcular a dívida/pagamento total
+        if (!isManualValue) {
+            setPaymentValue(0);
+        } else {
+            // Se for Dinheiro ou Saldo em conta, sugere o total do pedido como valor inicial
+            setPaymentValue(totalValue);
+        }
+    }, [paymentOfType, totalValue]);
 
     const handleFinish = async () => {
         if (paymentOfType === '') return;
 
         setLoading(true);
+
+        // 4. Lógica do Payload: 
+        // Se NÃO mostra o campo, manda 0. Se MOSTRA, manda o que foi digitado.
         const payload = {
             paymentOfType: Number(paymentOfType),
-            paymentValue: Number(paymentValue)
+            paymentValue: showPaymentValue ? Number(paymentValue) : 0
         };
 
         try {
