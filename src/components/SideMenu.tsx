@@ -8,7 +8,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import MenuContent from './MenuContent';
 import OptionsMenu from './OptionsMenu';
-import { useAuth } from '../contexts/AuthContext';
 import { CustomIBJIcon } from '../internals/components/CustomIcons';
 
 const drawerWidth = 240;
@@ -25,7 +24,7 @@ const Drawer = styled(MuiDrawer)({
 });
 
 export default function SideMenu() {
-  const { nameUser } = useAuth();
+  //const { nameUser } = useAuth();
 
   return (
     <Drawer
@@ -61,13 +60,13 @@ export default function SideMenu() {
       >
         <Avatar
           sizes="small"
-          alt={nameUser ?? ""}
+          //alt={nameUser ?? ""}
           src="/static/images/avatar/7.jpg"
           sx={{ width: 36, height: 36 }}
         />
         <Box sx={{ mr: 'auto' }}>
           <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }}>
-            {nameUser}
+            {/* {nameUser} */}
           </Typography>
         </Box>
         <OptionsMenu />

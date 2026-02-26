@@ -18,7 +18,7 @@ const mainListItems = [
   { text: 'Pedidos', route: '/pedido', page: 1, icon: <ListAltRoundedIcon /> },
   { text: 'Clientes', route: '/cliente', page: 2, icon: <GroupRoundedIcon /> },
   { text: 'Produtos', route: '/produto', page: 3, icon: <Inventory2RoundedIcon /> },
-  { text: 'Usuários', route: '/usuario', page: 4, icon: <PortraitRoundedIcon /> },
+  // { text: 'Usuários', route: '/usuario', page: 4, icon: <PortraitRoundedIcon /> },
 ];
 
 export default function MenuContent() {

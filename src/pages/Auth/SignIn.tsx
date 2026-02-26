@@ -8,9 +8,7 @@ import { CustomIBJIcon } from '../../internals/components/CustomIcons';
 import AppTheme from '../../theme/AppTheme';
 import ColorModeSelect from '../../theme/ColorModeSelect';
 import { useNavigate } from 'react-router-dom';
-import { signIn, signOut } from 'aws-amplify/auth';
 import { FormEvent } from "react";
-import { useAuth } from '../../contexts/AuthContext';
 import { SignInContainer, Card } from './SignInConteiner';
 import SignInFormFields from './SignInFormFields';
 
@@ -22,7 +20,6 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const [open, setOpen] = useState(false);
   const [openModalNewPassword, setOpenModalNewPassword] = useState(false);
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useAuth();
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -34,31 +31,32 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    await signOut();
+    //await signOut();
 
     try {
       const username = data.get('email')?.toString() ?? '';
       const password = data.get('password')?.toString() ?? '';
+      
+      navigate('/painel');
+      // const user = await signIn({
+      //   username: username,
+      //   password: password,
+      // })
 
-      const user = await signIn({
-        username: username,
-        password: password,
-      })
-      //ajustar isso pra verificar se o signInStep é igual ao tipo diretamente que é FORCECHANGEPASSOWORD, algo assim, verificar na documentação do cognito aws
-      if (user.nextStep.signInStep !== "DONE" && user.isSignedIn != true) {
-        setIsAuthenticated(false);
-        handleClickOpenNewPassword();
-        navigate('/changepassword');
-      }
-      else {
-        console.log('Login realizado com sucesso');
+    //   //ajustar isso pra verificar se o signInStep é igual ao tipo diretamente que é FORCECHANGEPASSOWORD, algo assim, verificar na documentação do cognito aws
+    //   if (user.nextStep.signInStep !== "DONE" && user.isSignedIn != true) {
+    //     setIsAuthenticated(false);
+    //     handleClickOpenNewPassword();
+    //     navigate('/changepassword');
+    //   }
+    //   else {
+    //     console.log('Login realizado com sucesso');
 
-        setIsAuthenticated(true);
-        navigate('/painel');
-      }
+    //     setIsAuthenticated(true);
+    //     navigate('/painel');
+    //   }
     } catch (error: any) {
       console.error('Sign-in error:', error);
-      setIsAuthenticated(false);
       if (error == 'UserNotFoundException') {
         setEmailError(true);
         setEmailErrorMessage('Usuário não encontrado.');
@@ -104,7 +102,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
       <SignInContainer direction="column" justifyContent="space-between" alignItems='start'>
         <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
         <Card variant="outlined">
-          <CustomIBJIcon />
+          {/* <CustomIBJIcon /> */}
           <Typography
             component="h1"
             variant="h4"

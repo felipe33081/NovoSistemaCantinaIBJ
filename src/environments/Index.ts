@@ -1,9 +1,9 @@
 export const Environment = {
     BASE_URL: 'http://localhost:8080/v1',
     //BASE_URL: 'https://cantinaibjapi-production.up.railway.app/v1',
-    MAIN_COLOR: '#d04d27',
+    //MAIN_COLOR: '#d04d27',
     //MAIN_COLOR: '#d62828',
-    //MAIN_COLOR: '#0668E1',
+    MAIN_COLOR: '#0668E1',
     //MAIN_COLOR: '#004ca3',
     //MAIN_COLOR: '#0a8d0a',
     //MAIN_COLOR: '#d8be4a',

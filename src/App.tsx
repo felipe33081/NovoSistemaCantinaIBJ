@@ -1,21 +1,25 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import SignIn from './pages/Auth/SignIn';
 import Dashboard from './Dashboard';
-import { AuthProvider } from './contexts/AuthContext';
-import ForceNewPassword from './pages/Auth/ForceNewPassword';
 import ProtectedLayout from './pages/ProtectedLayout';
 import ProductConteiner from './pages/Product/ConteinerList/ProductConteiner';
 import UserConteiner from './pages/User/ConteinerList/UserConteiner';
 import CustomerConteiner from './pages/Customer/ConteinerList/CustomerConteiner';
 import OrderConteiner from './pages/Order/ConteinerList/OrderConteiner';
-import PrivateRoutes from './components/PrivateRoutes';
 import { ToastProvider } from './components/ToastContext';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/700.css';
+import PrivateRoutes from './components/PrivateRoutes';
+import SignIn from './pages/Auth/SignIn';
+import ForceNewPassword from './pages/Auth/ForceNewPassword';
 
 export default function App() {
     return (
-        <AuthProvider>
-            <ToastProvider>
+        <ToastProvider>
                 <Router>
                     <Routes>
                         {/* Rotas públicas */}
@@ -26,7 +30,6 @@ export default function App() {
                         <Route
                             path="/*"
                             element={
-                                <PrivateRoutes>
                                     <Routes>
                                         <Route element={<ProtectedLayout />}>
                                             <Route path="/painel" element={<Dashboard />} />
@@ -36,13 +39,11 @@ export default function App() {
                                             <Route path="/usuario" element={<UserConteiner />} />
                                         </Route>
                                     </Routes>
-                                </PrivateRoutes>
                             }
                         />
                         <Route path="/" element={<Navigate to="/signIn" />} />
                     </Routes>
                 </Router>
             </ToastProvider>
-        </AuthProvider>
     );
 }

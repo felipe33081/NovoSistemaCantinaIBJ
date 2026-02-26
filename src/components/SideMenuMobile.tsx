@@ -9,7 +9,6 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 import MenuButton from './MenuButton';
 import MenuContent from './MenuContent';
-import { useAuth } from '../contexts/AuthContext';
 
 interface SideMenuMobileProps {
   open: boolean | undefined;
@@ -17,7 +16,7 @@ interface SideMenuMobileProps {
 }
 
 export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobileProps) {
-  const { nameUser, signOutUser } = useAuth();
+  //const { nameUser, signOutUser } = useAuth();
 
   return (
     <Drawer
@@ -44,12 +43,12 @@ export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobilePro
           >
             <Avatar
               sizes="small"
-              alt={nameUser ?? ""}
+              //alt={nameUser ?? ""}
               src="/static/images/avatar/7.jpg"
               sx={{ width: 24, height: 24 }}
             />
             <Typography component="p" variant="h6">
-              {nameUser}
+              {/* {nameUser} */}
             </Typography>
           </Stack>
           <MenuButton showBadge>
@@ -62,7 +61,11 @@ export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobilePro
           <Divider />
         </Stack>
         <Stack sx={{ p: 3 }}>
-          <Button onClick={signOutUser} variant="outlined" fullWidth startIcon={<LogoutRoundedIcon />}>
+          <Button
+            //onClick={signOutUser}
+            variant="outlined"
+            fullWidth
+            startIcon={<LogoutRoundedIcon />}>
             Sair
           </Button>
         </Stack>
