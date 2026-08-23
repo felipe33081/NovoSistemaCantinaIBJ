@@ -9,8 +9,12 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon, { listItemIconClasses } from '@mui/material/ListItemIcon';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
+import PasswordRoundedIcon from '@mui/icons-material/PasswordRounded';
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import MenuButton from './MenuButton';
 import { useAuth } from '../contexts/AuthContext';
+import ChangePinDialog from './ChangePinDialog';
+import PrinterSettingsDialog from './PrinterSettingsDialog';
 
 const MenuItem = styled(MuiMenuItem)({
   margin: '2px 0',
@@ -19,6 +23,8 @@ const MenuItem = styled(MuiMenuItem)({
 export default function OptionsMenu() {
   const { signOutUser } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [pinDialogOpen, setPinDialogOpen] = useState(false);
+  const [printerDialogOpen, setPrinterDialogOpen] = useState(false);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -58,11 +64,34 @@ export default function OptionsMenu() {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>Perfil</MenuItem>
-        <MenuItem onClick={handleClose}>Minha conta</MenuItem>
-        <Divider />
-        <MenuItem onClick={handleClose}>Adicionar outra conta</MenuItem>
-        <MenuItem onClick={handleClose}>Configurações</MenuItem>
+        <MenuItem
+          onClick={() => setPrinterDialogOpen(true)}
+          sx={{
+            [`& .${listItemIconClasses.root}`]: {
+              ml: 'auto',
+              minWidth: 0,
+            },
+          }}
+        >
+          <ListItemText>Configurações</ListItemText>
+          <ListItemIcon>
+            <SettingsRoundedIcon fontSize="small" />
+          </ListItemIcon>
+        </MenuItem>
+        <MenuItem
+          onClick={() => setPinDialogOpen(true)}
+          sx={{
+            [`& .${listItemIconClasses.root}`]: {
+              ml: 'auto',
+              minWidth: 0,
+            },
+          }}
+        >
+          <ListItemText>Trocar PIN</ListItemText>
+          <ListItemIcon>
+            <PasswordRoundedIcon fontSize="small" />
+          </ListItemIcon>
+        </MenuItem>
         <Divider />
         <MenuItem
           onClick={signOutUser}
@@ -79,6 +108,8 @@ export default function OptionsMenu() {
           </ListItemIcon>
         </MenuItem>
       </Menu>
+      <ChangePinDialog open={pinDialogOpen} onClose={() => setPinDialogOpen(false)} />
+      <PrinterSettingsDialog open={printerDialogOpen} onClose={() => setPrinterDialogOpen(false)} />
     </React.Fragment>
   );
 }

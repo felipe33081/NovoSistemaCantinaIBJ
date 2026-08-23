@@ -227,7 +227,9 @@ export interface ICustomTabsProps {
 export interface ICreateDrawerProps {
     open: boolean;
     onClose: () => void;
-    onSuccess: () => void;
+    // Recebe (opcionalmente) o id do registro recem-criado, para fluxos que
+    // precisam agir sobre ele em seguida (ex.: abrir o pedido para finalizar).
+    onSuccess: (id?: number) => void;
 }
 
 export interface IDrawerWrapperProps {

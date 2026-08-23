@@ -1,10 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { getCurrentUser, signOut } from 'aws-amplify/auth';
-import { Amplify } from 'aws-amplify';
-import awsconfig from '../aws-exports';
-import { getUserByIdWithouPermission } from '../Services/User/user';
 
-Amplify.configure(awsconfig);
+// Auth local e offline (sem AWS Cognito/Amplify). O acesso e liberado por um
+// PIN validado pela API embutida; aqui guardamos apenas o estado da sessao.
+const AUTH_KEY = 'cantina_authenticated';
 
 type AuthContextType = {
   isAuthenticated: boolean | null;
@@ -24,27 +22,17 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
-  const [nameUser, setNameUser] = useState<string | null>(null);
-  const [emailUser, setEmailUser] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>('local');
+  const [nameUser, setNameUser] = useState<string | null>('Cantina IBJ');
+  const [emailUser, setEmailUser] = useState<string | null>('');
 
   const getCurrentUserToInfo = async () => {
-    try {
-      const { userId } = await getCurrentUser();
-      console.log(userId);
-      setUserId(userId)
-    } catch (err) {
-      console.error("Falha ao buscar informações de usuário:", err);
-    }
-  }
+    // Sem provedor externo: usuario unico local do caixa.
+    setUserId('local');
+  };
 
   const checkAuth = async () => {
-    try {
-      await getCurrentUser();
-      setIsAuthenticated(true);
-    } catch (error) {
-      setIsAuthenticated(false);
-    }
+    setIsAuthenticated(localStorage.getItem(AUTH_KEY) === 'true');
   };
 
   useEffect(() => {
@@ -52,34 +40,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const signOutUser = async () => {
-    try {
-      await signOut();
-      console.log("Logout realizado com sucesso");
-      window.location.href = "/signIn";
-    } catch (error) {
-      console.error("Falha ao deslogar:", error);
-    }
+    localStorage.removeItem(AUTH_KEY);
+    localStorage.removeItem('authToken');
+    setIsAuthenticated(false);
+    window.location.href = '/signIn';
   };
-
-  const getInfosUser = async () => {
-    try {
-      if (userId !== null) {
-        const result = await getUserByIdWithouPermission(userId ?? "");
-        setNameUser(result?.name || "");
-        setEmailUser(result?.email || "");
-      }
-    } catch (err) {
-      console.log('Erro ao buscar informações de usuário');
-    }
-  }
-
-  useEffect(() => {
-    getInfosUser();
-  }, [getCurrentUserToInfo]);
-
-  useEffect(() => {
-    getCurrentUserToInfo();
-  }, [getInfosUser]);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, userId, setUserId, nameUser, setNameUser, emailUser, setEmailUser, checkAuth, signOutUser, getCurrentUserToInfo }}>

@@ -3,10 +3,8 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import SignIn from './pages/Auth/SignIn';
 import Dashboard from './Dashboard';
 import { AuthProvider } from './contexts/AuthContext';
-import ForceNewPassword from './pages/Auth/ForceNewPassword';
 import ProtectedLayout from './pages/ProtectedLayout';
 import ProductConteiner from './pages/Product/ConteinerList/ProductConteiner';
-import UserConteiner from './pages/User/ConteinerList/UserConteiner';
 import CustomerConteiner from './pages/Customer/ConteinerList/CustomerConteiner';
 import OrderConteiner from './pages/Order/ConteinerList/OrderConteiner';
 import PrivateRoutes from './components/PrivateRoutes';
@@ -20,7 +18,6 @@ export default function App() {
                     <Routes>
                         {/* Rotas públicas */}
                         <Route path="/signIn" element={<SignIn />} />
-                        <Route path="/changepassword" element={<ForceNewPassword />} />
 
                         {/* Rotas protegidas */}
                         <Route
@@ -33,7 +30,6 @@ export default function App() {
                                             <Route path="/pedido" element={<OrderConteiner />} />
                                             <Route path="/cliente" element={<CustomerConteiner />} />
                                             <Route path="/produto" element={<ProductConteiner />} />
-                                            <Route path="/usuario" element={<UserConteiner />} />
                                         </Route>
                                     </Routes>
                                 </PrivateRoutes>

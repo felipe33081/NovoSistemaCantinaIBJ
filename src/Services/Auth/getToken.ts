@@ -1,10 +1,5 @@
-import { fetchAuthSession } from "aws-amplify/auth";
-
-export const getToken = async () => {
-    try {
-        const session = await fetchAuthSession();
-        return Promise.resolve(session.tokens?.accessToken.toString());
-    } catch (error) {
-        return Promise.reject(error);
-    }
+// Auth local (offline). O backend nao valida o token; ele existe apenas para
+// manter o cabecalho Bearer usado pelos servicos. O valor vem do login por PIN.
+export const getToken = async (): Promise<string> => {
+    return localStorage.getItem('authToken') ?? '';
 };

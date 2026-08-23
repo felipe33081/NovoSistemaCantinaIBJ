@@ -90,7 +90,11 @@ export default function OrderGrid() {
             <OrderCreateDrawer
                 open={openCreateDrawer}
                 onClose={() => setOpenCreateDrawer(false)}
-                onSuccess={handleRefresh}
+                onSuccess={(newId) => {
+                    handleRefresh();
+                    // Abre direto o pedido recem-criado para revisar/finalizar.
+                    if (newId) handleEdit(newId);
+                }}
             />
 
             <OrderEditDrawer

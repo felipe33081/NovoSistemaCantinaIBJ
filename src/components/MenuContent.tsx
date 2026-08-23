@@ -9,7 +9,6 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ListAltRoundedIcon from '@mui/icons-material/ListAltRounded';
 import GroupRoundedIcon from '@mui/icons-material/GroupRounded';
 import Inventory2RoundedIcon from '@mui/icons-material/Inventory2Rounded';
-import PortraitRoundedIcon from '@mui/icons-material/PortraitRounded';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
@@ -18,7 +17,6 @@ const mainListItems = [
   { text: 'Pedidos', route: '/pedido', page: 1, icon: <ListAltRoundedIcon /> },
   { text: 'Clientes', route: '/cliente', page: 2, icon: <GroupRoundedIcon /> },
   { text: 'Produtos', route: '/produto', page: 3, icon: <Inventory2RoundedIcon /> },
-  { text: 'Usuários', route: '/usuario', page: 4, icon: <PortraitRoundedIcon /> },
 ];
 
 export default function MenuContent() {

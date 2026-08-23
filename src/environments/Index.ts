@@ -1,5 +1,9 @@
 export const Environment = {
-    BASE_URL: 'http://localhost:8080/v1',
+    // App desktop offline: o SPA e servido pela propria API (mesma origem),
+    // entao a base e relativa. Em dev (npm start), o "proxy" no package.json
+    // encaminha /v1 para http://localhost:5228.
+    BASE_URL: '/v1',
+    //BASE_URL: 'http://localhost:8080/v1',
     //BASE_URL: 'https://cantinaibjapi-production.up.railway.app/v1',
     MAIN_COLOR: '#d04d27',
     //MAIN_COLOR: '#d62828',

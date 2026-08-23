@@ -86,9 +86,11 @@ export default function OrderCreateDrawer({
 
         setIsSubmitting(true); // ATIVA O LOCK AQUI
         try {
-            await postOrderCreate(orderPayload);
-            onSuccess();
+            const newOrderId = await postOrderCreate(orderPayload);
             onClose();
+            // Passa o id do pedido recem-criado para que a tela ja abra o
+            // modal de edicao/finalizacao desse pedido.
+            onSuccess(newOrderId);
         } catch (error) {
             console.error("Erro ao criar pedido", error);
             setIsSubmitting(false); // SÓ LIBERA SE DER ERRO, para o usuário tentar de novo

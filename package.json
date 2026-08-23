@@ -2,8 +2,8 @@
   "name": "ypv7py--run",
   "version": "0.0.100",
   "private": true,
+  "proxy": "http://localhost:5228",
   "dependencies": {
-    "@aws-amplify/ui-react": "^6.9.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@fontsource/inter": "^5.2.8",
@@ -23,7 +23,6 @@
     "@types/react-dom": "^18.3.1",
     "@types/toastr": "^2.1.43",
     "accounting": "^0.4.1",
-    "aws-amplify": "^6.12.1",
     "axios": "^1.7.9",
     "clsx": "2.1.1",
     "dayjs": "1.11.13",
